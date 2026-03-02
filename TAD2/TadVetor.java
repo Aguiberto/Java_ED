@@ -32,6 +32,7 @@ public class TadVetor{
         this.repete = repete;
 
         // cria um vetor e preenche-o com o valor indicativo de posição vaga
+        // vetor de inteiros
         this.dados = new int[this.tamanho];
         if (this.vaga != 0){
             for( int i = 0; i < this.tamanho; i++){
@@ -40,18 +41,44 @@ public class TadVetor{
         }
     }
 
-    public int armanezar(int valor, int posicao){
+    public int armazenar(int valor, int posicao){
         
         // verifica se o valor é valido
         if(!this.valorValido(valor)){
             return 1;
         }
         // verifica se a posição é valida
-        if(this.posicaoValida(posicao)){
+        if(!this.posicaoValida(posicao)){
             return 2;
         }
         // verifica se a posição é vaga (pode receber conteúdo?)
-        if(this.dado[posicao] != this.vaga){
+        if(this.dados[posicao] != this.vaga){
+            return 3;
+        }
+        if(!this.podeRepetir()){
+            int [] existe = this.localizar(valor,0);
+            /* 1º posição do vetor informa quantas vezes o valor se repete
+            e nas posições seguintes os índices em que se encontram o valor*/
+            if(existe[0] > 0){
+                return 4;
+            }
+        }
+        // atribui o valor a posiçã desejada no vetor
+        this.dados[posicao] = valor;
+        return 0;
+    }
+
+    public int alterar(int valor, int posicao){
+    // metodo quase igual ao método de armazenar
+
+        if(!this.valorValido(valor)){
+            return 1;
+        }
+        if(!this.posicaoValida(posicao)){
+            return 2;
+        }
+        // diferenã está aqui que é == ao invés de !=
+        if(this.dados[posicao] == this.vaga){
             return 3;
         }
         if(!this.podeRepetir()){
@@ -61,17 +88,92 @@ public class TadVetor{
             }
         }
 
-        this.dados[posicao] = valor;
+        this.dados[posicao] = valor ;
+        return 0;
     }
 
-    public int removerUlima(){
+    public int excluir(int posicao){
 
-        for( int i = this.tamanho -1; i >=0; i--){
-            if(this.dado[i] != this.vaga){
-                return this.exlcuir(i);
+        if(!this.posicaoValida(posicao)){
+            return 2;
+        }
+        if(this.dados[posicao] == this.vaga ){
+            return 3;
+        }
+        
+        // torna a posiçã informada como vaga
+        this.dados[posicao] = this.vaga;
+
+        return 0;
+    }
+
+    public int ler(int posicao){
+    // só precisa verificar se a posição informada é valida
+
+        if(!this.posicaoValida(posicao)){
+            return 2;
+        }
+
+        return this.dados[posicao];
+    }
+
+    public int [] localizar (int valor, int nPrimeiros){
+
+        int [] res = new int[this.tamanho];
+
+        if(!this.valorValido(valor)){
+            return res;
+        }
+
+        if (this.repete == 0){
+            nPrimeiros = 1;
+        }
+
+        for( int i = 0; i < this.tamanho; i++){
+            if(this.dados[i] == valor){
+            // percorre todo o vetor
+            // ao encontrar acumula a qtd no primeiro elemento (indice 0)
+                res[0] ++;
+                res[res[0]] = i;
+                // guarda o valor dos índices como elementos do vetor a primeiros do segundo elemento
+
+                if( res[0] == nPrimeiros){
+                // para o laço ao acumular a quantidade solicitada pelo usuário
+                    break;
+                }
             }
         }
 
+        return res;
+    }
+
+    public int armazenar1Vaga(int valor){
+
+        if(!this.valorValido(valor)){
+            return 1;
+        }
+
+        for(int i = 0; i < this.tamanho; i++){
+            if (this.dados[i] == this.vaga){
+                int res = this.armazenar(valor, i);
+                return res;
+            }
+        }
+        return -1;
+    }
+
+    public int removerUltima(){
+
+        /*Percorre o vetor do final para o inicio
+        isso torna o algoritmo mais eficiente 
+        pois não precisará sempre percorrer o vetor até o final */
+        for( int i = this.tamanho -1; i >=0; i--){
+            if(this.dados[i] != this.vaga){
+                return this.excluir(i);
+            }
+        }
+
+        return -1;
     }
 
     private boolean valorValido(int valor){
@@ -80,6 +182,8 @@ public class TadVetor{
 
     private boolean posicaoValida(int posicao){
         return posicao >= 0 && posicao < this.tamanho;
+        // vetor começa com a posição 0 e termina em tamanho -1
+        // por isso posição é > que tamanho e não >=
     }
 
     private boolean podeRepetir(){
