@@ -10,9 +10,9 @@ interface Pilha{
 
     int indiceVermelho();
 
-    Object adicionarVermelho();
+    void adicionarVermelho();
 
-    Object adicionarNegro();
+    void adicionarNegro();
 
     Object removerVermelho();
 
