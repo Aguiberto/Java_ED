@@ -1,4 +1,4 @@
-public class PilhaRubroNegra implements Pilha{
+public class PilhaRubroNegraArray implements Pilha{
 
     private Object [] pilha;
     private int capacidade;
@@ -6,84 +6,85 @@ public class PilhaRubroNegra implements Pilha{
     private int indiceVermelho;
     private int crescimento;
 
-
-    public PilhaRubroNegra(){
-
-        if(this.capacidade <= 0){
-            throw PilhaVaziaExcecao('A pilha está vazia')
-        }
+    public PilhaRubroNegraArray(){
 
         this.capacidade = 10;
+        this.pilha = new Object[capacidade];
         this.indiceVermelho = -1;
         this.indiceNegro = capacidade -1;
     }
 
     public int tamanhoVermelho(){
-        return this.indiceVermelho;
+        return this.indiceVermelho+1;
     }
 
     public int tamanhoNegro(){
-        return capacidade - (indiceNegro + 1);
+        return this.capacidade - this.indiceNegro;
     }
 
     public int tamanhoTotal(){
         return tamanhoVermelho() + tamanhoNegro();
     }
 
-    public int topoVermelho() throws PilhaVaziaExcecao{
+    public Object topoVermelho() throws PilhaVaziaExcecao{
 
-        if(tamanhoVermelho <= 0){
-            throw PilhaVaziaExcecao('A pilha não tem nenhum elemento');
+        if(tamanhoVermelho() <= 0){
+            throw new PilhaVaziaExcecao("A pilha não tem nenhum elemento");
         }
-        return this.indiceVermelho;
+        return pilha[this.indiceVermelho];
     }
 
-    public int topoNegro() throws PilhaVaziaExcecao{
+    public Object topoNegro() throws PilhaVaziaExcecao{
 
-        if(tamanhoNegro <= 0){
-            throw PilhaVaziaExcecao('A pilha não tem nenhum elemento');
+        if(tamanhoNegro() <= 0){
+            throw new PilhaVaziaExcecao("A pilha não tem nenhum elemento");
         }
-        return this.indiceNegro;
+        return pilha[this.indiceNegro];
     }
 
     public void adicionarVermelho(Object objeto){
 
-        if(this.tamanhoVermelho + this.tamanhoNegro == this.capacidade){
-            aumentarCapacidade()
+        if(tamanhoTotal() == this.capacidade){
+            aumentarCapacidade();
         }
 
         pilha[++this.indiceVermelho] = objeto;
-        this.tamanhoVermelho += 1;
     }
 
     public void adicionarNegro(Object objeto){
 
-        if(this.tamanhoVermelho + this.tamanhoNegro == this.capacidade){
-            aumentarCapacidade()
+        if(this.tamanhoVermelho() + this.tamanhoNegro() == this.capacidade){
+            aumentarCapacidade();
         }
 
         pilha[this.indiceNegro--] = objeto;
-        this.tamanhoNegro += 1;
     }
     
-    public Object [] aumentarCapacidade(Object [] pilha){
+    private void aumentarCapacidade(){
 
-        Object [] nova_pilha = new Object[capacidade*2];
+        int novaCapacidade = capacidade * 2;
+        Object [] novaPilha = new Object[novaCapacidade];
 
         // copia os valores do vermelho para a nova pilha
         for(int i = 0; i < indiceVermelho+1; i++ ){
-            nova_pilha[i] = pilha[i];
+            novaPilha[i] = pilha[i];
         }
 
         // copia os valores negros para a nova pilha
-        for(int i = capacidade; i > /**CRIAR ESSA CONDIÇÃO */ ;i--){
-            nova_pilha[i] = pilha[i];
+        int qtdNegro = tamanhoNegro();
+        int novoIndiceNegro = novaCapacidade - qtdNegro;
+
+        for(int i = 1; i <= qtdNegro; i++){
+            novaPilha[novaCapacidade - i] = pilha[capacidade - i];
         }
 
         // pilha antiga agora aponta para a nova pilha
-        pilha = nova_pilha;
+        this.pilha = novaPilha;
+        this.capacidade = novaCapacidade;
+        this.indiceNegro = novoIndiceNegro;
 
-        return pilha;
+        @Override
+        
 
     }
 

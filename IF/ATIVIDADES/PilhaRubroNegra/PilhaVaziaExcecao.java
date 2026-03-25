@@ -1,7 +1,7 @@
-public class PilhaVaziaExcecao implements RunTimeException{
+public class PilhaVaziaExcecao extends RuntimeException{
 
-    public PilhaVaziaExcecao(err){
-        super(err)
+    public PilhaVaziaExcecao(String err){
+        super(err);
     }
 
 }

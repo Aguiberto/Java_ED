@@ -6,20 +6,16 @@ interface Pilha{
 
     int tamanhoTotal();
 
-    int indiceNegro();
+    void adicionarVermelho(Object objeto);
 
-    int indiceVermelho();
+    void adicionarNegro(Object objeto);
 
-    void adicionarVermelho();
+    // Object removerVermelho();
 
-    void adicionarNegro();
+    // Object removerNegro();
 
-    Object removerVermelho();
+    Object topoVermelho();
 
-    Object removerNegro();
-
-    int topoVermelho();
-
-    int topoNegro();
+    Object topoNegro();
 
 }
