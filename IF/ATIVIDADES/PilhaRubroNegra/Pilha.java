@@ -6,6 +6,10 @@ interface Pilha{
 
     int tamanhoTotal();
 
+    boolean vermelhoVazio();
+
+    boolean negroVazio();
+
     void adicionarVermelho(Object objeto);
 
     void adicionarNegro(Object objeto);

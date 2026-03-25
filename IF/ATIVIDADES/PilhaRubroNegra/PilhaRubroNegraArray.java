@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class PilhaRubroNegraArray implements Pilha{
 
     private Object [] pilha;
@@ -26,6 +28,22 @@ public class PilhaRubroNegraArray implements Pilha{
         return tamanhoVermelho() + tamanhoNegro();
     }
 
+    public boolean vermelhoVazio(){
+        if(tamanhoVermelho() == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean negroVazio(){
+        if(tamanhoNegro() == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public Object topoVermelho() throws PilhaVaziaExcecao{
 
         if(tamanhoVermelho() <= 0){
@@ -39,7 +57,7 @@ public class PilhaRubroNegraArray implements Pilha{
         if(tamanhoNegro() <= 0){
             throw new PilhaVaziaExcecao("A pilha não tem nenhum elemento");
         }
-        return pilha[this.indiceNegro];
+        return pilha[this.indiceNegro + 1];
     }
 
     public void adicionarVermelho(Object objeto){
@@ -48,7 +66,7 @@ public class PilhaRubroNegraArray implements Pilha{
             aumentarCapacidade();
         }
 
-        pilha[++this.indiceVermelho] = objeto;
+        pilha[++indiceVermelho] = objeto;
     }
 
     public void adicionarNegro(Object objeto){
@@ -57,8 +75,40 @@ public class PilhaRubroNegraArray implements Pilha{
             aumentarCapacidade();
         }
 
-        pilha[this.indiceNegro--] = objeto;
+        pilha[indiceNegro--] = objeto;
     }
+
+    public Object removerVermelho() throws PilhaVaziaExcecao{
+
+        if(vermelhoVazio()){
+            throw new PilhaVaziaExcecao("A pilha está vazia");
+        }
+
+        Object removidoV = indiceVermelho--;
+
+        if(tamanhoTotal() >= capacidade / 3){
+            reduzirCapacidade();
+        }
+
+        return removidoV;
+        
+    }
+
+    public Object removerNegro() throws PilhaVaziaExcecao{
+
+        if(negroVazio()){
+            throw new PilhaVaziaExcecao("A pilha está vazia");
+        }
+
+        Object removidoN = pilha[indiceNegro++];
+
+        if(tamanhoTotal >= capacidade / 3){
+            reduzirCapacidade;
+        }
+
+        return removidoN;
+    }
+
     
     private void aumentarCapacidade(){
 
@@ -82,11 +132,18 @@ public class PilhaRubroNegraArray implements Pilha{
         this.pilha = novaPilha;
         this.capacidade = novaCapacidade;
         this.indiceNegro = novoIndiceNegro;
+    }
 
-        @Override
-        
+    private void reduzirCapacidade(){
 
     }
+
+    @Override
+    public String toString(){
+        return Arrays.toString(this.pilha);
+    }
+
+    
 
     // REDUZIR CAPACIDADE
 
