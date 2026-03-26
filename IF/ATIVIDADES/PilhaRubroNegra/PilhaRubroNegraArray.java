@@ -150,13 +150,14 @@ public class PilhaRubroNegraArray implements Pilha{
 
         //Copiando os elementos da pilha negra para o novo array
         int qtdNegro = tamanhoNegro();
+        int novoIndiceNegro = capacidadeReduzida - qtdNegro;
         for(int i = 1; i <= qtdNegro; i++){
             pilhaMenor[capacidadeReduzida - i] = pilha[capacidade - i];
         }
 
         pilha = pilhaMenor;
         capacidade = capacidadeReduzida;
-        indiceNegro = capacidade - qtdNegro;
+        indiceNegro = novoIndiceNegro - 1;
     }
 
     @Override
