@@ -6,7 +6,7 @@ public class FilaCircularArray {
     private int tamanho;
     private int incremento;
 
-    public FilaArray(int tamanho, int incremento){
+    public FilaCircularArray(int tamanho, int incremento){
 
     this.fila = new Object[tamanho];
     this.tamanho = tamanho;
@@ -39,7 +39,7 @@ public class FilaCircularArray {
 
         //Verifica se a fila está cheia
         if(tamanho() == tamanho - 1){
-            aumentarTamanho()
+            aumentarTamanho();
         }
 
         fila[fim] = objeto;
@@ -49,14 +49,17 @@ public class FilaCircularArray {
     public void aumentarTamanho() {
 
         int novoTamanho;
-        if(incremento = 0){
+
+        if(incremento == 0){
             novoTamanho = tamanho * 2;
         }else{
-            novoTamanho = tamanho + incremento;
-            Object[] filaMaior = new Object[novoTamanho];
+            novoTamanho = tamanho + incremento;   
         }
+
+        Object filaMaior [] = new Object[novoTamanho];
         int AntigoInicio = inicio;
-        for (int novoInicio = 0, novoInicio < tamanho(); novoInicio++){
+
+        for (int novoInicio = 0; novoInicio < tamanho; novoInicio++){
             filaMaior[novoInicio] = fila[AntigoInicio];
             AntigoInicio = (AntigoInicio + 1) % tamanho;
         }
@@ -73,8 +76,8 @@ public class FilaCircularArray {
             throw new FilaExcecao("A fila esta VAZIA");
         }
 
-        Object removido = fila[primeiro];
-        primeiro = (primeiro+1) % tamanho;
+        Object removido = fila[inicio];
+        inicio = (inicio+1) % tamanho;
 
         return removido;
 
