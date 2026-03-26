@@ -21,7 +21,7 @@ public class PilhaRubroNegraArray implements Pilha{
     }
 
     public int tamanhoNegro(){
-        return this.capacidade - this.indiceNegro;
+        return (this.capacidade-1) - this.indiceNegro;
     }
 
     public int tamanhoTotal(){
@@ -84,9 +84,11 @@ public class PilhaRubroNegraArray implements Pilha{
             throw new PilhaVaziaExcecao("A pilha está vazia");
         }
 
-        Object removidoV = indiceVermelho--;
+        Object removidoV = pilha[indiceVermelho];
+        pilha[indiceVermelho] = null;
+        indiceVermelho --;
 
-        if(tamanhoTotal() >= capacidade / 3){
+        if(tamanhoTotal() <= capacidade / 3){
             reduzirCapacidade();
         }
 
@@ -100,10 +102,12 @@ public class PilhaRubroNegraArray implements Pilha{
             throw new PilhaVaziaExcecao("A pilha está vazia");
         }
 
-        Object removidoN = pilha[indiceNegro++];
+        Object removidoN = pilha[indiceNegro+1];
+        pilha[indiceNegro+1] = null;
+        indiceNegro++;
 
-        if(tamanhoTotal >= capacidade / 3){
-            reduzirCapacidade;
+        if(tamanhoTotal() <= capacidade / 3){
+            reduzirCapacidade();
         }
 
         return removidoN;
@@ -137,10 +141,10 @@ public class PilhaRubroNegraArray implements Pilha{
     private void reduzirCapacidade(){
 
         int capacidadeReduzida = capacidade / 2;
-        Object [] pilhaMenor = new  Object [capacidadeReduzida]
+        Object [] pilhaMenor = new  Object [capacidadeReduzida];
 
         //Copiando os elementos da pilha vermelha para o novo array
-        for(int i = 0; i < indiceVermelho; i++){
+        for(int i = 0; i <= indiceVermelho; i++){
             pilhaMenor[i] = pilha[i];
         }
 
