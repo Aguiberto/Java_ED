@@ -136,15 +136,28 @@ public class PilhaRubroNegraArray implements Pilha{
 
     private void reduzirCapacidade(){
 
+        int capacidadeReduzida = capacidade / 2;
+        Object [] pilhaMenor = new  Object [capacidadeReduzida]
+
+        //Copiando os elementos da pilha vermelha para o novo array
+        for(int i = 0; i < indiceVermelho; i++){
+            pilhaMenor[i] = pilha[i];
+        }
+
+        //Copiando os elementos da pilha negra para o novo array
+        int qtdNegro = tamanhoNegro();
+        for(int i = 1; i <= qtdNegro; i++){
+            pilhaMenor[capacidadeReduzida - i] = pilha[capacidade - i];
+        }
+
+        pilha = pilhaMenor;
+        capacidade = capacidadeReduzida;
+        indiceNegro = capacidade - qtdNegro;
     }
 
     @Override
     public String toString(){
         return Arrays.toString(this.pilha);
     }
-
-    
-
-    // REDUZIR CAPACIDADE
 
 }
