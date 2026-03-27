@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class FilaCircularArray {
 
     private Object fila [];
@@ -16,7 +18,7 @@ public class FilaCircularArray {
 
     }
 
-    public boolean estaVazio(){
+    public boolean estaVazia(){
         if( inicio == fim){
             return true;
         }else{
@@ -29,10 +31,10 @@ public class FilaCircularArray {
     }
 
     public Object primeiro() throws FilaExcecao{
-        if(estaVazio()){
+        if(estaVazia()){
             throw new FilaExcecao("A pilha está VAZIA");
         }
-        return fila[fim];
+        return fila[inicio];
     }
 
     public void adicionar(Object objeto){
@@ -72,7 +74,7 @@ public class FilaCircularArray {
 
     public Object remover() throws FilaExcecao{
 
-        if(estaVazio()){
+        if(estaVazia()){
             throw new FilaExcecao("A fila esta VAZIA");
         }
 
@@ -81,6 +83,11 @@ public class FilaCircularArray {
 
         return removido;
 
+    }
+
+    @Override
+    public String toString(){
+        return Arrays.toString(fila);
     }
 
 

@@ -46,8 +46,37 @@ public class TesteFila {
 
             if(opcao == 1){
 
+                System.out.println("Valor a ser adicionado: ");
+                int valor = scanner.nextInt();
+                FilaDoLanche.adicionar(valor);
+
+                System.out.println(" -=-=-=-= Sua fila-=-=-==-");
+                System.out.println(FilaDoLanche + "\n");
+
+            }else if(opcao == 2){
+                
+                Object removido = FilaDoLanche.remover();
+                System.out.println("Elemento removido: " + removido);
+                System.out.println("   Fila atualizada   ");
+                System.out.println(FilaDoLanche + "\n");
+
+            }else if(opcao == 3){
+                
+                Object primeiro = FilaDoLanche.primeiro();
+                System.out.println("PRIMEIRO  da fila: " + primeiro + "\n");
+
+            }else if(opcao == 4){
+
+                System.out.println("TAMANHO da fila: " + FilaDoLanche.tamanho() + "\n");
+
+            }else if(opcao == 5){
+                
+                System.out.println("Fila VAZIA? " + FilaDoLanche.estaVazia() + "\n");
+
+            }else if(opcao == 6){
+                break;
             }
-            if()
+    
         }
     }
 }
