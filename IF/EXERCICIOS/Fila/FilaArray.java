@@ -48,13 +48,44 @@ public class FilaArray implements FaceFila{
     }
 
     public void increaseCapacity(){
-        
+
+        int new_capacity;
+
+        if( growth == 0){
+            new_capacity = capacity * 2;
+        }else{
+            new_capacity = capacity + growth;
+        }
+
+        Object[] new_line = new [new_capacity];
+
+        for(int i = 0; i < size; i++){
+            new_line[i] = line[i];
+        }
+
+        line = new_line;
+        capacity = new_capacity;
+
     }
 
 
     public Object dequeue(){
 
+        if(size == 0){
+            Return "A fila está VAZIA";
+        }
 
+        Object removed = line[last];
+
+        /**Isto apenas para fins de estudo
+         * é desnecessário 
+         * mas facilita a compreensão */
+        line[last] = null;
+
+        initial++;
+        size--;
+
+        return removed;
     }
 }
 
