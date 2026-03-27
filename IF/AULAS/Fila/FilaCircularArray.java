@@ -79,6 +79,7 @@ public class FilaCircularArray {
         }
 
         Object removido = fila[inicio];
+        fila[inicio] = null;
         inicio = (inicio+1) % tamanho;
 
         return removido;

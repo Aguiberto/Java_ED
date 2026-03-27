@@ -45,7 +45,8 @@ public class TesteFila {
             int opcao = scanner.nextInt();
 
             if(opcao == 1){
-
+                
+                System.out.println("Você escolheu a opção 'ADICIONAR'");
                 System.out.println("Valor a ser adicionado: ");
                 int valor = scanner.nextInt();
                 FilaDoLanche.adicionar(valor);
@@ -55,25 +56,29 @@ public class TesteFila {
 
             }else if(opcao == 2){
                 
+                System.out.println("Você escolheu a opção 'REMOVER' ");
                 Object removido = FilaDoLanche.remover();
                 System.out.println("Elemento removido: " + removido);
-                System.out.println("   Fila atualizada   ");
-                System.out.println(FilaDoLanche + "\n");
+                System.out.println("Fila atualizada: " + FilaDoLanche + "\n");
 
             }else if(opcao == 3){
                 
+                System.out.println("Você selecionou a opção 'MOSTRAR PRIMEIRO'");
                 Object primeiro = FilaDoLanche.primeiro();
                 System.out.println("PRIMEIRO  da fila: " + primeiro + "\n");
 
             }else if(opcao == 4){
 
+                System.out.println("Você selecionou a opção 'VER TAMANHO DA FILA'");
                 System.out.println("TAMANHO da fila: " + FilaDoLanche.tamanho() + "\n");
 
             }else if(opcao == 5){
                 
+                System.out.println("Você selecionou a opção 'FILA VAZIA' ");
                 System.out.println("Fila VAZIA? " + FilaDoLanche.estaVazia() + "\n");
 
             }else if(opcao == 6){
+                System.out.println("Você selecionou 'ENCERRAR PROGRAMA'");
                 break;
             }
     
