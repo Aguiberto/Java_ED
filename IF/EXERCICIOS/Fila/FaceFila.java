@@ -1,4 +1,4 @@
-interface FaceFila{
+public interface FaceFila{
 
     public void queue(Object objeto);
 

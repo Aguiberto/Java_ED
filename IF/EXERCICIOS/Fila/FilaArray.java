@@ -1,8 +1,10 @@
+package Fila;
+
 public class FilaArray implements FaceFila{
 
     private Object [] line;
-    private Object initial;
-    private Object last;
+    private int initial;
+    private int last;
     private int size;
     private int capacity;
     private int growth;
@@ -12,8 +14,8 @@ public class FilaArray implements FaceFila{
 
         this.capacity = capacity;
         this.growth = growth;
-        this.line = new [capacity];
-        this.first = 0;
+        this.line = new Object [capacity];
+        this.initial = 0;
         this.last = 0;
         this.size = 0;
 
@@ -33,7 +35,7 @@ public class FilaArray implements FaceFila{
             return "Fila VAZIA";
         }
 
-        return line[first];
+        return line[initial];
     }
 
     public void queue(Object objeto){
@@ -42,8 +44,8 @@ public class FilaArray implements FaceFila{
             increaseCapacity();
         }
 
-        line[initial] = Object;
-        initial ++;
+        line[initial] = objeto;
+        last = (last + 1) % size;
         size ++;
     }
 
@@ -57,7 +59,7 @@ public class FilaArray implements FaceFila{
             new_capacity = capacity + growth;
         }
 
-        Object[] new_line = new [new_capacity];
+        Object[] new_line = new Object [new_capacity];
 
         for(int i = 0; i < size; i++){
             new_line[i] = line[i];
@@ -71,8 +73,8 @@ public class FilaArray implements FaceFila{
 
     public Object dequeue(){
 
-        if(size == 0){
-            Return "A fila está VAZIA";
+        if(size == 0){     
+            return "A fila está VAZIA";
         }
 
         Object removed = line[last];
