@@ -46,8 +46,8 @@ public class FilaArray{
             increaseCapacity();
         }
 
-        line[initial] = objeto;
-        last = (last + 1) % size;
+        line[last] = objeto;
+        last = (last + 1) % capacity;
         size ++;
     }
 
@@ -64,7 +64,7 @@ public class FilaArray{
         Object[] new_line = new Object [new_capacity];
 
         for(int i = 0; i < size; i++){
-            new_line[i] = line[i];
+            new_line[i] = line[(inicial + i) % new_capacity];
         }
 
         line = new_line;
