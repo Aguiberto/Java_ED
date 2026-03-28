@@ -1,6 +1,8 @@
 package Fila;
 
-public class FilaArray implements FaceFila{
+import java.util.Arrays;
+
+public class FilaArray{
 
     private Object [] line;
     private int initial;
@@ -88,6 +90,11 @@ public class FilaArray implements FaceFila{
         size--;
 
         return removed;
+    }
+
+    @Override
+    public String toString(){
+        return Arrays.toString(line);
     }
 }
 
