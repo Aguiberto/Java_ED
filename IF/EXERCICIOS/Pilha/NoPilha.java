@@ -5,7 +5,11 @@ public class NoPilha {
     private Object value;
     private NoPilha next;
 
-    // CLASSE SEM CONSTRUTOR
+    public NoPilha(Object value){
+        
+        this.value = value
+        this.next = null;
+    }
 
     public Object getValue(){
         return value;
@@ -13,6 +17,14 @@ public class NoPilha {
 
     public void setValue(Object NovoValor ){
         this.value = NovoValor;
+    }
+
+    public Object getNext(){
+        return next;
+    }
+
+    public void setNext(NoPilha next){
+        this.next = next;
     }
 
 }

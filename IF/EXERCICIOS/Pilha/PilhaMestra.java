@@ -4,24 +4,36 @@ package Pilha;
 
 public class PilhaMestra implements PilhaLigada{
 
-    private Object [] pilha;
-    private int capacity;
-    private int growth;
-
+    private NoPilha stack;
+    private NoPilha head;
+    public int size;
 
     public PilhaMestra(){
+
+        this.head = null;
+        this.size = 0
 
     }
 
     public boolean isEmpty(){
 
+        if(head == null){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public int size(){
 
+        return this.size;
     }
 
     public void push(Object objeto){
+
+        NoPilha new_node = new NoPilha(objeto);
+
+        
 
     }
 
