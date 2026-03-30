@@ -57,7 +57,7 @@ public class FilaArray{
 
         int new_capacity;
 
-        if( growth == 0){
+        if(growth == 0){
             new_capacity = capacity * 2;
         }else{
             new_capacity = capacity + growth;
@@ -65,14 +65,14 @@ public class FilaArray{
 
         Object[] new_line = new Object [new_capacity];
         int oldInitial = initial;
-        int currentSize = size();
-        for(int i = 0; i < currentSize; i++){
+
+        for(int i = 0; i < capacity; i++){
             new_line[i] = line[oldInitial];
             oldInitial = (oldInitial + 1) % capacity;
 
         }
 
-        last = currentSize;
+        last = size();
         initial = 0;
         line = new_line;
         capacity = new_capacity;

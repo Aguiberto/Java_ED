@@ -29,9 +29,9 @@ public class AGCSupremeTest {
             }else if(opcaoInicial == 2){
             // TESTE DE FILA
 
+            FilaArray FilaDoLanche = new FilaArray (10,0);
+
                 while(true){
-                    
-                    FilaArray FilaDoLanche = new FilaArray (10,0);
 
                     System.out.println("\n" + "-------- Teste da FILA:ARRAY  -----------" + "\n");
 
@@ -40,7 +40,7 @@ public class AGCSupremeTest {
                     System.out.println("3 - REMOVER elemento");
                     System.out.println("4 - PRIMEIRO elemento");
                     System.out.println("\n" + "98 - Voltar para o MENU PRINCIPAL");
-                    System.out.print("\n" + "Sua opção: " + "\n");
+                    System.out.print("\n" + "Sua opção: ");
 
                     int filaOpcao = scanner.nextInt();
                     
