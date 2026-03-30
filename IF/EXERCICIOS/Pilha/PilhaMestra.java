@@ -4,13 +4,12 @@ package Pilha;
 
 public class PilhaMestra implements PilhaLigada{
 
-    private NoPilha stack;
     private NoPilha head;
     public int size;
 
     public PilhaMestra(){
 
-        this.head = null;
+        this.head = null
         this.size = 0
 
     }
@@ -25,7 +24,6 @@ public class PilhaMestra implements PilhaLigada{
     }
 
     public int size(){
-
         return this.size;
     }
 
@@ -33,16 +31,31 @@ public class PilhaMestra implements PilhaLigada{
 
         NoPilha new_node = new NoPilha(objeto);
 
-        
+        new_node.setNext(head);
+        head = new_node
+        size ++;
 
     }
 
     public Object pop() throws PilhaExcecao{
 
+        if(isEmpty()){
+            throw new PilhaExcecao("Pilha VAZIA");
+        }
+
+        Object removed = head.getNext();
+
+        size--;
+        return valorRemovido;
+
     }
 
     public Object top() throws PilhaExcecao{
-
+        
+        if(isEmpty()){
+            return PilhaExcecao("Pilha VAZIA!");
+        }
+        return head.getValue();
     }
 
     @Override
