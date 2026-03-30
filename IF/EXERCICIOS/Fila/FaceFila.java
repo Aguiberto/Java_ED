@@ -1,3 +1,5 @@
+package Fila;
+
 public interface FaceFila{
 
     public void queue(Object objeto);

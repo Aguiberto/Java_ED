@@ -23,7 +23,7 @@ public class AGCSupremeTest {
 
             if(opcaoInicial == 99){
                 System.out.println("Você escolheu 'ENCERRAR PROGRAMA!'");
-                System.out.println("Até a proxima!'");
+                System.out.println("VOLTE SEMPRE!'");
                 break;
 
             }else if(opcaoInicial == 2){
@@ -39,7 +39,7 @@ public class AGCSupremeTest {
                     System.out.println("2 - ADICIONAR elemento");
                     System.out.println("3 - REMOVER elemento");
                     System.out.println("4 - PRIMEIRO elemento");
-                    System.out.println("\n" + "98 - Testar outras estruturas");
+                    System.out.println("\n" + "98 - Voltar para o MENU PRINCIPAL");
                     System.out.print("\n" + "Sua opção: " + "\n");
 
                     int filaOpcao = scanner.nextInt();
@@ -50,13 +50,26 @@ public class AGCSupremeTest {
 
                     }else if(filaOpcao == 2){
                         
-                        System.out.println("Você selecionou 'ADICIONAR'");
+                        System.out.println("Você selecionou 'ADICIONAR'" + "\n");
                         System.out.print("Qual valor:");
 
                         int valor = scanner.nextInt();
-                        FilaDoLanche.queue(valor);
+                        FilaDoLanche.enqueue(valor);
 
-                        System.out.println("Sua fila: " + FilaDoLanche);
+                        System.out.println("\n" + "Sua fila: " + FilaDoLanche);
+
+                    }else if(filaOpcao == 3){
+
+                        System.out.println("Você selecionou 'REMOVER'");
+
+                        FilaDoLanche.dequeue();
+
+                        System.out.println(FilaDoLanche);
+
+                    }else if(filaOpcao == 4){
+                        
+                        System.out.println("Você escolheu 'PRIMEIRO ELEMENTO'");
+                        System.out.println("O primeiro elemento é: " + FilaDoLanche.first());
 
                     }else if(filaOpcao == 98){
                         System.out.println(" Retornando ao menu inicial");
@@ -65,7 +78,7 @@ public class AGCSupremeTest {
 
                 }
 
-            }
+            } // Segunda opção de ESTRUTURA DE DADO PARA TESTAR - else if (){} ...s
 
         }
 
