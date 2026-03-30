@@ -28,8 +28,13 @@ public class AGCSupremeTest {
 
             }else if(opcaoInicial == 2){
             // TESTE DE FILA
+            System.out.print("Informe a capacidade da FILA: ");
+            int capacidadeFilaArray = scanner.nextInt();
 
-            FilaArray FilaDoLanche = new FilaArray (10,0);
+            System.out.println("De quanto será o crescimento: ");
+            int crescimentoFilaArray = scanner.nextInt();
+
+            FilaArray FilaDoLanche = new FilaArray (capacidadeFilaArray,crescimentoFilaArray);
 
                 while(true){
 
