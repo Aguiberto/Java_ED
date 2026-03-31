@@ -9,8 +9,8 @@ public class PilhaMestra implements PilhaLigada{
 
     public PilhaMestra(){
 
-        this.head = null
-        this.size = 0
+        this.head = null;
+        this.size = 0;
 
     }
 
@@ -29,10 +29,10 @@ public class PilhaMestra implements PilhaLigada{
 
     public void push(Object objeto){
 
-        NoPilha new_node = new NoPilha(objeto);
+        NoPilha newNode = new NoPilha(objeto);
 
-        new_node.setNext(head);
-        head = new_node
+        newNode.setNext(head);
+        head = newNode;
         size ++;
 
     }
@@ -44,16 +44,17 @@ public class PilhaMestra implements PilhaLigada{
         }
 
         Object removed = head.getNext();
+        head = head.getNext();
 
         size--;
-        return valorRemovido;
+        return removed;
 
     }
 
     public Object top() throws PilhaExcecao{
         
         if(isEmpty()){
-            return PilhaExcecao("Pilha VAZIA!");
+            return new PilhaExcecao("Pilha VAZIA!");
         }
         return head.getValue();
     }
@@ -61,8 +62,21 @@ public class PilhaMestra implements PilhaLigada{
     @Override
     public String toString(){
 
+        if (isEmpty()) {
+            return "Pilha vazia";
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        NoPilha atual = head;
+        
+        sb.append("[TOPO] -> ");
+        while (atual != null) {
+            sb.append(atual.getValue()).append(" -> ");
+            atual = atual.getNext();
+        }
+        sb.append("null");
+        
+        return sb.toString();
     }
-
-
 
 }

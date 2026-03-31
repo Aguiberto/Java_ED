@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import Fila.FilaArray;
+import Pilha.PilhaMestra;
 
 public class AGCSupremeTest {
 
@@ -15,6 +16,7 @@ public class AGCSupremeTest {
 
             System.out.println("Qual estrutura de dados dejesa testar?" + "\n");
 
+            System.out.println("1 - Pilha: Lista Ligada");
             System.out.println("2 - Fila");
             System.out.println("99 - ENCERRAR programa" + "\n");
             System.out.print("Sua opção: ");
@@ -31,7 +33,7 @@ public class AGCSupremeTest {
             System.out.print("Informe a capacidade da FILA: ");
             int capacidadeFilaArray = scanner.nextInt();
 
-            System.out.println("De quanto será o crescimento: ");
+            System.out.print("De quanto será o crescimento: ");
             int crescimentoFilaArray = scanner.nextInt();
 
             FilaArray FilaDoLanche = new FilaArray (capacidadeFilaArray,crescimentoFilaArray);

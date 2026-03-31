@@ -7,7 +7,7 @@ public class NoPilha {
 
     public NoPilha(Object value){
         
-        this.value = value
+        this.value = value;
         this.next = null;
     }
 
@@ -19,7 +19,7 @@ public class NoPilha {
         this.value = NovoValor;
     }
 
-    public Object getNext(){
+    public NoPilha getNext(){
         return next;
     }
 
