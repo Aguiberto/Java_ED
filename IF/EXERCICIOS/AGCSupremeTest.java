@@ -17,7 +17,7 @@ public class AGCSupremeTest {
             System.out.println("Qual estrutura de dados dejesa testar?" + "\n");
 
             System.out.println("1 - Pilha: Lista Ligada");
-            System.out.println("2 - Fila");
+            System.out.println("2 - Fila: Array");
             System.out.println("99 - ENCERRAR programa" + "\n");
             System.out.print("Sua opção: ");
 
@@ -28,8 +28,70 @@ public class AGCSupremeTest {
                 System.out.println("VOLTE SEMPRE!'");
                 break;
 
+            }else if(opcaoInicial == 1){
+
+            // TESTE DE PILHA LIGADA    
+            // TESTE DE PILHA LIGADA    
+            // TESTE DE PILHA LIGADA    
+
+                System.out.println("\n"+"-------- Teste da Pilha: LISTA LIGADA -----------"+"\n");
+
+                PilhaMestra pilhaDeDinheiro = new PilhaMestra(); 
+
+                while(true){
+
+                    System.out.println("\n"+"1 - esta VAZIA?");
+                    System.out.println("2 - Ver tamanho");
+                    System.out.println("3 - ADICIONAR elemento");
+                    System.out.println("4 - REMOVER elemento?");
+                    System.out.println("5 - TOPO" + "\n");
+
+                    System.out.println("98 - RETORNAR AO MENU INICIAL"+"\n");
+
+                    System.out.print("Sua opção: ");
+                    int pilhaOpcao = scanner.nextInt();
+
+                    if(pilhaOpcao == 1){
+
+                        System.out.println("Pilha está VAZIA? " + pilhaDeDinheiro.isEmpty());
+
+                    }else if(pilhaOpcao == 2){
+
+                        System.out.println("Tamanho da pilha: " + pilhaDeDinheiro.size());
+
+                    }else if(pilhaOpcao == 3){
+
+                        System.out.println("Você selecionou 'ADICIONAR'" + "\n");
+
+                        System.out.print("Informe o valor: ");
+                        int ElementoPilha = scanner.nextInt();
+
+                        pilhaDeDinheiro.push(ElementoPilha);
+
+                        System.out.println("Sua pilha: " + pilhaDeDinheiro.toString());
+
+                    }else if(pilhaOpcao == 4){
+
+                        System.out.println("Você escolheu 'REMOVER'");
+                        System.out.println("Sua pilha: " + pilhaDeDinheiro.pop());
+
+                    }else if(pilhaOpcao == 5){
+
+                        System.out.println("PRIMEIRO elemento: " + pilhaDeDinheiro.top());
+
+                    }else if(pilhaOpcao == 98){
+                        break;
+                    }
+
+                }
+
+
             }else if(opcaoInicial == 2){
+
             // TESTE DE FILA
+            // TESTE DE FILA
+            // TESTE DE FILA
+
             System.out.print("Informe a capacidade da FILA: ");
             int capacidadeFilaArray = scanner.nextInt();
 
@@ -40,7 +102,7 @@ public class AGCSupremeTest {
 
                 while(true){
 
-                    System.out.println("\n" + "-------- Teste da FILA:ARRAY  -----------" + "\n");
+                    System.out.println("\n" + "-------- Teste da FILA: ARRAY  -----------" + "\n");
 
                     System.out.println("1 - Está VAZIA?");
                     System.out.println("2 - ADICIONAR elemento");
@@ -88,8 +150,5 @@ public class AGCSupremeTest {
             } // Segunda opção de ESTRUTURA DE DADO PARA TESTAR - else if (){} ...s
 
         }
-
-        
-        
     }
 }
