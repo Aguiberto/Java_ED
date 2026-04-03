@@ -2,7 +2,7 @@ public class DequeArray implements Deque{
 
     private Object [] deque;
     private int capacity;
-    private int lenght;
+    private int length;
     private int initial;
     private int last;
 
@@ -10,7 +10,7 @@ public class DequeArray implements Deque{
 
         this.capacity = capacity;
         deque = new Object[capacity];
-        lenght = 0;
+        length = 0;
         initial = -1;
         last = capacity-1;
 
@@ -27,7 +27,7 @@ public class DequeArray implements Deque{
     }
 
     public int size(){
-        return lenght;
+        return length;
     }
 
     public void pushFront(Object objeto){
@@ -38,7 +38,7 @@ public class DequeArray implements Deque{
 
         initial++
         deque[initial] = objeto
-        size ++
+        length ++
 
     }
 
@@ -50,7 +50,7 @@ public class DequeArray implements Deque{
 
         deque[first] = null;
         first--;
-        size--;
+        length--;
 
     }
 
@@ -62,7 +62,7 @@ public class DequeArray implements Deque{
 
         deque[last] = objeto
         last--;
-        size++;
+        length++;
 
     }
 
@@ -72,7 +72,7 @@ public class DequeArray implements Deque{
             throw new DequeExcecao("Deque VAZIO!");
         }
 
-        
+
 
     }
 
