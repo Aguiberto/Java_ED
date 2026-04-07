@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import Fila.FilaArray;
+import FilaLigada.FilaLigada;
 import Pilha.PilhaMestra;
 
 public class AGCSupremeTest {
@@ -18,6 +19,7 @@ public class AGCSupremeTest {
 
             System.out.println("1 - Pilha: Lista Ligada");
             System.out.println("2 - Fila: Array");
+            System.out.println("3 - Fila: Lista Ligada");
             System.out.println("99 - ENCERRAR programa" + "\n");
             System.out.print("Sua opção: ");
 
@@ -147,7 +149,62 @@ public class AGCSupremeTest {
 
                 }
 
-            } // Segunda opção de ESTRUTURA DE DADO PARA TESTAR - else if (){} ...s
+            }else if(opcaoInicial == 3){
+
+                //TESTE DE FILA COM LISTA LIGADA
+                //TESTE DE FILA COM LISTA LIGADA
+                //TESTE DE FILA COM LISTA LIGADA
+
+                FilaLigada FiladoSus = new FilaLigada();
+
+                while(true){
+
+                    System.out.println("\n" + "-------- Teste da FILA: Lista Ligada  -----------" + "\n");
+
+                    System.out.println("1 - Está VAZIA?");
+                    System.out.println("2 - ADICIONAR elemento");
+                    System.out.println("3 - REMOVER elemento");
+                    System.out.println("4 - PRIMEIRO elemento");
+                    System.out.println("\n" + "98 - Voltar para o MENU PRINCIPAL");
+                    System.out.print("\n" + "Sua opção: ");
+
+                    int opcaoLigada = scanner.nextInt();
+
+                    if(opcaoLigada == 1){
+
+                         System.out.println("\n" + "Fila está vazia? " + FiladoSus.isEmpty());
+
+                    }else if(opcaoLigada == 2){
+
+                        System.out.println("Você selecionou 'ADICIONAR'" + "\n");
+                        System.out.print("Qual valor:");
+
+                        int valor = scanner.nextInt();
+                        FiladoSus.enqueue(valor);
+
+                        System.out.println("\n" + "Sua fila: " + FiladoSus);
+
+                    }else if(opcaoLigada == 3){
+
+                        System.out.println("Você selecionou 'REMOVER'");
+
+                        FiladoSus.dequeue();
+
+                        System.out.println(FiladoSus);
+
+                    }else if(opcaoLigada == 4){
+
+                        System.out.println("Você escolheu 'PRIMEIRO ELEMENTO'");
+                        System.out.println("O primeiro elemento é: " + FiladoSus.first());                        
+
+                    }else if(opcaoLigada == 98){
+                        break;
+                    }
+
+
+                }
+
+            } // PROXIMA ESTRUTURA DE DADOS ... else if ...
 
         }
     }

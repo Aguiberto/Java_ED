@@ -1,11 +1,15 @@
+package FilaLigada;
+
 public class FilaLigada implements InterfaceLigada {
 
     private NoFila head;
+    private NoFila tail;
     private int length;
     
     public FilaLigada(){
 
         this.head = null;
+        this.tail = null;
         this.length = 0;
     }
 
@@ -25,12 +29,21 @@ public class FilaLigada implements InterfaceLigada {
         
     }
 
-    public void enqueue(NoFila objeto){
+    public void enqueue(Object objeto){
 
-        NoFila newNode = new NoFila(objeto);
+        NoFila newNode = new NoFila();
+        newNode.setValue(objeto);
 
-        newNode = head.getNext();
-        head.setNext(newNode);
+        if(isEmpty()){
+            head = newNode;
+            tail = newNode;
+        }else{
+            // vai dizer qual é o próximo do nó ao qual o tail aponta
+            tail.setNext(newNode);
+
+            // agora tail vai apontar para o novo nó
+            tail = newNode;
+        }
 
         length++;
 
@@ -42,19 +55,47 @@ public class FilaLigada implements InterfaceLigada {
             throw new FilaLExcecao("FILA VAZIA!");
         }
 
-        NoFila removed = head.getNext();
-        head = head.getNext();
+        NoFila removed = new NoFila();
+        removed.setValue(head.getValue());
 
+        head = head.getNext();
         length--;
+
+        return removed;
     }
 
-    public NoFila first() throws FilaLExcecao{
+    public Object first() throws FilaLExcecao{
 
         if(isEmpty()){
             throw new FilaLExcecao("FILA VAZIA!");
         }
 
-        return head;
+        return head.getValue();
     }
+
+    @Override 
+    public String toString(){
+
+        if(isEmpty()){
+            return "Fila:[]";
+        }
+
+        StringBuilder fila = new StringBuilder();
+        fila.append ("Fila: [");
+
+        NoFila guide = head;
+
+        while(guide != null){
+
+            fila.append(guide.getValue());
+            guide = guide.getNext();
+
+            if(guide != null){
+                fila.append("-> ");
+            }
+        }
+        fila.append("]");
+        return fila.toString();
+    }   
 
 }

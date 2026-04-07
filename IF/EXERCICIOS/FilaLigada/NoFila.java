@@ -1,13 +1,13 @@
-
+package FilaLigada;
 
 public class NoFila{
 
     private Object value;
     private NoFila next;
 
-    public NoFila(Object value){
+    public NoFila(){
 
-        this.value = value;
+        this.value = null;
         this.next = null;
     }
 
@@ -17,6 +17,14 @@ public class NoFila{
 
     public void setNext(NoFila next){
         this.next = next;
+    }
+
+    public Object getValue(){
+        return value;
+    }
+
+    public void setValue(Object value){
+        this.value = value;
     }
 
 }
