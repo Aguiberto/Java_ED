@@ -1,3 +1,7 @@
+import java.util.Arrays;
+
+// Para possibilitar a inverção é necessário criar uma Fila CIRCULAR
+
 public class FilaInvertida implements FilaInterface{
 
     private Object [] fila;
@@ -6,15 +10,17 @@ public class FilaInvertida implements FilaInterface{
     private int growth;
     private int initial;
     private int last;
+    private boolean isReversed;
 
     public FilaInvertida(int capacity, int growth){
 
-        this.capacity == capacity;
-        this.growth == growth;
+        this.capacity = capacity;
+        this.growth = growth;
         fila = new Object[capacity];
         this.length = 0;
-        this.initial = -1;
-        this.last = length -1;
+        this.initial = 0;
+        this.last = 0;
+        isReversed = false;
     }
 
     public boolean isEmpty(){
@@ -32,55 +38,118 @@ public class FilaInvertida implements FilaInterface{
     // revisar esse método
     public void enqueue(Object objeto){
 
-        if(size == capacity-1){
+        if(length == capacity-1){
             increaseCapacity();
         }
 
-        if(length == 0){
-            fila[initial] = objeto;
+        // Quando a fila está invertida a adição ocorre no início
+        if(isReversed){
+
+            initial = (initial - 1 + capacity) % capacity;
+            fila[last] = objeto;
+            
+        } else {
+
+            fila[last] = objeto;
+            last = (last + 1) % capacity;
         }
 
-        fila[last] = objeto;
         length++;
+    }
+
+    public void increaseCapacity(){
+
+        Object [] newArray;
+        int newCapacity = 0;
+
+        if(growth == 0){
+            newCapacity = capacity * 2;
+        }else{
+            newCapacity = capacity + growth;
+        }
+
+        newArray = new Object[newCapacity];
+        for(int i = 0; i < length; i++){
+            newArray[i] = fila[i];
+        }
+
+        capacity = newCapacity;
+        fila = newArray;
+
     }
 
     // revisar esse método
     public Object dequeue() throws FilaExcecao{
+        
+        Object removed;
 
         if(isEmpty()){
-            new FilaExcecao("FILA VAZIA! Tente outra OPERAÇÃO!");
+           throw new FilaExcecao("FILA VAZIA! Tente outra OPERAÇÃO!");
         }
 
-        if(size == capacity / 3 ){
+        if(length == capacity / 3 ){
             decreaseCapacity();
         }
-        
-        Object removed = fila[initial];
-        fila[initial] == null;
-        initial++;
+
+        //Quando a fila está invertida a remoção acontece do fim
+        if(isReversed){
+
+            last = (last - 1 + capacity) % capacity;
+            removed = fila[last];
+            fila[last] = null;
+
+        }else{
+
+         // quando a fila não está inverida a remoção ocorre normalmente no início
+        removed = fila[initial];
+        fila[initial] = null;
+        initial = (initial + 1) % capacity;
+        }
 
         length--;
+        return removed;
+    }
+
+    public void decreaseCapacity(){
+
+        int newCapacity = capacity / 2;
+        Object[] newArray = new Object[newCapacity];
+
+        for(int i = 0; i < length;i++){
+            newArray[i] = fila[i];
+        }
+
+        fila = newArray;
+        capacity = newCapacity;
+    }
+
+    public void reverse(){
         
-    }
-
-    public void switch(){
-    //inverter o inicio e o fim
-
-        int aux;
-        aux = initial;
-        initial = last;
-        last = aux;
+        if(isReversed == false){
+            isReversed = true;
+        }else{
+            isReversed = false;
+        }
 
     }
 
-    public int first(){
+    public Object first() throws FilaExcecao{
+
+        if(isEmpty()){
+            throw new FilaExcecao("A Fila está VAZIA!");
+        }
+
+        if(isReversed){
+            int lastCircular = (last - 1 + capacity) % capacity;
+            return fila[lastCircular];
+        }
+
         return fila[initial];
     }
 
     @Override
     public String toString(){
-
-        StringBuild filaStr = "[";
+        return Arrays.toString(fila);
     }
 
 }

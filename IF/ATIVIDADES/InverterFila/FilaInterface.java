@@ -1,4 +1,4 @@
-public class FilaInterface {
+public interface FilaInterface {
 
     public boolean isEmpty();
 
@@ -8,7 +8,7 @@ public class FilaInterface {
 
     public Object dequeue() throws FilaExcecao;
 
-    public void switch();
+    public void reverse();
 
     public Object first() throws FilaExcecao;
 
