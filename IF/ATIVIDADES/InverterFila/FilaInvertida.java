@@ -20,7 +20,7 @@ public class FilaInvertida implements FilaInterface{
         this.length = 0;
         this.initial = 0;
         this.last = 0;
-        isReversed = false;
+        this.isReversed = false;
     }
 
     public boolean isEmpty(){
@@ -37,6 +37,7 @@ public class FilaInvertida implements FilaInterface{
 
     // revisar esse método
     public void enqueue(Object objeto){
+    
 
         if(length == capacity-1){
             increaseCapacity();
@@ -59,8 +60,11 @@ public class FilaInvertida implements FilaInterface{
 
     public void increaseCapacity(){
 
-        Object [] newArray;
-        int newCapacity = 0;
+    // Os elementos do array precisam ser reorganizados 
+    // em um array circular pode acontecer deles ficarem espaçados
+    // toda vez que os elementos forem copiados eles precisam retornar ao índice 0
+
+        int newCapacity;
 
         if(growth == 0){
             newCapacity = capacity * 2;
@@ -68,17 +72,20 @@ public class FilaInvertida implements FilaInterface{
             newCapacity = capacity + growth;
         }
 
-        newArray = new Object[newCapacity];
+        Object[] newArray = new Object[newCapacity];
         for(int i = 0; i < length; i++){
-            newArray[i] = fila[i];
+            newArray[i] = fila[(initial + i) % capacity];
+            
         }
 
         capacity = newCapacity;
         fila = newArray;
+        initial = 0;
+        last = length;
+        isReversed = false;
 
     }
 
-    // revisar esse método
     public Object dequeue() throws FilaExcecao{
         
         Object removed;
@@ -112,15 +119,28 @@ public class FilaInvertida implements FilaInterface{
 
     public void decreaseCapacity(){
 
+    // Em um array circular os do array podem estar espaçados
+    //Sendo assim o método precisa reorganizar os elementos
+    // Apos reorganizado os elementos podem ser copiados para o novo array
+
+
+
         int newCapacity = capacity / 2;
+        if(newCapacity < 1){
+            newCapacity = 1;
+        }
+
         Object[] newArray = new Object[newCapacity];
 
         for(int i = 0; i < length;i++){
-            newArray[i] = fila[i];
+            newArray[i] = fila[(initial + i) % capacity];
         }
 
         fila = newArray;
         capacity = newCapacity;
+        initial = 0;
+        last = length;
+        isReversed = false;
     }
 
     public void reverse(){

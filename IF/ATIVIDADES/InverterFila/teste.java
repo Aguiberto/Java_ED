@@ -10,7 +10,7 @@ public class teste{
         System.out.println("------- Teste para inverter Arary --------");
         System.out.println("------------------------------------------" + "\n");
 
-        FilaInvertida FilaDoLanche = new FilaInvertida(5,0);
+        FilaInvertida FilaDoLanche = new FilaInvertida(10,0);
 
         while(true){
 
