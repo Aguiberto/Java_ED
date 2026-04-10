@@ -47,7 +47,7 @@ public class FilaInvertida implements FilaInterface{
         if(isReversed){
 
             initial = (initial - 1 + capacity) % capacity;
-            fila[last] = objeto;
+            fila[initial] = objeto;
             
         } else {
 
@@ -82,7 +82,6 @@ public class FilaInvertida implements FilaInterface{
         fila = newArray;
         initial = 0;
         last = length;
-        isReversed = false;
 
     }
 
@@ -140,7 +139,7 @@ public class FilaInvertida implements FilaInterface{
         capacity = newCapacity;
         initial = 0;
         last = length;
-        isReversed = false;
+        
     }
 
     public void reverse(){

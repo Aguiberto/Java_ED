@@ -32,7 +32,7 @@ public class teste{
 
                 System.out.println("\n"+"ADICIONAR ELEMENTO");
 
-                System.out.print("Informe qual valor adiconar: ");
+                System.out.print("Informe qual valor adicionar: ");
                 int valor = scanner.nextInt();
 
                 FilaDoLanche.enqueue(valor);
