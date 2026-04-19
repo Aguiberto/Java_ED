@@ -1,3 +1,5 @@
+package Lista;
+
 public class NoDuplo {
 
     private Object value;
@@ -19,17 +21,17 @@ public class NoDuplo {
 
     // muda o valor do nó
     public void setValue(Object objeto){
-        return this.value = objeto;
+        this.value = objeto;
     }
 
     // informa o valor do nó
-    public Object getValeu(){
+    public Object getValue(){
         return this.value;
     }
 
     // diz quem vai ser próximo do nó desse nó
     public void setNext(NoDuplo no){
-        return this.next = no;
+         this.next = no;
     }
 
     // mostra qual é o próximo do nó
@@ -39,7 +41,7 @@ public class NoDuplo {
 
     // diz quem vai ser o anterior a esse nó
     public void setPrev(NoDuplo no){
-        return this.prev = no;
+         this.prev = no;
     }
 
     // mostra qual é o nó anterior

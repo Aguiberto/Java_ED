@@ -243,7 +243,7 @@ public class AGCSupremeTest {
                         System.out.println("Informe qual índice que você deseja consultar o valor: ");
                         int indice = scanner.nextInt();
 
-                        System.out.println("O valor do índice" + indice + " é: " + vetor.elemAtRank(indice));
+                        System.out.println("O valor do índice " + indice + " é: " + vetor.elemAtRank(indice));
 
                     }else if(opcaoVetor == 4){
 

@@ -1,4 +1,6 @@
-public class ListaInterface {
+package Lista;
+
+public interface ListaInterface {
 
     // informa se está vazio
     public boolean isEmpty();
@@ -6,11 +8,17 @@ public class ListaInterface {
     // informa o tamanho da lista
     public int size();
 
-    // informa qual é o primeiro da lista
-    public NoDuplo isFirst() throws ListaExcecao;
+    // informa o primeiro elemento da lista
+    public NoDuplo first() throws ListaExcecao;
 
-    // informa qual é o último da lista
-    public NoDuplo isLast() throws ListaExcecao;
+    // informa o último elemento da lista
+    public NoDuplo last() throws ListaExcecao;
+
+    // informa se é o primeiro da lista
+    public boolean isFirst(int index);
+
+    // informa se é o último da lista
+    public boolean isLast(int index);
 
     // recebe um nó e informa qual é o valor do nó anterior
     public NoDuplo before(NoDuplo no) throws ListaExcecao;
