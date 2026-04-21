@@ -122,6 +122,7 @@ public class ListaMestra implements ListaInterface{
         return no.getNext();
     }
 
+    // método para buscar um nó.
     private NoDuplo searchNode(int index){
 
          if( index <0 || index < length-1){
@@ -159,17 +160,47 @@ public class ListaMestra implements ListaInterface{
     // substitui um elemento da lista por outro no índice informado pelo valor informado
     public void replaceElement(int index, Object value) throws ListaExcecao{
 
-        noDuplo OldNode = searchNode(index)
+        noDuplo OldNode = searchNode(index);
         OldNode.setValue(Object);
     
     }
 
 
     //inverte os elementos dos índices informados
-    public void swapElements(int index, int index2) throws ListaExcecao;
+    public void swapElements(int index, int index2) throws ListaExcecao{
+
+        NoDuplo fNode = searchNode(index);
+        NoDuplo sNode = searchNode(index2);
+
+        // nó auxiliar que grava o valor do primeiro;
+        Object tempValue = fNode.getValue();
+
+        //inserindo invertido
+        fNode.setValue(sNode.getValue());
+        sNode.setValue(tempValue);
+    }
 
     // adiciona um elemento antes do índice informado
-    public void insertBefore(int index, Object value) throws ListaExcecao ;
+    public void insertBefore(int index, Object value) throws ListaExcecao{
+
+        // pegando no atual e anterior
+        NoDuplo currentNode = searchNode(index);
+        NoDuplo oldBNode = currentNode.getPrev();
+
+        // cria um no
+        NoDuplo newNode = new NoDuplo(value);
+
+        // atualiza os ponteiros para os vizinhos;
+        newNode.setNext(currentNode);
+        newNode.setPrev(oldBNode);
+
+        // atualiza os ponteiros dos vizinhos;
+        currentNode.setPrev(newNode);
+        oldBNode.setNext(newNode);
+        
+        length++;
+
+    }
 
     // adiciona um elemento depois do índice informado
     public void insertAfter(int index, Object value) throws ListaExcecao ;
