@@ -9,10 +9,10 @@ public interface ListaInterface {
     public int size();
 
     // informa o primeiro elemento da lista
-    public NoDuplo first() throws ListaExcecao;
+    public Object first() throws ListaExcecao;
 
     // informa o último elemento da lista
-    public NoDuplo last() throws ListaExcecao;
+    public Object last() throws ListaExcecao;
 
     // informa se é o primeiro da lista
     public boolean isFirst(int index);
@@ -21,10 +21,10 @@ public interface ListaInterface {
     public boolean isLast(int index);
 
     // recebe um nó e informa qual é o valor do nó anterior
-    public NoDuplo before(NoDuplo no) throws ListaExcecao;
+    public Object before(NoDuplo no) throws ListaExcecao;
 
     // recebe um nó e informa qual é o valor do próximo nó
-    public NoDuplo after(NoDuplo no) throws ListaExcecao;
+    public Object after(NoDuplo no) throws ListaExcecao;
 
     // substitui um elemento da lista por outro no índice informado pelo valor informado
     public void replaceElement(int index, Object value) throws ListaExcecao;

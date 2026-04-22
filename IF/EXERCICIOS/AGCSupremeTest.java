@@ -4,6 +4,7 @@ import FilaLigada.FilaLigada;
 import Pilha.PilhaMestra;
 import Vetor.Vetor;
 import Lista.ListaMestra;
+import Lista.NoDuplo;
 
 public class AGCSupremeTest {
 
@@ -350,40 +351,78 @@ public class AGCSupremeTest {
 
                     }else if(opcaoLista == 5){
 
-                        // System.out.println("Você selecionou : é o PRIMEIRO?:");
-                        // System.out.println("Resposta: " + ListaNegra.isFirst() + "\n");                        
+                        System.out.println("Você selecionou : é o PRIMEIRO?:");
+                        
+                        System.out.print("Informe o índice para verificar se é o primeiro elemento: ");
+                        int index = scanner.nextInt();
+
+                        System.out.println("Resposta: " + ListaNegra.isFirst(index) + "\n");                        
                        
 
                     }else if(opcaoLista == 6){
 
-                        // System.out.println("Você selecionou : É  o ULTIMO?");
-                        // System.out.println("Resposta: " + ListaNegra.isLast() + "\n");                        
+                        System.out.println("Você selecionou : É  o ULTIMO?");
+
+                        System.out.print("Informe o índice para verificar se é o último elemento: ");
+                        int index = scanner.nextInt();
+
+                        System.out.println("Resposta: " + ListaNegra.isLast(index) + "\n");                        
 
 
                     }else if(opcaoLista == 7){
 
                         System.out.println("Você selecionou : ANTERIOR  da lista");
-                        System.out.println("Informe o  um valor: ");
 
-                        Object opcao = scanner.nextInt();
+                        System.out.println("Informe o indice para saber qual é o valor anterior: ");
+                        int indice = scanner.nextInt();
 
-                        System.out.println("O valor anterior: " + opcao);
+                        NoDuplo NoProcurado = ListaNegra.searchNode(indice);
+                        Object anteior = ListaNegra.before(NoProcurado);
+
+                        System.out.println("O valor anterior: " + anteior);
 
 
                     }else if(opcaoLista == 8){
 
                         System.out.println("Você selecionou : PRÓXIMO  da lista");
 
+                        System.out.println("Informe o índice para saber qual é o próximo: ");
+                        int indice = scanner.nextInt();
+
+                        NoDuplo NoProcurado = ListaNegra.searchNode(indice);
+                        Object proximo = ListaNegra.after(NoProcurado);
+
+                        System.out.println("O valor anterior: " + proximo);
+
 
                     }else if(opcaoLista == 9){
 
-                        System.out.println("Você selecionou : ver TAMANHO:");
+                       System.out.println("Você selecionou : SUBSTITUIR elementos");
+
+                       System.out.println("Qual índice do elemento a ser substituído: ");
+                       int substituido = scanner.nextInt();
+
+                       System.out.println("Informe o valor para substituir: ");
+                       int valor = scanner.nextInt();
+
+                       ListaNegra.replaceElement(substituido,valor);
+                       System.out.println("Valor substituído com sucesso");
+                       System.out.println(ListaNegra);
 
 
                     }else if(opcaoLista == 10 ){
 
-                        System.out.println("Você selecionou : ver TAMANHO:");
+                        System.out.println("Você selecionou : TROCAR  elementos");
 
+                        System.out.println("Informe o índice do 1º elemento: ");
+                        int primeiro = scanner.nextInt();
+
+                        System.out.println("Informe o índice do 2º elemento: ");
+                        int segundo = scanner.nextInt();
+
+                        ListaNegra.swapElements(primeiro,segundo);
+                        System.out.println("Elementos trocados com sucesso!");
+                        System.out.println(ListaNegra);
 
                     }else if(opcaoLista == 11){
 
@@ -451,7 +490,7 @@ public class AGCSupremeTest {
                     }else if(opcaoLista == 98){
 
                         System.out.println("Retornando ao menu inicial ...");
-                        Thread.sleep(2000);
+                        Thread.sleep(1000);
                         break;
 
                     }

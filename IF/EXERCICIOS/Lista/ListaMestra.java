@@ -42,24 +42,27 @@ public class ListaMestra implements ListaInterface{
     }
 
     // informa o primeiro elemento da lista
-    public NoDuplo first() throws ListaExcecao{
+    public Object first() throws ListaExcecao{
 
         if(isEmpty()){
             throw new ListaExcecao("Lista VAZIA!");
         }
 
-        return head.getNext();
+        NoDuplo first = head.getNext();
 
+        return first.getValue();
     }
 
     // informa o último elemento da lista
-    public NoDuplo last() throws ListaExcecao{
+    public Object last() throws ListaExcecao{
 
          if(isEmpty()){
             throw new ListaExcecao("Lista VAZIA!");
         }
 
-        return tail.getPrev();
+        NoDuplo last = tail.getPrev();
+
+        return last.getValue();
     }
 
 
@@ -96,7 +99,7 @@ public class ListaMestra implements ListaInterface{
 
     // recebe um nó e informa qual é o valor do nó anterior
     // possivelmente está errado, esse método deve retornar um objeto
-    public NoDuplo before(NoDuplo no) throws ListaExcecao{
+    public Object before(NoDuplo no) throws ListaExcecao{
 
         if(no == null){
             throw new ListaExcecao("Nó nulo");
@@ -106,11 +109,13 @@ public class ListaMestra implements ListaInterface{
             throw new ListaExcecao("Valor fora da lista");
         }
 
-        return no.getPrev();
+        NoDuplo beforeNode = no.getPrev();
+
+        return beforeNode.getValue();
     }
 
     // recebe um nó e informa qual é o valor do próximo nó
-    public NoDuplo after(NoDuplo no) throws ListaExcecao{
+    public Object after(NoDuplo no) throws ListaExcecao{
 
          if(no == null){
             throw new ListaExcecao("Nó nulo");
@@ -120,11 +125,13 @@ public class ListaMestra implements ListaInterface{
             throw new ListaExcecao("Valor fora da lista");
         }
 
-        return no.getNext();
+        NoDuplo afterNode = no.getNext();
+
+        return afterNode.getValue();
     }
 
     // método para buscar um nó.
-    private NoDuplo searchNode(int index){
+    public NoDuplo searchNode(int index){
 
          if( index <0 || index >= length){
             throw new ListaExcecao("Ìndic fora da lista");
