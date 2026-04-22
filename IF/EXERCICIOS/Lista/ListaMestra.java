@@ -295,6 +295,23 @@ public class ListaMestra implements ListaInterface{
     @Override
     public String toString(){
 
+        if(isEmpty()){
+            return "[Lista VAZIA]";
+        }
+
+        StringBuilder lista = new StringBuilder();
+        lista.append("[HEAD] <-> ");
+
+        NoDuplo current = head.getNext();
+        
+        while(atual != tail){
+            lista.append(current.getValue());
+            lista.append("<->");
+            current = current.getNext();
+        }
+        lista.append("[TAIL]");
+
+        return lista.toString();
     }
 
 }
