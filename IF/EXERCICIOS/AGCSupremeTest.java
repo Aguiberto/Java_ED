@@ -3,10 +3,11 @@ import Fila.FilaArray;
 import FilaLigada.FilaLigada;
 import Pilha.PilhaMestra;
 import Vetor.Vetor;
+import Lista.ListaMestra;
 
 public class AGCSupremeTest {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws InterruptedException{
 
         Scanner scanner = new Scanner(System.in);
 
@@ -18,12 +19,13 @@ public class AGCSupremeTest {
 
             System.out.println("Qual estrutura de dados dejesa testar?" + "\n");
 
-            System.out.println("1 - Pilha: Lista Ligada");
+            System.out.println("1 - Pilha: Lista ligada");
             System.out.println("2 - Fila: Array");
-            System.out.println("3 - Fila: Lista Ligada");
+            System.out.println("3 - Fila: Lista ligada");
             System.out.println("4 - Vector: Array");
-            System.out.println("99 - ENCERRAR programa" + "\n");
-            System.out.print("Sua opção: ");
+            System.out.println("5 - Lista: Lista duplamente ligada");
+            System.out.println("\n" + "99 - ENCERRAR programa" + "\n");
+            System.out.print("\n" + "Sua opção: ");
 
             int opcaoInicial = scanner.nextInt();
 
@@ -289,7 +291,175 @@ public class AGCSupremeTest {
 
                 }
 
-            } // próxima estrutura... else if ...
+            }else if(opcaoInicial == 5){
+
+                // TESTE PARA LISTA 
+                // TESTE PARA LISTA 
+                // TESTE PARA LISTA 
+                // TESTE PARA LISTA 
+                // TESTE PARA LISTA
+
+                ListaMestra ListaNegra = new ListaMestra();
+
+                while(true){
+
+                    System.out.println("\n" + "-------- Teste de LISTA: Lista duplamente ligada --------" + "\n");
+
+                    System.out.println("1 - Está VAZIA?");
+                    System.out.println("2 - TAMANHO");
+                    System.out.println("3 - Primeiro elemento");
+                    System.out.println("4 - Último elemento");
+                    System.out.println("5 - É o primeiro?");
+                    System.out.println("6 - É o último?");
+                    System.out.println("7 - ANTERIOR da lista");
+                    System.out.println("8 - PRÓXIMO da lista");
+                    System.out.println("9 - SUBSTITUIR elementos");
+                    System.out.println("10 - TROCAR elementos");
+                    System.out.println("11 - Inserir ANTES");
+                    System.out.println("12 - Inserir DEPOIS");
+                    System.out.println("13 - Inserir NO INÍCIO");
+                    System.out.println("14 - Inserir NO FINAL");
+                    System.out.println("15 - REMOVER elemento");
+                    System.out.println("16 - MOSTRAR  a lista");
+
+                    System.out.println("\n" + "98 - VOLTAR para o MENU PRINCIPAL");
+                    System.out.print("\n" + "Sua opção: " + "\n");
+
+                    int opcaoLista = scanner.nextInt();
+
+                    if(opcaoLista == 1){
+
+                        System.out.println("Você selecionou : Está Vazia?");
+                        System.out.println("Resposta: " + ListaNegra.isEmpty() + "\n");
+
+                    }else if(opcaoLista == 2 ){
+
+                        System.out.println("Você selecionou : Ver TAMANHO");
+                        System.out.println("Resposta: " + ListaNegra.size() + "\n");
+
+                    }else if(opcaoLista == 3){
+
+                        System.out.println("Você selecionou : PRIMEIRO  elemento:");
+                        System.out.println("Resposta: " + ListaNegra.first() + "\n");                        
+
+                    }else if(opcaoLista == 4){
+
+                        System.out.println("Você selecionou : ULTIMO elemento");
+                        System.out.println("Resposta: " + ListaNegra.last() + "\n");                        
+
+
+                    }else if(opcaoLista == 5){
+
+                        // System.out.println("Você selecionou : é o PRIMEIRO?:");
+                        // System.out.println("Resposta: " + ListaNegra.isFirst() + "\n");                        
+                       
+
+                    }else if(opcaoLista == 6){
+
+                        // System.out.println("Você selecionou : É  o ULTIMO?");
+                        // System.out.println("Resposta: " + ListaNegra.isLast() + "\n");                        
+
+
+                    }else if(opcaoLista == 7){
+
+                        System.out.println("Você selecionou : ANTERIOR  da lista");
+                        System.out.println("Informe o  um valor: ");
+
+                        Object opcao = scanner.nextInt();
+
+                        System.out.println("O valor anterior: " + opcao);
+
+
+                    }else if(opcaoLista == 8){
+
+                        System.out.println("Você selecionou : PRÓXIMO  da lista");
+
+
+                    }else if(opcaoLista == 9){
+
+                        System.out.println("Você selecionou : ver TAMANHO:");
+
+
+                    }else if(opcaoLista == 10 ){
+
+                        System.out.println("Você selecionou : ver TAMANHO:");
+
+
+                    }else if(opcaoLista == 11){
+
+                        System.out.println("Você selecionou : ver inserir ANTES");
+
+                        System.out.println("Informe um índice: ");
+                        int indice = scanner.nextInt();
+
+                        System.out.println("Informe um valor: ");
+                        int valor = scanner.nextInt();
+
+                        ListaNegra.insertBefore(indice,valor);
+                        System.out.println("\n" + ListaNegra);
+
+
+                    }else if(opcaoLista == 12){
+
+                        System.out.println("Você selecionou : ver inserir DEPOIS");
+
+                        System.out.println("Informe um índice: ");
+                        int indice = scanner.nextInt();
+
+                        System.out.println("Informe um valor: ");
+                        int valor = scanner.nextInt();
+
+                        ListaNegra.insertAfter(indice,valor);
+                        System.out.println("\n" + ListaNegra);                        
+
+                    }else if(opcaoLista == 13){
+
+                        System.out.println("Você selecionou : inserir no INICIO");
+                        System.out.println("Informe um valor: ");
+
+                        int opcao = scanner.nextInt();
+                        
+                        ListaNegra.insertFirst(opcao);
+                        System.out.println("\n" + ListaNegra);
+
+                    }else if(opcaoLista == 14){
+                        
+                        System.out.println("Você selecionou : inserir no FINAL");
+                        System.out.println("Informe um valor: ");
+
+                        int opcao = scanner.nextInt();
+                        
+                        ListaNegra.insertLast(opcao);
+                        System.out.println("\n" + ListaNegra);
+
+                    }else if(opcaoLista == 15){
+
+                        System.out.println("Você selecionou : REMOVER elemento");
+
+                        System.out.println("Informe um valor para ser removido: ");
+                        int valor = scanner.nextInt();
+
+                        ListaNegra.remove(valor);
+                        System.out.println("Remoção realizada com sucesso!");
+                        System.out.println("\n" + ListaNegra);
+
+                    }else if(opcaoLista == 16){
+
+                        System.out.println("Você selecionou : MOSTRAR lista");
+                        System.out.println(ListaNegra);
+
+                    }else if(opcaoLista == 98){
+
+                        System.out.println("Retornando ao menu inicial ...");
+                        Thread.sleep(2000);
+                        break;
+
+                    }
+
+                }
+
+
+            } // outra estrutura else if ...
 
         }
     }

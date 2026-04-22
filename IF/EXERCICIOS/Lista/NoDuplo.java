@@ -35,7 +35,7 @@ public class NoDuplo {
     }
 
     // mostra qual é o próximo do nó
-    public NoDuplo getNext(NoDuplo no){
+    public NoDuplo getNext(){
         return  next;
     }
 

@@ -45,7 +45,7 @@ public class ListaMestra implements ListaInterface{
     public NoDuplo first() throws ListaExcecao{
 
         if(isEmpty()){
-            throw new ListaExcecao("Lista VAZIA!")
+            throw new ListaExcecao("Lista VAZIA!");
         }
 
         return head.getNext();
@@ -95,6 +95,7 @@ public class ListaMestra implements ListaInterface{
     }
 
     // recebe um nó e informa qual é o valor do nó anterior
+    // possivelmente está errado, esse método deve retornar um objeto
     public NoDuplo before(NoDuplo no) throws ListaExcecao{
 
         if(no == null){
@@ -112,7 +113,7 @@ public class ListaMestra implements ListaInterface{
     public NoDuplo after(NoDuplo no) throws ListaExcecao{
 
          if(no == null){
-            throw new FilaExcecao("Nó nulo");
+            throw new ListaExcecao("Nó nulo");
         }
 
         if(no.getNext() == tail){
@@ -125,7 +126,7 @@ public class ListaMestra implements ListaInterface{
     // método para buscar um nó.
     private NoDuplo searchNode(int index){
 
-         if( index <0 || index < length-1){
+         if( index <0 || index >= length){
             throw new ListaExcecao("Ìndic fora da lista");
         }
 
@@ -140,7 +141,7 @@ public class ListaMestra implements ListaInterface{
 
             guide = head.getNext();
 
-            for(int i = 0; i < length; i++){
+            for(int i = 0; i < index; i++){
                 guide = guide.getNext();
             }
 
@@ -160,8 +161,8 @@ public class ListaMestra implements ListaInterface{
     // substitui um elemento da lista por outro no índice informado pelo valor informado
     public void replaceElement(int index, Object value) throws ListaExcecao{
 
-        noDuplo OldNode = searchNode(index);
-        OldNode.setValue(Object);
+        NoDuplo OldNode = searchNode(index);
+        OldNode.setValue(value);
     
     }
 
@@ -294,6 +295,7 @@ public class ListaMestra implements ListaInterface{
 
     @Override
     public String toString(){
+        
 
         if(isEmpty()){
             return "[Lista VAZIA]";
@@ -303,10 +305,10 @@ public class ListaMestra implements ListaInterface{
         lista.append("[HEAD] <-> ");
 
         NoDuplo current = head.getNext();
-        
-        while(atual != tail){
+
+        while(current != tail){
             lista.append(current.getValue());
-            lista.append("<->");
+            lista.append(" <->");
             current = current.getNext();
         }
         lista.append("[TAIL]");
