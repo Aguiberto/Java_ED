@@ -203,7 +203,22 @@ public class ListaMestra implements ListaInterface{
     }
 
     // adiciona um elemento depois do índice informado
-    public void insertAfter(int index, Object value) throws ListaExcecao ;
+    public void insertAfter(int index, Object value) throws ListaExcecao {
+
+        NoDuplo currentNode = searchNode(index);
+        NoDuplo afterNode = currentNode.getNext();
+
+        NoDuplo newNode = new NoDuplo(value);
+
+        newNode.setPrev(currentNode);
+        newNode.setNext(afterNode);
+
+        currentNode.setNext(newNode);
+        afterNode.setPrev(newNode);
+
+        length++;
+
+    }
 
     //adiciona no início
     public void insertFirst(Object objeto){
@@ -246,7 +261,36 @@ public class ListaMestra implements ListaInterface{
     }
 
     // remove o elemento solicitado
-    public void remove(Object objeto) throws ListaExcecao;
+    public void remove(Object objeto) throws ListaExcecao{
+
+        if(isEmpty()){
+            throw new ListaExcecao("Lista VAZIA!");
+        }
+
+        NoDuplo guide = head.getNext();
+
+        while( guide != tail){
+
+            if( guide.getValue().equals(objeto)){
+                break;
+            }
+
+            guide = guide.getNext();
+
+        }
+
+        if(guide == tail){
+            throw new ListaExcecao("Objeto NÃO ENCONTADO");
+        }
+
+        NoDuplo beforeNode = guide.getPrev();
+        NoDuplo afterNode = guide.getNext();
+
+        beforeNode.setNext(afterNode);
+        afterNode.setPrev(beforeNode);
+
+        length--;
+    }
 
     @Override
     public String toString(){
