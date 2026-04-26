@@ -4,11 +4,11 @@ public class NoVetor{
     private NoVetor prev;
     private Object value;
 
-    public NoVetor(){
+    public NoVetor(Object objeto){
         
         next = null;
         prev = null;
-        value = null;
+        value = objeto;
 
     }
 
@@ -26,5 +26,7 @@ public class NoVetor{
 
         this.next = next;
     }
+
+    
 
 }
