@@ -27,7 +27,7 @@ public class VetorLigadoMestre implements VetorLigadoIF{
 
    public NoVetor searchNode (int index){
 
-        if(index < 0 || index >= length){
+        if(index < 0 ){
             throw new VetorLigadoExcecao("Índice fora do VETOR");
         }
 
@@ -78,21 +78,32 @@ public class VetorLigadoMestre implements VetorLigadoIF{
         if(isEmpty()){
 
             newNode.setPrev(head);
-            newNode.setNext(tail);
+            newNode.setNext(tail);     
 
             head.setNext(newNode);
             tail.setPrev(newNode);
 
+        }else if( index >= length){
+
+             NoVetor beforeTail = tail.getPrev();
+
+            newNode.setNext(tail);
+            newNode.setPrev(beforeTail);
+
+            beforeTail.setNext(newNode);
+            tail.setPrev(newNode);
+
+        }else{
+            
+            NoVetor TargetNode = searchNode(index);
+            NoVetor BackTargetNode = TargetNode.getPrev();
+            
+            newNode.setNext(TargetNode);
+            newNode.setPrev(BackTargetNode);
+
+            BackTargetNode.setNext(newNode);
+            TargetNode.setPrev(newNode);
         }
-
-        NoVetor TargetNode = searchNode(index);
-        NoVetor BackTargetNode = TargetNode.getPrev();
-        
-        newNode.setNext(TargetNode);
-        newNode.setPrev(BackTargetNode);
-
-        BackTargetNode.setNext(newNode);
-        TargetNode.setPrev(newNode);
 
         length++;
 
@@ -112,6 +123,30 @@ public class VetorLigadoMestre implements VetorLigadoIF{
         length--;
 
         return value;
+
+    }
+
+    @Override
+    public String toString(){
+
+        if(isEmpty()){
+            return"[VETOR VAZIO]";
+        }
+
+        StringBuilder vetor = new StringBuilder();
+        vetor.append("[HEAD] <-> ");
+
+        NoVetor current = head.getNext();
+
+        while( current != tail){
+            vetor.append(current.getValue());
+            vetor.append(" <-> ");
+            current = current.getNext();
+        }
+        vetor.append("[TAIL]");
+
+        return vetor.toString();
+
 
     }
 
