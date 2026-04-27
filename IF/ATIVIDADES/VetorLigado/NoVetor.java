@@ -17,7 +17,7 @@ public class NoVetor{
         this.value = value;
     }
 
-    public Object getValeu(){
+    public Object getValue(){
 
         return this.value;
     }
@@ -25,6 +25,18 @@ public class NoVetor{
     public void setNext(NoVetor next){
 
         this.next = next;
+    }
+
+    public NoVetor getNext(){
+        return this.next;
+    }
+
+    public void setPrev(NoVetor prev){
+        this.prev = prev;
+    }
+
+    public NoVetor getPrev(){
+        return this.prev;
     }
 
     

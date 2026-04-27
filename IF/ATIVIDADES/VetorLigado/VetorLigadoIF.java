@@ -1,5 +1,3 @@
-package VetorLigado;
-
 public interface VetorLigadoIF{
 
     public boolean isEmpty();
@@ -8,7 +6,7 @@ public interface VetorLigadoIF{
 
     public Object elemAtRank(int index) throws VetorLigadoExcecao;
 
-    public Object replaceAtRank(int index, Object objeto) throws VetorLigadoExcecao;
+    public void replaceAtRank(int index, Object objeto) throws VetorLigadoExcecao;
 
     public void insertAtRank(int index, Object objeto) throws VetorLigadoExcecao;
 

@@ -1,4 +1,4 @@
-public class implements VetorLigadoIF{
+public class VetorLigadoMestre implements VetorLigadoIF{
 
     private NoVetor head;
     private NoVetor tail;
@@ -6,8 +6,8 @@ public class implements VetorLigadoIF{
 
     public VetorLigadoMestre(){
 
-        NoVetor head = new NoVetor(null);
-        NoVetor tail = new NoVetor(null);
+        head = new NoVetor(null);
+        tail = new NoVetor(null);
 
         head.setNext(tail);
         tail.setPrev(head);
@@ -34,9 +34,10 @@ public class implements VetorLigadoIF{
         if(isEmpty()){
             throw new VetorLigadoExcecao("Vetor VAZIO");
         }
-
         NoVetor noAUX;
-        if(int <= length / 2){
+        
+        if(index <= length / 2){
+            noAUX = head.getNext();
 
             for(int i = 0; i < index; i++){
                 noAUX = noAUX.getNext();
@@ -46,7 +47,7 @@ public class implements VetorLigadoIF{
             noAUX = tail.getPrev(); 
 
             for(int i = length-1; i > index; i--){
-                noAUX = noAUX.getPrev; 
+                noAUX = noAUX.getPrev(); 
 
             }
 
@@ -59,7 +60,6 @@ public class implements VetorLigadoIF{
     public Object elemAtRank(int index){
 
         NoVetor TargetNode = searchNode(index);
-
         return TargetNode.getValue();
 
     }
@@ -81,14 +81,14 @@ public class implements VetorLigadoIF{
             newNode.setNext(tail);
 
             head.setNext(newNode);
-            tail.setPrev(newNode;)
+            tail.setPrev(newNode);
 
         }
 
         NoVetor TargetNode = searchNode(index);
-        NoVetor BackTargetNode = TargeNode.getPrev();
+        NoVetor BackTargetNode = TargetNode.getPrev();
         
-        newNode.setNext(TargeNode);
+        newNode.setNext(TargetNode);
         newNode.setPrev(BackTargetNode);
 
         BackTargetNode.setNext(newNode);
@@ -101,14 +101,17 @@ public class implements VetorLigadoIF{
     public Object removeAtRank(int index){
 
         NoVetor TargetNode = searchNode(index);
+        Object value = TargetNode.getValue();
 
-        NoVetor beforeNode = TargeNode.getPrev();
+        NoVetor beforeNode = TargetNode.getPrev();
         NoVetor afterNode = TargetNode.getNext();
 
         beforeNode.setNext(afterNode);
         afterNode.setPrev(beforeNode);
 
         length--;
+
+        return value;
 
     }
 
