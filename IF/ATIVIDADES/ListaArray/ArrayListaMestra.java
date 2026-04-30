@@ -90,12 +90,13 @@ public class ArrayListaMestra implements ArrayListaInterface{
 
     public void insertBefore(int index, Object objeto) throws ArrayListaExcecao {
 
-        if(index >= length || index < 0){
+
+        if(index <= 0 || index >= length){
             throw new ArrayListaExcecao("Índice fora do array");
         }
-        
+
         if( length >= capacity - 1){
-            increaseCapacity();
+        increaseCapacity();
         }
 
         for(int i = length-1; i >= index-1; i--){
@@ -105,16 +106,18 @@ public class ArrayListaMestra implements ArrayListaInterface{
 
         lista[index-1] = objeto;
         length++;
-
+        
     }
 
     public void insertAfter(int index, Object objeto) throws ArrayListaExcecao{
 
         if(isEmpty()){
-            throw new ArrayListaExcecao("Array VAZIO!");
-        }
 
-        if(index >= length){
+            lista[0] = objeto;
+
+        }else{
+
+            if(index < 0 || index >=length){
             throw new ArrayListaExcecao("Índice fora do array");
         }
         
@@ -128,24 +131,50 @@ public class ArrayListaMestra implements ArrayListaInterface{
         }
 
         lista[index+1] = objeto;
-
+        length++;
+        }
     }
 
     public Object first() throws ArrayListaExcecao{
+
+        if(isEmpty()){
+            throw new ArrayListaExcecao("Lista VAZIA!");
+        }
+
         return lista[0];
 
     }
 
     public Object last()throws ArrayListaExcecao{
+
+        if(isEmpty()){
+            throw new ArrayListaExcecao("Lista VAZIA!");
+        }
+
+        // se a lista só tiver um elemento o ultimo elemento também será o primeiro.
+        if(length == 1){
+            return lista[0];
+        }
+
         return lista[length-1];
     }
 
-    public boolean isFirst(int index) throws ArrayListaExcecao{
-        return index == 0;
+    public boolean isFirst(Object objeto) throws ArrayListaExcecao{
+
+        if(isEmpty()){
+            throw new ArrayListaExcecao("Lista VAZIA!");
+        }
+
+        return lista[0] == objeto;
     }
 
-    public boolean isLast(int index) throws ArrayListaExcecao{
-        return index == length-1;
+    public boolean isLast(Object objeto) throws ArrayListaExcecao{
+
+        if(isEmpty()){
+            throw new ArrayListaExcecao("Lista VAZIA!");
+        }
+
+        return lista[length-1] == objeto;
     }
 
     public Object before(int index) throws ArrayListaExcecao{
@@ -171,7 +200,7 @@ public class ArrayListaMestra implements ArrayListaInterface{
             int ObjectIndex = -1;
 
             for(int i = 0; i < length; i++){
-                if(lista[i].equals(objeto)){
+                if(lista[i] == objeto){
                     ObjectIndex = i; 
                 }
             }

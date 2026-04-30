@@ -20,9 +20,9 @@ public interface ArrayListaInterface{
 
     public Object last() throws ArrayListaExcecao;
 
-    public boolean isFirst(int index) throws ArrayListaExcecao ;
+    public boolean isFirst(Object objeto) throws ArrayListaExcecao ;
 
-    public boolean isLast(int index) throws ArrayListaExcecao;
+    public boolean isLast(Object objeto) throws ArrayListaExcecao;
 
     public Object before(int index) throws ArrayListaExcecao;
 
