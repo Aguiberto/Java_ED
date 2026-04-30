@@ -1,5 +1,3 @@
-package ListaArray;
-
 import java.util.Arrays;
 
 public class ArrayListaMestra implements ArrayListaInterface{
@@ -7,17 +5,12 @@ public class ArrayListaMestra implements ArrayListaInterface{
     private Object[] lista;
     private int length;
     private int capacity;
-    private int indexLast;
-    private int indexFirst;
 
     public ArrayListaMestra(int initialCapacity){
 
         lista = new Object[initialCapacity];
         length = 0;
         capacity = initialCapacity;
-        indexFirst = 0;
-        indexLast = 0;
-
     }
 
     public boolean isEmpty(){
@@ -30,6 +23,20 @@ public class ArrayListaMestra implements ArrayListaInterface{
         return length;
     }
 
+    private void increaseCapacity(){
+
+        int newCapacity = capacity * 2;
+        Object[] newArray = new Object[newCapacity];
+
+        for(int i = 0; i < length; i++){
+            newArray[i] = lista[i];
+        }
+
+        lista = newArray;
+        capacity = newCapacity;
+
+    }
+
     public void insertFirst(Object objeto){
 
         
@@ -37,140 +44,153 @@ public class ArrayListaMestra implements ArrayListaInterface{
             increaseCapacity();
         }
 
-        if(isEmpty()){
-
-            lista[indexFirst] = objeto;
-
-        }else{
-
-            for(int i = 0; i < length; i++){
-                lista[i+1] = lista[i];
-            }
+        // para abrir espaço para inserir um elemento os elementos devem ser movimentados do final
+        for(int i = length-1; i >= 0; i--){
+            lista[i+1] = lista[i];
         }
-
-        lista[indexFirst] = objeto;
-        indexFirst ++;
-        indexLast = indexFirst + 1;
+    
+        lista[0] = objeto;
         length++;
     }
 
     public void insertLast(Object objeto){
 
-        if(length == capacity){
+        if(length == capacity-1){
             increaseCapacity();
         }
 
+        lista[length] = objeto;
+        length++;
+    }
+
+
+    public void replaceElement(int index, Object objeto) throws ArrayListaExcecao {
+
         if(isEmpty()){
-
-            lista[capacity-1] = objeto;
-
-        }else{
-
-            lista[indexLast] = objeto
-            indexLast ++;
-
+            throw new ArrayListaExcecao("Lista VAZIA!");
         }
 
-        public void replaceElement(int index, Object objeto) throws ArrayListaExcecao {
-
-            lista[index] = objeto;
-
+        if(index < 0 || index > capacity-1){
+            throw new ArrayListaExcecao("Index fora da lista");
         }
 
-        public void swapElements(int index, intdex2) throws ArrayListaExcecao {
+        lista[index] = objeto;
 
-            Object aux;
+    }
+
+    public void swapElements(int index, int index2) throws ArrayListaExcecao {
+
+        Object aux;
+        
+        aux = lista[index2];
+        lista[index2] = lista[index];
+        lista[index] = aux;
+
+    }
+
+    public void insertBefore(int index, Object objeto) throws ArrayListaExcecao {
+
+        if(index >= length || index < 0){
+            throw new ArrayListaExcecao("Índice fora do array");
+        }
+        
+        if( length >= capacity - 1){
+            increaseCapacity();
+        }
+
+        for(int i = length-1; i >= index-1; i--){
             
-            aux = lista[index2];
-            lista[index2] = lista[index];
-            lista[index] = aux;
-
+            lista[i+1] = lista[i];
         }
 
-        public void before(int index, Object objeto) throws ArrayListaExcecao {
+        lista[index-1] = objeto;
+        length++;
 
-            if(isEmpty()){
-                throw new ArrayListaExcecao("Array VAZIO!");
-            }
+    }
 
-            if(index >= length){
-                throw new ArrayListaExcecao("Índice fora do array");
-            }
+    public void insertAfter(int index, Object objeto) throws ArrayListaExcecao{
+
+        if(isEmpty()){
+            throw new ArrayListaExcecao("Array VAZIO!");
+        }
+
+        if(index >= length){
+            throw new ArrayListaExcecao("Índice fora do array");
+        }
+        
+        if( length >= capacity - 1){
+            increaseCapacity();
+        }
+
+        for(int i = length-1; i > index; i--){
             
-            if( length >= capacity - 1){
-                increaseCapacity();
-            }
-
-            for(int i = length-1; i >= index - 1; i--){
-                
-                lista[i] = lista[i-1];
-            }
-
-            lista[index-1] = objeto;
-
+            lista[i] = lista[i-1];
         }
 
-        public void after(int index, Object objeto) throws ArrayListaExcecao{
+        lista[index+1] = objeto;
 
-            if(isEmpty()){
-                throw new ArrayListaExcecao("Array VAZIO!");
-            }
+    }
 
-            if(index >= length){
-                throw new ArrayListaExcecao("Índice fora do array");
-            }
-            
-            if( length >= capacity - 1){
-                increaseCapacity();
-            }
+    public Object first() throws ArrayListaExcecao{
+        return lista[0];
 
-            for(int i = length-1; i >= index - 1; i--){
-                
-                lista[i] = lista[i-1];
-            }
+    }
 
-            lista[index-1] = objeto;
+    public Object last()throws ArrayListaExcecao{
+        return lista[length-1];
+    }
 
+    public boolean isFirst(int index) throws ArrayListaExcecao{
+        return index == 0;
+    }
+
+    public boolean isLast(int index) throws ArrayListaExcecao{
+        return index == length-1;
+    }
+
+    public Object before(int index) throws ArrayListaExcecao{
+
+        if( index < 0 || index >= length){
+            throw new ArrayListaExcecao("Índice fora de alcance");
         }
 
-        public Object first() throws ArrayListaExcecao{
-            return lista[indexFirst];
+        return lista[index-1];
+    }
 
+    public Object after(int index) throws ArrayListaExcecao{
+
+         if( index < 0 || index >= length){
+            throw new ArrayListaExcecao("Índice fora de alcance");
         }
 
-        public Object last()throws ArrayListaExcecao{
-            return lista[indexLast]
-        }
+        return lista[index+1];
+    }
 
-        public boolean isFirst(int index) throws ArrayListaExcecao{
-            return index == 0;
-        }
+    public void remove(Object objeto) throws ArrayListaExcecao{
 
-        public boolean isLast(int index) throws ArrayListaExcecao{
-            return index == length-1;
-        }
+            int ObjectIndex = -1;
 
-        public void remove(Object objeto) throws ArrayListaExcecao{
-
-                indexAux = 0
-                while( lista[indexAux] != objeto){
-
-                    indexAux ++;
-
+            for(int i = 0; i < length; i++){
+                if(lista[i].equals(objeto)){
+                    ObjectIndex = i; 
                 }
+            }
 
-                for(int i = length-1; i >= indexAux; i-- ){
-                    lista[i] = lista[i+1]
-                }
+            if (ObjectIndex == -1){
+                throw new ArrayListaExcecao("Objeto NÃO ENCONTRADO na lista");
+            }
 
-                length--;
-                indexLast--;
-        }
+            for(int i = ObjectIndex; i < length-1; i++){
+                lista[i] = lista[i+1];
+            }
+            
+            lista[length-1] = null;
+            length--;
+    }
 
-        @Override
-        public String toString(){
-            return Arras.toString(lista);
-        }
+    @Override
+    public String toString(){
+        return Arrays.toString(lista);
     }
 
 }
