@@ -1,7 +1,3 @@
-/**Corrigir os métodos before, after, insert before e insert after */
-
-import java.util.Scanner;
-
 public class TesteLista{
 
     public static void main(String [] args) throws InterruptedException {

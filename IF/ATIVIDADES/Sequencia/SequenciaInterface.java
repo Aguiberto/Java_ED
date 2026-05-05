@@ -9,7 +9,7 @@ public interface SequenciaInterface{
     // =========== METODOS DE VETOR ==========
 
     // mostra o elemento do indice informado
-    public Object elemeAtRank(int index);
+    public Object elemeAtRank(int index) throws SequenciaExcecao;
 
     // troca o valor do inidice informado
     public void replaceAtRank(int index, Object objeto) throws SequenciaExcecao;
@@ -18,7 +18,7 @@ public interface SequenciaInterface{
     public void insertAtRank(int index, Object objeto) throws SequenciaExcecao;
 
     // remove o elemento do indice informado
-    public Object remove(int index);
+    public Object remove(int index) throws SequenciaExcecao;
 
     // =========== MÉTODOS DE LISTA =============
 
