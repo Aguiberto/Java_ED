@@ -6,9 +6,9 @@ public class SequenciaMestra implements SequenciaInterface{
 
     public SequenciaMestra(){
 
-        this.length == 0;
-        head.getNext(tail);
-        tail.getPrev(head);
+        length = 0;
+        head.setNext(tail);
+        tail.setPrev(head);
 
     }
 
@@ -16,7 +16,7 @@ public class SequenciaMestra implements SequenciaInterface{
 
     public No atRank(int index){
 
-        int aux = 0
+        int aux = 0;
         No target = head.getNext();
 
         while( aux != index){
@@ -81,7 +81,7 @@ public class SequenciaMestra implements SequenciaInterface{
         }
 
         No TargetNode = atRank(index);
-        TargetNode.setValue(Object);
+        TargetNode.setValue(objeto);
 
     }
 
@@ -99,7 +99,7 @@ public class SequenciaMestra implements SequenciaInterface{
 
         No TargetNode = atRank(index);
         No beforeNode = TargetNode.getPrev();
-        No afterNode = TargetNode.setNext();
+        No afterNode = TargetNode.getNext();
 
         newNode.setNext(afterNode);
         newNode.setPrev(beforeNode);
@@ -121,9 +121,10 @@ public class SequenciaMestra implements SequenciaInterface{
         }
 
         No TargetNode = atRank(index);
+        Object removed = TargetNode.getValue();
 
         No beforeNode = TargetNode.getPrev();
-        No afterNode = TargetNode.setNext();
+        No afterNode = TargetNode.getNext();
 
         beforeNode.setNext(afterNode);
         afterNode.setPrev(beforeNode);
@@ -132,6 +133,8 @@ public class SequenciaMestra implements SequenciaInterface{
         TargetNode.setNext(null);
 
         length--;
+
+        return removed;
     }
 
 
@@ -217,10 +220,10 @@ public class SequenciaMestra implements SequenciaInterface{
         No target1 = atRank(index);
         No target2 = atRank(index2);
 
-        No aux.setValue(target1.getValue());
+        Object aux = target1.getValue();
 
         target1.setValue(target2.getValue());
-        target2.setValue(aux.getValue());
+        target2.setValue(aux);
 
     }
 
@@ -334,9 +337,9 @@ public class SequenciaMestra implements SequenciaInterface{
     }
 
     @Override
-    public string toString(){
+    public String toString(){
 
-        Stringbuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("[HEAD] -> ");
         
         No guide = head.getNext();
