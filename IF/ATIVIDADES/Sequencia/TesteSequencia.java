@@ -5,7 +5,7 @@ public class TesteSequencia{
     public static void main(String[] args)throws InterruptedException{
 
         Scanner scanner = new Scanner(System.in);
-        SequenciaMestra sequencia = new ListaMestra();
+        SequenciaMestra sequencia = new SequenciaMestra();
 
         while(true){
 
@@ -16,100 +16,147 @@ public class TesteSequencia{
             System.out.println("1 - Está VAZIA?");
             System.out.println("2 - TAMANHO");
 
-            System.outr.println("==== Métodos de Vetor ====" + "\n");
+            System.out.println("==== Métodos de Vetor ====" + "\n");
 
-            
+            System.out.println("3 - Consultar valor por índice");
+            System.out.println("4 - TROCAR elemento");
+            System.out.println("5 - INSERIR elemento");
+            System.out.println("6 - REMOVER elemento");
 
-            System.outr.println("==== Métodos de Lista ====" + "\n");
+            System.out.println("==== Métodos de Lista ====" + "\n");
 
-            System.out.println("3 - Primeiro elemento");
-            System.out.println("4 - Último elemento");
-            System.out.println("5 - É o primeiro?");
-            System.out.println("6 - É o último?");
-            System.out.println("7 - ANTERIOR da lista");
-            System.out.println("8 - PRÓXIMO da lista");
-            System.out.println("9 - SUBSTITUIR elementos");
-            System.out.println("10 - TROCAR elementos");
-            System.out.println("11 - Inserir ANTES");
-            System.out.println("12 - Inserir DEPOIS");
-            System.out.println("13 - Inserir NO INÍCIO");
-            System.out.println("14 - Inserir NO FINAL");
-            System.out.println("15 - REMOVER elemento");
-            System.out.println("16 - MOSTRAR  a lista");
+            System.out.println("7 - Primeiro elemento");
+            System.out.println("8 - Último elemento");
+            System.out.println("9 - É o primeiro?");
+            System.out.println("10 - É o último?");
+            System.out.println("11 - ANTERIOR da lista");
+            System.out.println("12 - PRÓXIMO da lista");
+            System.out.println("13 - SUBSTITUIR elementos");
+            System.out.println("14 - TROCAR elementos");
+            System.out.println("15 - Inserir ANTES");
+            System.out.println("16 - Inserir DEPOIS");
+            System.out.println("17 - Inserir NO INÍCIO");
+            System.out.println("18 - Inserir NO FINAL");
+            System.out.println("19 - REMOVER elemento");
+            System.out.println("20 - MOSTRAR  a lista");
 
             System.out.println("\n" + "99 - ENCERRAR programa");
             System.out.print("\n" + "Sua opção: " + "\n");
 
-            int opcaoLista = scanner.nextInt();
+            int opcaoSequencia = scanner.nextInt();
 
-            if(opcaoLista == 1){
+            if(opcaoSequencia == 1){
 
                 System.out.println("Você selecionou : Está Vazia?");
-                System.out.println("Resposta: " + ListaNegra.isEmpty() + "\n");
+                System.out.println("Resposta: " + sequencia.isEmpty() + "\n");
 
-            }else if(opcaoLista == 2 ){
+            }else if(opcaoSequencia == 2 ){
 
                 System.out.println("Você selecionou : Ver TAMANHO");
-                System.out.println("Resposta: " + ListaNegra.size() + "\n");
+                System.out.println("Resposta: " + sequencia.size() + "\n");
 
-            }else if(opcaoLista == 3){
+            }else if(opcaoSequencia == 3){
+
+                System.out.println("Consultar valor por indice");
+
+                System.out.print("Informe o índice: ");
+                int index = scanner.nextInt();
+
+                System.out.print("O valor referente ao índice informado é: " + sequencia.elemeAtRank(index));
+
+            }else if(opcaoSequencia == 4){
+
+                System.out.println("TROCAR elemento");
+
+                System.out.println("Informe o indice de deseja trocar o valor: ");
+                int index = scanner.nextInt();
+
+                System.out.println("Informe o valor que deseja coloca: ");
+                int valor = scanner.nextInt();
+
+                sequencia.replaceAtRank(index, valor);
+                System.out.println("A nova sequência é: " + sequencia);
+
+            }else if(opcaoSequencia == 5){
+
+                System.out.println("Iserir elemento");
+
+                System.out.print("Informe o indice onde deseja colocar o elemento: ");
+                int index = scanner.nextInt();
+
+                System.out.print("Agora informe o valor a ser adicionado: ");
+                int valor = scanner.nextInt();
+
+                sequencia.insertAtRank(index,valor);
+                System.out.println("Sequencia: " + sequencia);
+
+            }else if(opcaoSequencia == 6){
+
+                System.out.println("Remover elemento");
+
+                System.out.println("Informe o indice do valor que deseja remover: ");
+                int index = scanner.nextInt();
+
+                sequencia.remove(index);
+                System.out.println("Sequencia: " + sequencia);
+            
+
+            }else if(opcaoSequencia == 7){
 
                 System.out.println("Você selecionou : PRIMEIRO  elemento:");
-                System.out.println("Resposta: " + ListaNegra.first() + "\n");                        
+                System.out.println("Resposta: " + sequencia.first() + "\n");                        
 
-            }else if(opcaoLista == 4){
+            }else if(opcaoSequencia == 8){
 
                 System.out.println("Você selecionou : ULTIMO elemento");
-                System.out.println("Resposta: " + ListaNegra.last() + "\n");                        
+                System.out.println("Resposta: " + sequencia.last() + "\n");                        
 
 
-            }else if(opcaoLista == 5){
+            }else if(opcaoSequencia == 9){
 
                 System.out.println("Você selecionou : é o PRIMEIRO?:");
                 
                 System.out.print("Informe o valor para verificar se é o primeiro elemento: ");
                 int valor = scanner.nextInt();
 
-                System.out.println("Resposta: " + ListaNegra.isFirst(valor) + "\n");                        
+                System.out.println("Resposta: " + sequencia.isFirst(valor) + "\n");                        
                 
 
-            }else if(opcaoLista == 6){
+            }else if(opcaoSequencia == 10){
 
                 System.out.println("Você selecionou : É  o ULTIMO?");
 
                 System.out.print("Informe o valor para verificar se é o último elemento: ");
                 int valor = scanner.nextInt();
 
-                System.out.println("Resposta: " + ListaNegra.isLast(valor) + "\n");                        
+                System.out.println("Resposta: " + sequencia.isLast(valor) + "\n");                        
 
 
-            }else if(opcaoLista == 7){
+            }else if(opcaoSequencia == 11){
 
                 System.out.println("Você selecionou : ANTERIOR  da lista");
 
                 System.out.println("Informe o indice para saber qual é o valor anterior: ");
                 int indice = scanner.nextInt();
 
-                NoDuplo NoProcurado = ListaNegra.searchNode(indice);
-                Object anteior = ListaNegra.before(NoProcurado);
+                Object anteior = sequencia.before(indice);
 
                 System.out.println("O valor anterior: " + anteior);
 
 
-            }else if(opcaoLista == 8){
+            }else if(opcaoSequencia == 12){
 
                 System.out.println("Você selecionou : PRÓXIMO  da lista");
 
                 System.out.println("Informe o índice para saber qual é o próximo: ");
                 int indice = scanner.nextInt();
 
-                NoDuplo NoProcurado = ListaNegra.searchNode(indice);
-                Object proximo = ListaNegra.after(NoProcurado);
+                Object proximo = sequencia.after(indice);
 
                 System.out.println("O valor anterior: " + proximo);
 
 
-            }else if(opcaoLista == 9){
+            }else if(opcaoSequencia == 13){
 
                 System.out.println("Você selecionou : SUBSTITUIR elementos");
 
@@ -119,12 +166,12 @@ public class TesteSequencia{
                 System.out.println("Informe o valor para substituir: ");
                 int valor = scanner.nextInt();
 
-                ListaNegra.replaceElement(substituido,valor);
+                sequencia.replaceElement(substituido,valor);
                 System.out.println("Valor substituído com sucesso");
-                System.out.println(ListaNegra);
+                System.out.println(sequencia);
 
 
-            }else if(opcaoLista == 10 ){
+            }else if(opcaoSequencia == 14 ){
 
                 System.out.println("Você selecionou : TROCAR  elementos");
 
@@ -134,11 +181,11 @@ public class TesteSequencia{
                 System.out.println("Informe o índice do 2º elemento: ");
                 int segundo = scanner.nextInt();
 
-                ListaNegra.swapElements(primeiro,segundo);
+                sequencia.swapElements(primeiro,segundo);
                 System.out.println("Elementos trocados com sucesso!");
-                System.out.println(ListaNegra);
+                System.out.println(sequencia);
 
-            }else if(opcaoLista == 11){
+            }else if(opcaoSequencia == 15){
 
                 System.out.println("Você selecionou : ver inserir ANTES");
 
@@ -148,11 +195,11 @@ public class TesteSequencia{
                 System.out.println("Informe um valor: ");
                 int valor = scanner.nextInt();
 
-                ListaNegra.insertBefore(indice,valor);
-                System.out.println("\n" + ListaNegra);
+                sequencia.insertBefore(indice,valor);
+                System.out.println("\n" + sequencia);
 
 
-            }else if(opcaoLista == 12){
+            }else if(opcaoSequencia == 16){
 
                 System.out.println("Você selecionou : ver inserir DEPOIS");
 
@@ -162,46 +209,46 @@ public class TesteSequencia{
                 System.out.println("Informe um valor: ");
                 int valor = scanner.nextInt();
 
-                ListaNegra.insertAfter(indice,valor);
-                System.out.println("\n" + ListaNegra);                        
+                sequencia.insertAfter(indice,valor);
+                System.out.println("\n" + sequencia);                        
 
-            }else if(opcaoLista == 13){
+            }else if(opcaoSequencia == 17){
 
                 System.out.println("Você selecionou : inserir no INICIO");
                 System.out.println("Informe um valor: ");
 
                 int opcao = scanner.nextInt();
                 
-                ListaNegra.insertFirst(opcao);
-                System.out.println("\n" + ListaNegra);
+                sequencia.insertFirst(opcao);
+                System.out.println("\n" + sequencia);
 
-            }else if(opcaoLista == 14){
+            }else if(opcaoSequencia == 18){
                 
                 System.out.println("Você selecionou : inserir no FINAL");
                 System.out.println("Informe um valor: ");
 
                 int opcao = scanner.nextInt();
                 
-                ListaNegra.insertLast(opcao);
-                System.out.println("\n" + ListaNegra);
+                sequencia.insertLast(opcao);
+                System.out.println("\n" + sequencia);
 
-            }else if(opcaoLista == 15){
+            }else if(opcaoSequencia == 19){
 
                 System.out.println("Você selecionou : REMOVER elemento");
 
-                System.out.println("Informe um valor para ser removido: ");
+                System.out.println("Informe um indice para o valor ser removido: ");
                 int valor = scanner.nextInt();
 
-                ListaNegra.remove(valor);
+                sequencia.remove(valor);
                 System.out.println("Remoção realizada com sucesso!");
-                System.out.println("\n" + ListaNegra);
+                System.out.println("\n" + sequencia);
 
-            }else if(opcaoLista == 16){
+            }else if(opcaoSequencia == 20){
 
                 System.out.println("Você selecionou : MOSTRAR lista");
-                System.out.println(ListaNegra);
+                System.out.println(sequencia);
 
-            }else if(opcaoLista == 99){
+            }else if(opcaoSequencia == 99){
 
                 System.out.println("Encerrando ...");
                 Thread.sleep(1000);

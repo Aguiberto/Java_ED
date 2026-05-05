@@ -7,6 +7,10 @@ public class SequenciaMestra implements SequenciaInterface{
     public SequenciaMestra(){
 
         length = 0;
+
+        head = new No(null);
+        tail = new No(null);
+
         head.setNext(tail);
         tail.setPrev(head);
 
@@ -60,7 +64,7 @@ public class SequenciaMestra implements SequenciaInterface{
         if(length == 0){
             throw new SequenciaExcecao("Sequência VAZIA!");
         }
-        if(index < 0 || index >= length){
+        if(index < 0 || index > length){
             throw new SequenciaExcecao("Índice fora da Sequência");
         }
 
@@ -76,7 +80,7 @@ public class SequenciaMestra implements SequenciaInterface{
         if(length == 0){
             throw new SequenciaExcecao("Sequência VAZIA!");
         }
-        if(index < 0 || index >= length){
+        if(index < 0 || index > length){
             throw new SequenciaExcecao("Índice fora da Sequência");
         }
 
@@ -88,24 +92,26 @@ public class SequenciaMestra implements SequenciaInterface{
     // insere um elemento no indice informado
     public void insertAtRank(int index, Object objeto) throws SequenciaExcecao{
 
-        if(length == 0){
-            throw new SequenciaExcecao("Sequência VAZIA!");
-        }
-        if(index < 0 || index >= length){
+        if(index < 0 || index > length){
             throw new SequenciaExcecao("Índice fora da Sequência");
         }
 
         No newNode = new No(objeto);
+        No targetNode;
 
-        No TargetNode = atRank(index);
-        No beforeNode = TargetNode.getPrev();
-        No afterNode = TargetNode.getNext();
+        if (index == length) {
+        targetNode = tail; // Se for no fim, o alvo de referência é o sentinela final
+        } else {
+        targetNode = atRank(index); // Nó que atualmente está na posição
+        }
 
-        newNode.setNext(afterNode);
+        No beforeNode = targetNode.getPrev();
+
+        newNode.setNext(targetNode);
         newNode.setPrev(beforeNode);
         
         beforeNode.setNext(newNode);
-        afterNode.setPrev(newNode);
+        targetNode.setPrev(newNode);
 
         length++;
     }
@@ -147,7 +153,9 @@ public class SequenciaMestra implements SequenciaInterface{
             throw new SequenciaExcecao("Sequência VAZIA!");
         }
 
-        return head.getNext();
+        No first = head.getNext();
+
+        return first.getValue();
     }
 
     // mostra o último elemento
@@ -157,7 +165,9 @@ public class SequenciaMestra implements SequenciaInterface{
             throw new SequenciaExcecao("Sequência VAZIA!");
         }
 
-        return tail.getPrev();
+        No last = tail.getPrev();
+
+        return last.getValue();
     }
 
     // mostra um elemento antes do índice informado
@@ -170,9 +180,10 @@ public class SequenciaMestra implements SequenciaInterface{
             throw new SequenciaExcecao("Índice fora da Sequência");
         }
 
-        No TargetNode = atRank(index);
+        No targetNode = atRank(index);
+        No before = targetNode.getPrev();
 
-        return TargetNode.getPrev();
+        return before.getValue();
 
     }
 
@@ -186,9 +197,36 @@ public class SequenciaMestra implements SequenciaInterface{
             throw new SequenciaExcecao("Índice fora da Sequência");
         }
 
-        No TargetNode = atRank(index);
+        No targetNode = atRank(index);
+        No after = targetNode.getNext();
 
-        return TargetNode.getNext();
+        return after.getValue();
+
+    }
+
+    // diz se um valor é o primeiro
+    public boolean isFirst(Object objeto) throws SequenciaExcecao{
+
+        if( length == 0){
+            throw new SequenciaExcecao("Sequência VAZIA!");
+        }
+
+        No first = head.getNext();
+
+        return first.getValue() == objeto;
+
+    }
+
+    // diz se um valor é o último
+    public boolean isLast(Object objeto) throws SequenciaExcecao{
+        
+        if( length == 0){
+            throw new SequenciaExcecao("Sequência VAZIA!");
+        }
+
+        No last = tail.getPrev();
+
+        return last.getValue() == objeto;
 
     }
 
@@ -286,6 +324,7 @@ public class SequenciaMestra implements SequenciaInterface{
             tail.setPrev(newNode);
 
             newNode.setPrev(head);
+            newNode.setNext(tail);
 
             length++;
 

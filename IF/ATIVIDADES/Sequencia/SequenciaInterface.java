@@ -34,6 +34,12 @@ public interface SequenciaInterface{
     // mostra um elemento depois do indice informado
     public Object after(int index) throws SequenciaExcecao;
 
+    // Passa um objeto e informa se é o primeiro
+    public boolean isFirst(Object objeto) throws SequenciaExcecao;
+
+    // Passa um objeto e informa se é o último
+    public boolean isLast(Object objeto) throws SequenciaExcecao;
+
     // substitui o elemento do índice informado
     public void replaceElement(int index, Object objeto) throws SequenciaExcecao;
 
