@@ -8,7 +8,60 @@ public class Arvore{
     tamanho = 0;
    }
 
-   
+   // Verifica se o nó não é nulo
+   private NoArvore validarNo(NoArvore node) throws ArvoreExcecao{
+
+      if( node == null){
+         throw new ArvoreExcecao("o Nó não pode ser nulo");
+      }
+
+      return node;
+   }
+
+   // Retorna a quantidade total de elementos da árvore
+   private int size(){
+      return tamanho;
+   }
+
+
+   // Retorna a altura da árvore
+   private int height(){
+
+      if(tamanho == 0){
+         return 0;
+      }
+
+      // Usa a raiz da árvore para saber a altura
+      return alturaDoNo(raiz);
+   }
+
+   // Método auxiliar recursivo para calcular a altura de qualquer nó
+   private int alturaDoNo(NoArvore node){
+
+      if(node.getFilhos().isEmpty()){
+
+         //Caso base a altura é igual 0
+         return 0;
+      }
+
+      int maiorAlturaFilhos = 0;
+
+      for(NoArvore filho : node.getFilhos()){
+
+         // recursão
+         int alturaFilho = alturaDoNo(filho);
+
+         // Se a altura do filho for maior então atualiza o maior valor total
+         if(alturaFilho > maiorAlturaFilhos){
+            maiorAlturaFilhos = alturaFilho;
+         }
+      }
+
+      //Soma mais um a cada nó percorrido
+      return 1+maiorAlturaFilhos;
+   }
+
+
 
 }
 
