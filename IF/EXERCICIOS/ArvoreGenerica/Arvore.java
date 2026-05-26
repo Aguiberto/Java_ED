@@ -192,3 +192,16 @@ public int depth(NoArvore node) throws ArvoreExcecao{
 
 }
 
+// troca o elemento do no informado pelo valor informado e retorna o antigo valor
+public Object replace(NoArvore node, Object obj) throws ArvoreExcecao{
+
+   NoArvore noValidado = validarNo(node);
+
+   Object exchaged = noValidado.getObj();
+
+   noValidado.setObj(obj);
+
+   return exchaged;
+
+}
+
