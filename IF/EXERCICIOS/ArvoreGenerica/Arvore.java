@@ -23,12 +23,13 @@ public class Arvore{
       return node;
    }
 
+   // QUESTÃO 3
    // Retorna a quantidade total de elementos da árvore
    private int size(){
       return tamanho;
    }
 
-
+   // QUESTÃO 2C
    // Retorna a altura da árvore
    private int height(){
 
@@ -81,7 +82,7 @@ public class Arvore{
       // Método auxiliar para preOrdemElementoscher a lista usando Pré-ordem
       preOrdemElementos(this.raiz, listaElementos);
 
-      return listaElementos.iterador();
+      return listaElementos.iterator();
    }
 
    private void preOrdemElementos(NoArvore no , List<Object> lista){
@@ -90,7 +91,7 @@ public class Arvore{
          return;
       }
 
-      lista.add(no.get());
+      lista.add(no.getObj());
 
       for(NoArvore filho: no.getFilhos()){
          preOrdemElementos(filho,lista);
@@ -123,7 +124,7 @@ public class Arvore{
       lista.add(node);
 
       for(NoArvore filho : node.getFilhos()){
-         preOrdemNos(filho, lista)
+         preOrdemNos(filho, lista);
       }
    }
 
@@ -174,34 +175,52 @@ public class Arvore{
 
       return noValidado == raiz;
    }
-}
 
-public int depth(NoArvore node) throws ArvoreExcecao{
+   // QUESTÃO 2B
+   public int depth(NoArvore node) throws ArvoreExcecao{
 
-   NoArvore noAtual = validarNo(node);
-   int depth = 0;
+      NoArvore noAtual = validarNo(node);
+      int profundidade = 0;
 
-   // enquanto o nó tiver pai a profundidade é incrementada e o nó é atualizado para o pai
-   while(noAtual.getPai() != null){
+      // enquanto o nó tiver pai a profundidade é incrementada e o nó é atualizado para o pai
+      while(noAtual.getPai() != null){
 
-      depth ++;
-      noAtual = noAtual.getPai();
+         profundidade ++;
+         noAtual = noAtual.getPai();
+      }
+
+      return profundidade;
+
    }
 
-   return depth;
+   // QUESTÃO 2A
+   // troca o elemento do no informado pelo valor informado e retorna o antigo valor
+   public Object replace(NoArvore node, Object obj) throws ArvoreExcecao{
 
-}
+      NoArvore noValidado = validarNo(node);
 
-// troca o elemento do no informado pelo valor informado e retorna o antigo valor
-public Object replace(NoArvore node, Object obj) throws ArvoreExcecao{
+      Object exchaged = noValidado.getObj();
 
-   NoArvore noValidado = validarNo(node);
+      noValidado.setObj(obj);
 
-   Object exchaged = noValidado.getObj();
+      return exchaged;
 
-   noValidado.setObj(obj);
+   }
 
-   return exchaged;
+   // ============= MÉTODOS ADICIONAIS ============
+
+   // QUESTÃO 2A
+   public void swapElements(NoArvore node1, NoArvore node2) throws ArvoreExcecao{
+
+      NoArvore noValidado1 = validarNo(node1);
+      NoArvore noValidado2 = validarNo(node2);
+
+     Object ObjAuxiliar = noValidado1.getObj();
+
+      noValidado1.setObj(noValidado2.getObj());
+      noValidado2.setObj(ObjAuxiliar);
+
+   }
 
 }
 
