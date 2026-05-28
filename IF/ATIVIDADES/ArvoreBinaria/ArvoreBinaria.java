@@ -24,23 +24,66 @@ public class ArvoreBinaria{
     // ============== MÉTODOS DE ARVORE GENÉRCA =========
 
     public int size(){
+
         return tamanho;
     }
 
     public boolean isEmpty(){
+
         return tamanho == 0;
     }
 
-    public int height();
-    public Iterator elements();
-    public Iterator nos();
-    public boolean isInternal();
-    public boolean isExternal();
-    public No root();
-    public No parent();
-    public int depth();
+    public int height(){
+        
+    }
 
-    public void replace();
+    public Iterator elements();
+
+    public Iterator nos();
+
+
+    public boolean isInternal(No no){
+
+        return no.getFilhoD() || no.getFilhoE();
+    }
+
+    public boolean isExternal(No no){
+
+        return no.getFilhoD() == null && no.getFilhoE() == null;
+    }
+
+    public No root(){
+
+        return this.raiz;
+    }
+
+    public No parent(No no){
+        return no.getPai();
+    }
+
+    public int depth(No no){
+
+        int profundidade = 0;
+
+        while(no != raiz){
+
+            no = no.getPai();
+            profundidade++;
+        }
+
+        return profundidade;
+    }
+
+    public Object replace(No no, Object obj) throws ArvoreBinExcecao{
+
+        No noValidado = validarNo(no);
+
+        Object oldValue = noValidado.getValue();
+
+        no.setValue(obj);
+
+        return oldValue;
+    }
 
     // ============= MÉTODOS ARVORE BINÁRIA ================
 

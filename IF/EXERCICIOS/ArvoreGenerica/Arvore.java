@@ -207,6 +207,39 @@ public class Arvore{
 
    }
 
+   // Adiciona e retorna um novo nó
+   public NoArvore addChild(NoArvore pai, Object obj)throws ArvoreExcecao{
+
+      NoArvore noPai = validarNo(pai);
+
+      NoArvore newChild = new NoArvore(obj);
+      noPai.adicionarFilho(newChild);
+
+      this.tamanho++;
+
+      return newChild;
+   }
+
+   public Object removeNode(NoArvore node) throws ArvoreExcecao{
+
+      NoArvore noAlvo = validarNo(node);
+
+      if(noAlvo == this.raiz){
+         throw new ArvoreExcecao("Não é permitido remover a raiz da árvore");
+      }
+
+      int qtdDeletados = calcularSubArvore(noAlvo);
+
+      NoArvore alvoPai = noAlvo.getPai();
+      alvoPai.getFilhos().remove(noAlvo);
+
+      noAlvo.setPai(null);
+
+      tamanho = tamanho - qtdDeletados;
+
+      return noAlvo.getObj();
+   }
+
    // ============= MÉTODOS ADICIONAIS ============
 
    // QUESTÃO 2A
@@ -220,6 +253,16 @@ public class Arvore{
       noValidado1.setObj(noValidado2.getObj());
       noValidado2.setObj(ObjAuxiliar);
 
+   }
+
+   public int calcularSubArvore(NoArvore no){
+      int total = 1;
+
+      for(NoArvore filho: no.getFilhos()){
+         total += calcularSubArvore(filho);
+      }
+
+      return total;
    }
 
 }
