@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+import java.util.Arrays;
 
 public class Arvore{
 
@@ -42,6 +43,7 @@ public class Arvore{
    }
 
    // Método auxiliar recursivo para calcular a altura de qualquer nó
+   // A altura é medida da distância da referência até o nó folha mais afastado.
    private int alturaDoNo(NoArvore node){
 
       if(node.getFilhos().isEmpty()){
@@ -220,6 +222,8 @@ public class Arvore{
       return newChild;
    }
 
+
+   // Para remover o nó de uma árvore basta remover sua ligação com o pai
    public Object removeNode(NoArvore node) throws ArvoreExcecao{
 
       NoArvore noAlvo = validarNo(node);
@@ -231,8 +235,10 @@ public class Arvore{
       int qtdDeletados = calcularSubArvore(noAlvo);
 
       NoArvore alvoPai = noAlvo.getPai();
-      alvoPai.getFilhos().remove(noAlvo);
 
+      // Tira a referência do filho para o pai
+      // tir a referência do pai para o filho
+      alvoPai.getFilhos().remove(noAlvo);
       noAlvo.setPai(null);
 
       tamanho = tamanho - qtdDeletados;
@@ -265,5 +271,70 @@ public class Arvore{
       return total;
    }
 
+   // usa travessia pré-ordem dessa própria classe
+   public void mostrarArvore(){
+
+      if(isEmpty()){
+         System.out.println("[Árvore Vazia]");
+         return;
+      }
+
+     List<NoArvore> listaInOrdem = new ArrayList<>();
+     inOrdemNos(raiz, listaInOrdem);
+
+      // Define o tamanho da matriz
+      int qtdLinhas = (height()+1) * 2;
+      int qtdColunas = listaInOrdem.size() * 8;
+
+      char[][] arvore = new char[qtdLinhas][qtdColunas];
+      for(char[]linha : arvore){
+         Arrays.fill(linha,' ');
+      }
+
+      int colunaAtual = 0;
+      for(NoArvore no : listaInOrdem){
+         String textoNo = "[" + no.getObj().toString() + "]";
+
+         int linhaY = depth(no) * 2;
+
+         for(int i = 0; i < textoNo.length(); i++){
+            arvore[linhaY][colunaAtual + i] = textoNo.charAt(i);
+         }
+
+         colunaAtual += textoNo.length() + 2;
+      }
+
+      for(char[] linha : arvore){
+         String l = new String(linha).stripTrailing();
+         if(!l.isEmpty()){
+            System.out.println(l);
+         }
+      }
+   }
+
+   private void inOrdemNos(NoArvore node, List<NoArvore> lista){
+
+      if(node == null){
+         return;
+      }
+
+      Vector<NoArvore> filhos = node.getFilhos();
+      int metade = filhos.size() / 2;
+
+      for(int i = 0; i < metade; i++){
+
+         //RECURSSÃO
+         inOrdemNos(filhos.get(i),lista);
+      }
+
+      // Visita o nó Pai atual
+      lista.add(node);
+
+      // Visita a seunda metade dos filhos
+      for(int i = metade; i < filhos.size(); i++){
+         inOrdemNos(filhos.get(i), lista);
+      }
+
+   }
 }
 
