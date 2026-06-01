@@ -1,4 +1,5 @@
-import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 public class NoArvore{
 
@@ -6,7 +7,7 @@ public class NoArvore{
     private NoArvore pai;
 
     // Esse atributo é uma vetor  com todos os filhos (Cada filho é do tipo NoArvore)
-    private Vector<NoArvore> filhos;
+    private List<NoArvore> filhos;
 
 
 
@@ -19,7 +20,7 @@ public class NoArvore{
 
         this.obj = obj;
         this.pai = null;
-        this.filhos = new Vector<NoArvore>();
+        this.filhos = new ArrayList<NoArvore>();
 
     }
 
@@ -40,7 +41,7 @@ public class NoArvore{
     }
 
     // Retorna uma "lista" com todos os filhos
-    public Vector<NoArvore> getFilhos(){
+    public List<NoArvore> getFilhos(){
         return filhos;
     }
 

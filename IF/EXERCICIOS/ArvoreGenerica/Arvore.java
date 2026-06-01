@@ -1,17 +1,24 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 import java.util.Arrays;
+
+/**Detalhes da arvore
+ * Já nasce com raiz
+ * Não é possível remover raiz
+ * Remoção de um nó interno remove toda a subarvore
+ */
 
 public class Arvore{
 
    private NoArvore raiz;
    private int tamanho;
 
-   public Arvore(){
-    raiz = null;
-    tamanho = 0;
+   public Arvore(Object objRaiz){
+
+      raiz = new NoArvore(objRaiz);
+      tamanho = 1;
+
    }
 
    // Verifica se o nó não é nulo
@@ -149,7 +156,7 @@ public class Arvore{
       // Retorna um vetor com todos os filho do nó que foi passado
       NoArvore noValidado = validarNo(node);
 
-      Vector<NoArvore> filhos = noValidado.getFilhos();
+      List<NoArvore> filhos = noValidado.getFilhos();
 
       return filhos.iterator();
    }
@@ -272,7 +279,7 @@ public class Arvore{
    }
 
    // usa travessia pré-ordem dessa própria classe
-   public void mostrarArvore(){
+   public void mostrarArvore() throws ArvoreExcecao{
 
       if(isEmpty()){
          System.out.println("[Árvore Vazia]");
@@ -312,29 +319,33 @@ public class Arvore{
       }
    }
 
+   // Estratégia "in-ordem" adaptada
+   // Organiza dentro da lista passada todos os elementos da arvore
    private void inOrdemNos(NoArvore node, List<NoArvore> lista){
 
       if(node == null){
          return;
       }
 
-      Vector<NoArvore> filhos = node.getFilhos();
+      List<NoArvore> filhos = node.getFilhos();
       int metade = filhos.size() / 2;
 
+      // Visito a primeira metade dos filhos
       for(int i = 0; i < metade; i++){
 
          //RECURSSÃO
          inOrdemNos(filhos.get(i),lista);
       }
 
-      // Visita o nó Pai atual
+      // Quando chega no caso base adiciona o nó atual a lista
+      // Ao terminar a primeira metade o atual será o nó passado como parêmtro que vai ser o no pai
       lista.add(node);
 
-      // Visita a seunda metade dos filhos
+      // Visita a segunda metade dos filhos
       for(int i = metade; i < filhos.size(); i++){
          inOrdemNos(filhos.get(i), lista);
       }
-
    }
+
 }
 
