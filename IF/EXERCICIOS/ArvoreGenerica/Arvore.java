@@ -288,6 +288,7 @@ public class Arvore{
 
       // 1. Instancia uma lista para calcular dinamicamente a largura máxima necessária
       List<NoArvore> todosNos = new ArrayList<>();
+      
       preOrdemNos(raiz, todosNos);
 
       int qtdLinhas = (height() + 1) * 2;

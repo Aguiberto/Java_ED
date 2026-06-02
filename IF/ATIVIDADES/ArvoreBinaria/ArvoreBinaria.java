@@ -41,6 +41,17 @@ public class ArvoreBinaria{
         if( noAtual == null){
             return new No(obj);
         }
+    }
+
+    private void inOrdem(No node, ArrayList<Object> lista){
+
+        if( node == null){
+            return;
+        }
+
+        lista.add(node.getValue());
+
+        for( No )
 
     }
 
@@ -62,7 +73,17 @@ public class ArvoreBinaria{
        return calcularAltura(raiz);
     }
 
-    public Iterator elements();
+    public Iterator elements(){
+
+        // cria o array que vai guardar os elementos
+        List<Object> elementos = new ArrayList<>();
+
+        // chama o método que vai organizar os elementos da árvore na lista
+        inOrdem(raiz, elementos);
+
+        // devolve uma lista com o iterator
+        return elementos.iterator();
+    }
 
     public Iterator nos();
 
