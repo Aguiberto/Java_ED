@@ -278,93 +278,92 @@ public class Arvore{
       return total;
    }
 
-   // usa travessia pré-ordem dessa própria classe
-   public void mostrarArvore() throws ArvoreExcecao{
+   private int colunaGlobal = 0; // Controla a posição horizontal da esquerda para a direita
 
-     if(isEmpty()){
+   public void mostrarArvore() {
+      if (isEmpty()) {
          System.out.println("[Árvore Vazia]");
          return;
       }
 
-      List<NoArvore> listaInOrdem = new ArrayList<>();
-      inOrdemNos(raiz, listaInOrdem);
+      // 1. Instancia uma lista para calcular dinamicamente a largura máxima necessária
+      List<NoArvore> todosNos = new ArrayList<>();
+      preOrdemNos(raiz, todosNos);
 
-      // 1. Define a quantidade de linhas baseada na altura
       int qtdLinhas = (height() + 1) * 2;
-
-      // 2. CORREÇÃO: Descobre o tamanho exato de colunas somando o texto de todos os nós
-      int qtdColunas = 0;
-      for (NoArvore no : listaInOrdem) {
-         String textoNo = "[" + no.getObj().toString() + "]";
-         qtdColunas += textoNo.length() + 2; // Tamanho do texto + 2 espaços de separação
+      
+      // Estima uma largura segura baseada no tamanho dos textos
+      int larguraEstimada = 0;
+      for (NoArvore no : todosNos) {
+         larguraEstimada += ("[" + no.getObj().toString() + "]").length() + 2;
       }
 
-      // 3. Cria a matriz com o tamanho perfeito
-      char[][] arvore = new char[qtdLinhas][qtdColunas];
-      for(char[] linha : arvore){
+      char[][] matriz = new char[qtdLinhas][larguraEstimada * 2]; // Margem de segurança dobrada
+      for (char[] linha : matriz) {
          Arrays.fill(linha, ' ');
       }
 
-      // 4. Preenche a matriz com os nós nas posições corretas
-      int colunaAtual = 0;
-      for(NoArvore no : listaInOrdem){
-         String textoNo = "[" + no.getObj().toString() + "]";
+      // 2. Reseta o contador e calcula as posições recursivamente
+      this.colunaGlobal = 0;
+      calcularCoordenadas(raiz, matriz);
 
-         int linhaY = 0;
-         try {
-            // CORREÇÃO: Tratando a exceção que o método depth exige
-            linhaY = depth(no) * 2; 
-         } catch (ArvoreExcecao e) {
-            System.out.println("Erro ao calcular profundidade do nó " + textoNo + ": " + e.getMessage());
-            return;
-         }
-
-         // Desenha o nó caractere por caractere na linha e coluna certas
-         for(int i = 0; i < textoNo.length(); i++){
-            arvore[linhaY][colunaAtual + i] = textoNo.charAt(i);
-         }
-
-         // Avança a coluna para o próximo nó da lista
-         colunaAtual += textoNo.length() + 2;
-      }
-
-      // 5. Imprime a matriz no console eliminando espaços em branco inúteis no fim
-      for(char[] linha : arvore){
+      // 3. Imprime a matriz na tela
+      for (char[] linha : matriz) {
          String l = new String(linha).stripTrailing();
-         if(!l.isEmpty()){
+         if (!l.isEmpty()) {
             System.out.println(l);
          }
       }
-   
    }
 
-   // Estratégia "in-ordem" adaptada
-   // Organiza dentro da lista passada todos os elementos da arvore
-   private void inOrdemNos(NoArvore node, List<NoArvore> lista){
+   // Método recursivo que calcula o X (coluna) e Y (linha) de forma centralizada
+   private int calcularCoordenadas(NoArvore node, char[][] matriz) {
+      if (node == null) return 0;
 
-      if(node == null){
-         return;
+      String textoNo = "[" + node.getObj().toString() + "]";
+      int linhaY = 0;
+      try {
+         linhaY = depth(node) * 2;
+      } catch (ArvoreExcecao e) {
+         return 0;
       }
 
       List<NoArvore> filhos = node.getFilhos();
-      int metade = filhos.size() / 2;
+      int colunaX;
 
-      // Visito a primeira metade dos filhos
-      for(int i = 0; i < metade; i++){
+      if (filhos.isEmpty()) {
+         // CASO BASE: Se for folha, pega a coluna atual disponível
+         colunaX = this.colunaGlobal;
+         this.colunaGlobal += textoNo.length() + 2; // Avança para o próximo vizinho
+      } else {
+         // RECURSÃO: Primeiro calcula a posição de todos os filhos
+         int primeiraColunaFilho = calcularCoordenadas(filhos.get(0), matriz);
+         
+         for (int i = 1; i < filhos.size(); i++) {
+            calcularCoordenadas(filhos.get(i), matriz);
+         }
+         
+         int ultimaColunaFilho = filhos.get(filhos.size() - 1).getFilhos().isEmpty() 
+            ? this.colunaGlobal - ("[" + filhos.get(filhos.size() - 1).getObj().toString() + "]").length() - 2
+            : this.colunaGlobal - 10; // Ajuste técnico aproximado para subárvores
 
-         //RECURSSÃO
-         inOrdemNos(filhos.get(i),lista);
+         // CENTRALIZAÇÃO: O pai fica no meio geométrico entre o primeiro e o último filho
+         colunaX = (primeiraColunaFilho + ultimaColunaFilho) / 2;
+         
+         // Se a centralização jogar o pai para trás de onde deveria, realinha com a folha
+         if (colunaX < primeiraColunaFilho) {
+             colunaX = primeiraColunaFilho;
+         }
       }
 
-      // Quando chega no caso base adiciona o nó atual a lista
-      // Ao terminar a primeira metade o atual será o nó passado como parêmtro que vai ser o no pai
-      lista.add(node);
-
-      // Visita a segunda metade dos filhos
-      for(int i = metade; i < filhos.size(); i++){
-         inOrdemNos(filhos.get(i), lista);
+      // Desenha o texto do nó na matriz na posição calculada
+      for (int i = 0; i < textoNo.length(); i++) {
+         if (colunaX + i < matriz[0].length) {
+            matriz[linhaY][colunaX + i] = textoNo.charAt(i);
+         }
       }
+
+      return colunaX; // Retorna a coluna onde este nó foi desenhado
    }
-
 }
 
