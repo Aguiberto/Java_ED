@@ -39,7 +39,7 @@ public class Arvore{
 
    // QUESTÃO 2C
    // Retorna a altura da árvore
-   private int height(){
+   public int height(){
 
       if(tamanho == 0){
          return 0;
