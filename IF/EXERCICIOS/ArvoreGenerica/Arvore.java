@@ -33,7 +33,7 @@ public class Arvore{
 
    // QUESTÃO 3
    // Retorna a quantidade total de elementos da árvore
-   private int size(){
+   public int size(){
       return tamanho;
    }
 
@@ -281,42 +281,61 @@ public class Arvore{
    // usa travessia pré-ordem dessa própria classe
    public void mostrarArvore() throws ArvoreExcecao{
 
-      if(isEmpty()){
+     if(isEmpty()){
          System.out.println("[Árvore Vazia]");
          return;
       }
 
-     List<NoArvore> listaInOrdem = new ArrayList<>();
-     inOrdemNos(raiz, listaInOrdem);
+      List<NoArvore> listaInOrdem = new ArrayList<>();
+      inOrdemNos(raiz, listaInOrdem);
 
-      // Define o tamanho da matriz
-      int qtdLinhas = (height()+1) * 2;
-      int qtdColunas = listaInOrdem.size() * 8;
+      // 1. Define a quantidade de linhas baseada na altura
+      int qtdLinhas = (height() + 1) * 2;
 
-      char[][] arvore = new char[qtdLinhas][qtdColunas];
-      for(char[]linha : arvore){
-         Arrays.fill(linha,' ');
+      // 2. CORREÇÃO: Descobre o tamanho exato de colunas somando o texto de todos os nós
+      int qtdColunas = 0;
+      for (NoArvore no : listaInOrdem) {
+         String textoNo = "[" + no.getObj().toString() + "]";
+         qtdColunas += textoNo.length() + 2; // Tamanho do texto + 2 espaços de separação
       }
 
+      // 3. Cria a matriz com o tamanho perfeito
+      char[][] arvore = new char[qtdLinhas][qtdColunas];
+      for(char[] linha : arvore){
+         Arrays.fill(linha, ' ');
+      }
+
+      // 4. Preenche a matriz com os nós nas posições corretas
       int colunaAtual = 0;
       for(NoArvore no : listaInOrdem){
          String textoNo = "[" + no.getObj().toString() + "]";
 
-         int linhaY = depth(no) * 2;
+         int linhaY = 0;
+         try {
+            // CORREÇÃO: Tratando a exceção que o método depth exige
+            linhaY = depth(no) * 2; 
+         } catch (ArvoreExcecao e) {
+            System.out.println("Erro ao calcular profundidade do nó " + textoNo + ": " + e.getMessage());
+            return;
+         }
 
+         // Desenha o nó caractere por caractere na linha e coluna certas
          for(int i = 0; i < textoNo.length(); i++){
             arvore[linhaY][colunaAtual + i] = textoNo.charAt(i);
          }
 
+         // Avança a coluna para o próximo nó da lista
          colunaAtual += textoNo.length() + 2;
       }
 
+      // 5. Imprime a matriz no console eliminando espaços em branco inúteis no fim
       for(char[] linha : arvore){
          String l = new String(linha).stripTrailing();
          if(!l.isEmpty()){
             System.out.println(l);
          }
       }
+   
    }
 
    // Estratégia "in-ordem" adaptada
