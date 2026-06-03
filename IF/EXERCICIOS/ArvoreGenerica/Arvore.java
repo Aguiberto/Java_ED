@@ -105,7 +105,6 @@ public class Arvore{
       for(NoArvore filho: no.getFilhos()){
          preOrdemElementos(filho,lista);
       }
-
    }
 
    // retorna um Iterador com uma lista contendo todo os nós da arvore

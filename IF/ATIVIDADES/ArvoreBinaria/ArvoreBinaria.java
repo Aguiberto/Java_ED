@@ -45,13 +45,11 @@ public class ArvoreBinaria{
 
     private void inOrdem(No node, ArrayList<Object> lista){
 
-        if( node == null){
-            return;
+        if(node != null){
+            inOrdem(node.getFilhoE(),lista);
+            lista.add(node);
+            inOrdem(node.getFilhoD(),lista);
         }
-
-        lista.add(node.getValue());
-
-        for( No )
 
     }
 
@@ -73,19 +71,31 @@ public class ArvoreBinaria{
        return calcularAltura(raiz);
     }
 
+    // esse método usa o método nos()
     public Iterator elements(){
 
-        // cria o array que vai guardar os elementos
-        List<Object> elementos = new ArrayList<>();
+        List<Object> listaElementos = new ArrayList<>();
 
-        // chama o método que vai organizar os elementos da árvore na lista
-        inOrdem(raiz, elementos);
+        Iterator<No> itNos = nos();
 
-        // devolve uma lista com o iterator
-        return elementos.iterator();
+        while(itNos.hasNext()){
+
+            //adição na lista
+            //usa o método de iterator para pegar o próximo elemento
+            // o proximo elemento é um nó e por isso usa o método getValeu para pegar o valor dentro do nó
+            listaElementos.add(itNos.next().getValue());
+        }
+
+        return listaElementos.iterator();
     }
 
-    public Iterator nos();
+    public Iterator<No> nos(){
+
+        List<No> listaNos = new ArrayList<>();
+        inOrdem(raiz, listaNos);
+        
+        return listaNos.iterator();
+    }
 
 
     public boolean isInternal(No no){
