@@ -13,6 +13,8 @@ public class HeapTest{
         prioridade.insert(4,"adolecente");
         prioridade.insert(3,"idoso");
         prioridade.insert(5,"adulto");
+        prioridade.insert(6,"adulto");
+        prioridade.insert(7,"adulto");
 
         prioridade.mostrarArvore();
 

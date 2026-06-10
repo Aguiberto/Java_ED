@@ -98,7 +98,7 @@ public class FilaHeap{
             return;
         }
 
-        mostraNo(raiz,0);
+        mostrarNos(raiz,0);
     }
 
 
@@ -129,13 +129,13 @@ public class FilaHeap{
 
     private void DownHeap(NoHEAP no){
         
-        while(raiz.getFilhoE() != null){
+        while(no.getFilhoE() != null){
 
             // Assume que o filho da esquerda é o menor
             NoHEAP menorFilho = no.getFilhoE();
 
             // Verifica se o filho direito é menor e se for verdadeiro atualiza
-            if(raiz.getFilhoD() != null && no.getFilhoD().getChave() < menorFilho.getChave()){
+            if(no.getFilhoD() != null && no.getFilhoD().getChave() < menorFilho.getChave()){
                 menorFilho = no.getFilhoD();
             }
 
@@ -154,7 +154,6 @@ public class FilaHeap{
 
             no = menorFilho;
         }
-
     }
     
     /** pega tamanho+1 (tamanho noAlvo + elemento adicionado)
@@ -170,7 +169,7 @@ public class FilaHeap{
         NoHEAP noAlvo = raiz;
 
         for(int i = 1; i < binario.length();i++){
-            if(binario.charAt(i) == 0){
+            if(binario.charAt(i) == '0'){
                 noAlvo = noAlvo.getFilhoE();
             }else{
                 noAlvo = noAlvo.getFilhoD();
@@ -180,7 +179,7 @@ public class FilaHeap{
         return noAlvo;
     }
 
-    private void mostraNo(NoHEAP no, int nivel){
+    private void mostrarNos(NoHEAP no, int nivel){
         if(no == null){
             return;
         }
@@ -188,7 +187,7 @@ public class FilaHeap{
         mostraNo(no.getFilhoD(), nivel+1);
 
         for(int i = 0; i < nivel; i++){
-            System.out.println("    ");
+            System.out.print("    ");
         }
         System.out.println("["+ no.getChave() + ":" + no.getValue() + "]");
 
