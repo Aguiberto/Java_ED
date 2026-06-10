@@ -6,10 +6,10 @@ public class NoHEAP{
     private NoHEAP filhoD;
     private NoHEAP filhoE;
 
-    public NoHEAP(Object obj, int prioridade){
+    public NoHEAP(int prioridade, Object obj){
 
-        this.value = obj;
         this.chave = prioridade;
+        this.value = obj;
         this.pai = null;
         this.filhoD = null;
         this.filhoE = null;
