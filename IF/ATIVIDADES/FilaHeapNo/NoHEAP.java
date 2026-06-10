@@ -1,16 +1,18 @@
 public class NoHEAP{
 
-    private object value;
+    private int chave;
+    private Object value;
     private NoHEAP pai;
     private NoHEAP filhoD;
     private NoHEAP filhoE;
 
-    public NoHEAP(Object obj){
+    public NoHEAP(Object obj, int prioridade){
 
         this.value = obj;
+        this.chave = prioridade;
         this.pai = null;
         this.filhoD = null;
-        this.filhoE = null
+        this.filhoE = null;
     }
 
     public Object getValue(){
@@ -34,14 +36,27 @@ public class NoHEAP{
     }
 
     public void setFilhoD(NoHEAP NovoFilhoD){
-        this.filhoD = NovoFilhoD
+        this.filhoD = NovoFilhoD;
     }
 
     public NoHEAP getFilhoE(){
-        return this.getFilhoE;
+        return this.filhoE;
     }
 
     public void setFilhoE(NoHEAP NovoFilhoE){
         this.filhoE = NovoFilhoE;
+    }
+
+    public boolean isLeaf(){
+        
+        return this.filhoD == null && this.filhoE == null;
+    }
+
+    public int getChave(){
+        return this.chave;
+    }
+
+    public void setChave(int novaChave){
+        this.chave = novaChave;
     }
 }
