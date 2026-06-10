@@ -19,7 +19,7 @@ public class FilaHeap{
 
     // retorna o menor valor
     public Object min(){
-        return this.raiz;
+        return this.raiz.getValue();
     }
 
     // Toda inserção na heap tem local definido
@@ -33,20 +33,69 @@ public class FilaHeap{
             return;
         }
 
+        int posicaoPai = (tamanho+1) / 2;
+
         // Descobrir onde o nó será inserido
+        NoHEAP noAlvo = encontrarPosicao(posicaoPai);
+        tamanho++;
 
+        // ajustando as referências
+        novoNo.setPai(noAlvo);
+        if(noAlvo.getFilhoE() == null){
+            noAlvo.setFilhoE(novoNo);
+        }else{
+            noAlvo.setFilhoD(novoNo);
+        }
 
+        // colocando na posição correta
+        UpHeap(novoNo);
     }
 
-    public Object removeMin(){
+    public Object removeMin()throws HeapExcecao{
 
+        if(isEmpty()){
+            throw new HeapExcecao("HEAP Vazia!");
+        }
+
+        // A remoção do menor é sempre a remoção da raiz para Árvore HEAP
+        Object objRemovido = raiz.getValue();
+
+        // Caso especial
+        if(tamanho == 1){
+            raiz = null;
+            tamanho = 0;
+            return objRemovido;
+        }
+
+        // A remoção física ocorre no último nó
+        NoHEAP ultimoNo = encontrarPosicao(tamanho);
+
+        // Ajustando as referências
+        raiz.setChave(ultimoNo.getChave());
+        raiz..setValue(ultimoNo.getValue());
+
+        //Desconectar o pai do ultimo nó para removê-lo
+        NoHEAP ultimoPai = ultimoNo.getPai();
+        if(if ultimoPai.getFilhoE() == ultimoNo){
+            ultimoPai.setFilhoE(null);
+        }else{
+            ultimoPai.setFilhoD(null);
+        }
+        ultimoNo.setPai(null);
+
+        tamanho --;
+
+        // Corrige a posição do nó que substituiu a raiz temporariamente.
+        DownHeap(raiz);
+
+        return objRemovido;
     }
 
     // ================== MÉTODOS AUXILIARES =================
 
     public void UpHeap(NoHEAP noAtual){
 
-        // troca as chaves do no atual com a chave de seu no pai enquanto a chave do no atual for menor que a chave do no pai
+        // troca as chaves do no noAlvo com a chave de seu no pai enquanto a chave do no noAlvo for menor que a chave do no pai
         while( noAtual.getPai() != null && noAtual.getChave() < noAtual.getPai().getChave()){
             
             // Trocando as chaves
@@ -64,6 +113,28 @@ public class FilaHeap{
         }
     }
 
+    
+    /** pega tamanho+1 (tamanho noAlvo + elemento adicionado)
+     * converte para binário ex: 6 = 110
+     * ignora o primeiro elemento "1"
+     * os proximo elementos indicam quantos passos serão dados e para qual direção
+     * 1 = direita e 0 = esquerda
+     * nesse caso anda um elemento para direita e outro para esquerda
+    */
+    public NoHEAP encontrarPosicao(int tamanhoArvore){
 
+        String binario = Integer.toBinaryString(tamanhoArvore);
+        NoHEAP noAlvo = raiz;
+
+        for(int i = 1; i < binario.length();i++){
+            if(binario;charAt(i) == 0){
+                noAlvo = noAlvo.getFilhoE();
+            }else{
+                noAlvo = noAlvo.getFilhoD();
+            }
+        }
+
+        return noAlvo;
+    }
 
 }
