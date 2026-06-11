@@ -9,50 +9,6 @@ public class ArvoreBinaria{
         this.raiz = null;;
     }
 
-    // ==============   MÉTODOS AUXILIARES ==============
-
-    private No validarNo(No no) throws ArvoreBinExcecao{
-
-        if( no.getValue() == null){
-            throw new ArvoreBinExcecao("Nó VAZIO");
-        }
-
-        return no;
-    }
-
-    private calcularAltura(No node){
-
-        if(node == null){
-            return -1;
-        }
-
-        int altura = 0;
-
-        int lefHeight = height(node.getFilhoE());
-        int rightHeight = height(node.getFilhoD());
-
-        int alturaTotal = Math.max(lefHeight,rightHeight) + 1;
-
-        return alturaTotal;
-    }
-
-    private insertRecursivo(No node, Object obj){
-
-        if( noAtual == null){
-            return new No(obj);
-        }
-    }
-
-    private void inOrdem(No node, ArrayList<Object> lista){
-
-        if(node != null){
-            inOrdem(node.getFilhoE(),lista);
-            lista.add(node);
-            inOrdem(node.getFilhoD(),lista);
-        }
-
-    }
-
 
     // ============== MÉTODOS DE ARVORE GENÉRCA =========
 
@@ -66,9 +22,10 @@ public class ArvoreBinaria{
         return tamanho == 0;
     }
 
+    // Calcula a altura total da árvore
     public int height(){
         
-       return calcularAltura(raiz);
+       return AlturaNo(raiz);
     }
 
     // esse método usa o método nos()
@@ -100,7 +57,7 @@ public class ArvoreBinaria{
 
     public boolean isInternal(No no){
 
-        return no.getFilhoD() || no.getFilhoE();
+        return no.getFilhoD() != null || no.getFilhoE() != null;
     }
 
     public boolean isExternal(No no){
@@ -171,12 +128,96 @@ public class ArvoreBinaria{
         return noValidado.getFilhoD() != null;
     }
 
-    public void insert(Object obj){
+    public void insert(Comparable obj){
 
         raiz = insertRecursivo(raiz, obj);
     }
 
-    public Object remove(No node)
+    public Object remove(Comparable obj) throws ArvoreBinExcecao{
+
+        if(isEmpty()){
+            throw new ArvoreBinExcecao("A árvore já encontra-se vazia!");
+        }
+
+        raiz = processoRemovedor(raiz,obj);
+
+    }
+        
+
 
     public String mostrarArvore()
+
+    // ==============   MÉTODOS AUXILIARES ==============
+
+    private No validarNo(No no) throws ArvoreBinExcecao{
+
+        if( no.getValue() == null){
+            throw new ArvoreBinExcecao("Nó VAZIO");
+        }
+
+        return no;
+    }
+
+    // Calcula a altura de um nó (Não confundir com height)
+    private int AlturaNo(No node){
+
+        if(node == null){
+            return -1;
+        }
+
+        int altura = 0;
+
+        // calcula as alturas de cada lado
+        int lefHeight = AlturaNo(node.getFilhoE());
+        int rightHeight = AlturaNo(node.getFilhoD());
+
+        // Escolhe a maior altura entre os dois lados
+        int alturaTotal = Math.max(lefHeight,rightHeight) + 1;
+
+        return alturaTotal;
+    }
+
+    private No insertRecursivo(No node, Compareble obj){
+
+        if( node == null){
+            tamanho++;
+            return new No(obj);
+        }
+
+        if(obj.compareTo(node.getValue() < 0)){
+            No filhoE = insertRecursivo(node.getFilhoE(), obj);
+            node.setFilhoE(filhoE);
+            filhoE.setPai(node);
+
+        }
+        else if(obj.compareTo(node.getValue()) > 0){
+            No filhoD = insertRecursivo(node.getFilhoD(),obj);
+            node.setFilhoD(filhoD);
+            filhoD.setPai(node);
+        }
+        
+        return node
+    }
+
+    private void inOrdem(No node, ArrayList<Object> lista){
+
+        if(node != null){
+            inOrdem(node.getFilhoE(),lista);
+            lista.add(node);
+            inOrdem(node.getFilhoD(),lista);
+        }
+
+    }
+
+    private No processoRemovedor(No noBase, Comparable obj ){
+
+        if(noBase == null){
+            return null;
+        }
+
+        
+
+    }
+
+    
 }

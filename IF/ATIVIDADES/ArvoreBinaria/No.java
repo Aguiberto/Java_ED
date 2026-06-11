@@ -1,11 +1,11 @@
 public class No{
 
-    private Object value;
+    private Comparable value;
     private No pai;
     private No filhoE;
     private No filhoD;
 
-    public No(Object obj){
+    public No(Comparable obj){
 
         value = obj;
         pai = null;
@@ -14,7 +14,7 @@ public class No{
 
     }
 
-    public Object getValue(){
+    public Comparable getValue(){
         return this.value;
     }
 
