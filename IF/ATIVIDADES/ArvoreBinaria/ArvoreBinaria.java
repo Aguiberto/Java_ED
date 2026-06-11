@@ -1,4 +1,6 @@
 import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArvoreBinaria{
 
@@ -31,7 +33,7 @@ public class ArvoreBinaria{
     // esse método usa o método nos()
     public Iterator elements(){
 
-        List<Object> listaElementos = new ArrayList<>();
+        List<Comparable> listaElementos = new ArrayList<>();
 
         Iterator<No> itNos = nos();
 
@@ -87,11 +89,11 @@ public class ArvoreBinaria{
         return profundidade;
     }
 
-    public Object replace(No no, Object obj) throws ArvoreBinExcecao{
+    public Comparable replace(No no, Comparable obj) throws ArvoreBinExcecao{
 
         No noValidado = validarNo(no);
 
-        Object oldValue = noValidado.getValue();
+        Comparable oldValue = noValidado.getValue();
 
         no.setValue(obj);
 
@@ -133,19 +135,47 @@ public class ArvoreBinaria{
         raiz = insertRecursivo(raiz, obj);
     }
 
-    public Object remove(Comparable obj) throws ArvoreBinExcecao{
+    public void remove(Comparable obj) throws ArvoreBinExcecao{
 
         if(isEmpty()){
             throw new ArvoreBinExcecao("A árvore já encontra-se vazia!");
         }
 
         raiz = processoRemovedor(raiz,obj);
-
     }
         
+        
+    public void mostrarArvore() {
+        int altura = height();
+        if (altura == -1) {
+            System.out.println("Árvore vazia.");
+            return;
+        }
 
+        // Calcula as dimensões da tabela de desenho
+        int linhas = altura + 1;
+        // A largura máxima de uma árvore cheia segue a fórmula: 2^(altura + 1) - 1
+        int colunas = (int) Math.pow(2, altura + 1) - 1;
 
-    public String mostrarArvore()
+        // Cria uma matriz de strings preenchida com espaços em branco
+        String[][] matriz = new String[linhas][colunas];
+        for (int i = 0; i < linhas; i++) {
+            for (int j = 0; j < colunas; j++) {
+                matriz[i][j] = " ";
+            }
+        }
+
+        // Preenche a matriz de forma recursiva passando as coordenadas de desenho
+        preencherMatriz(this.raiz, matriz, 0, 0, colunas - 1);
+
+        // Imprime a matriz linha por linha no console
+        for (int i = 0; i < linhas; i++) {
+            for (int j = 0; j < colunas; j++) {
+                System.out.print(matriz[i][j]);
+            }
+            System.out.println(); // Quebra de linha para o próximo nível
+        }
+    }
 
     // ==============   MÉTODOS AUXILIARES ==============
 
@@ -177,14 +207,14 @@ public class ArvoreBinaria{
         return alturaTotal;
     }
 
-    private No insertRecursivo(No node, Compareble obj){
+    private No insertRecursivo(No node, Comparable obj){
 
         if( node == null){
             tamanho++;
             return new No(obj);
         }
 
-        if(obj.compareTo(node.getValue() < 0)){
+        if(obj.compareTo(node.getValue()) < 0){
             No filhoE = insertRecursivo(node.getFilhoE(), obj);
             node.setFilhoE(filhoE);
             filhoE.setPai(node);
@@ -196,10 +226,10 @@ public class ArvoreBinaria{
             filhoD.setPai(node);
         }
         
-        return node
+        return node;
     }
 
-    private void inOrdem(No node, ArrayList<Object> lista){
+    private void inOrdem(No node, List<No> lista){
 
         if(node != null){
             inOrdem(node.getFilhoE(),lista);
@@ -215,9 +245,82 @@ public class ArvoreBinaria{
             return null;
         }
 
-        
+        // procurando o nó
+        if(obj.compareTo(noBase.getValue()) < 0){
 
+          noBase.setFilhoE(processoRemovedor(noBase.getFilhoE(),obj));  
+
+        }else if(obj.compareTo(noBase.getValue()) > 0){
+
+            noBase.setFilhoD(processoRemovedor(noBase.getFilhoD(),obj));
+        
+        // Quando o nó for localiza cai no else
+        }else{
+            tamanho--;
+
+            // Se não tiver filho esquerdo
+            if(noBase.getFilhoE() == null){
+                // Se tiver filho direito
+                if(noBase.getFilhoD() != null){
+                    noBase.getFilhoD().setPai(noBase.getPai());
+                    // ajusta as referências entre avô e neto excluindo o pai
+                }
+                // Se não tem nenhum filho
+                // No caso como o folha n tem filho é a mesma coisa que retornar null
+                //  esse retorno volta para a linha 225
+                // o pai seta o filho como null e corta sua ligação removendo o nó
+                return noBase.getFilhoD();
+ 
+            }else if(noBase.getFilhoD() == null){
+
+                if(noBase.getFilhoE() != null){
+                    noBase.getFilhoE().setPai(noBase.getPai());
+                }
+
+                return noBase.getFilhoE();
+            }
+
+            // CASO O NO TENHA 2 FILHOS
+
+            // Cria um no que pega o primeiro filho da direita e depois vai descendo pela esquerda até o final
+            No sucessor = menorNo(noBase.getFilhoD());
+            // Substitui o valor no base pelo valor de um nó folha
+            noBase.setValue(sucessor.getValue());
+
+            noBase.setFilhoD(processoRemovedor(noBase.getFilhoD(),(Comparable)sucessor.getValue()));
+            tamanho++;
+
+        }
+        return noBase;
     }
 
-    
+    private No menorNo(No noBase){
+
+        while(noBase.getFilhoE() != null){
+            noBase = noBase.getFilhoE();
+        }
+
+        return noBase;
+    }
+
+    // Método auxiliar que calcula onde cada nó deve ficar centralizado
+    private void preencherMatriz(No noAtual, String[][] matriz, int linha, int esquerda, int direita) {
+        if (noAtual == null) {
+            return;
+        }
+
+        // Encontra o ponto médio (centro) do espaço disponível para este nó
+        int meio = (esquerda + direita) / 2;
+        
+        // Guarda o valor do nó bem no centro daquela linha
+        matriz[linha][meio] = String.valueOf(noAtual.getValue());
+
+        // Para os filhos, dividimos o espaço horizontal pela metade:
+        // O filho esquerdo ganha a metade da esquerda
+        preencherMatriz(noAtual.getFilhoE(), matriz, linha + 1, esquerda, meio - 1);
+        
+        // O filho direito ganha a metade da direita
+        preencherMatriz(noAtual.getFilhoD(), matriz, linha + 1, meio + 1, direita);
+    }
 }
+    

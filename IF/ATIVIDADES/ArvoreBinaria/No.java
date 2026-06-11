@@ -18,7 +18,7 @@ public class No{
         return this.value;
     }
 
-    public void setValue(Object obj){
+    public void setValue(Comparable obj){
         this.value = obj;
     }
 
