@@ -104,14 +104,14 @@ public class TabelaHash<K,V>{
         // laço incrementa de 6 em 6 que são o que tem a possibilidade de ser primo depois do 5
         // o laço teste até a raiz do valor
         for(int i = 5; i*i <= valor ; i += 6){
+
             if( valor % i == 0 || valor % (i + 2) == 0){
                 return false;
             }
+
+            return false;
         }
-
-        return true;
-
     }
-
+    
 
 }
