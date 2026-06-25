@@ -20,17 +20,17 @@ public class TabelaHash<K,V>{
         return this.tamanho == 0;
     }
 
-    public keys(){
+    // public keys(){
 
-    }
+    // }
 
-    public elements(){
+    // public elements(){
 
-    }
+    // }
 
-    public findElement(){
+    // public findElement(){
 
-    }
+    // }
 
     // Fazer Rehash se o limite de eficiencia tiver sido atingido(50% da capacidade)
     // Dobrar a capacidade
@@ -83,6 +83,34 @@ public class TabelaHash<K,V>{
         }
 
         return Math.abs(key.hashCode()) % capacidade;
+    }
+
+    private boolean testePrimo(int valor){
+
+        // elimina todos os negativo, 0 e o 1
+        if (valor <= 1){
+            return false;
+        }
+
+        // aceita o 2 e 3
+        if( valor <= 3){
+            return true;
+        }
+
+        if( valor % 2 == 0 || valor % 3 == 0){
+            return false
+        }
+
+        // laço incrementa de 6 em 6 que são o que tem a possibilidade de ser primo depois do 5
+        // o laço teste até a raiz do valor
+        for(int i = 5; i*i <= valor ; i += 6){
+            if( valor % i == 0 || valor % (i + 2) == 0){
+                return false;
+            }
+        }
+
+        return true;
+
     }
 
 
