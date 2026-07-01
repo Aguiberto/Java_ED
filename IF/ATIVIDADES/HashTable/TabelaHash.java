@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class TabelaHash<K,V>{
 
     private Item<K,V> [] tabela;
@@ -20,17 +22,59 @@ public class TabelaHash<K,V>{
         return this.tamanho == 0;
     }
 
-    // public keys(){
+    public List<K> keys(){
 
-    // }
+        List<K> listaChaves = new ArrayList<>();
 
-    // public elements(){
+        for(int i = 0; i < this.capacidade; i++){
+            if(tabela[i] != null){
+                listaChaves.add(tabela[i].getChave());
+            }
+        }
 
-    // }
+        return listaChaves
+    }
 
-    // public findElement(){
+    public List<V> elements(){
 
-    // }
+        List listaElementos = new ArrayList<>();
+
+        for(int i = 0; i < this.capacidade; i++){
+            if(tabela[i] != null){
+                listaElementos.add(tabela[i].getValor());
+            }
+        }
+
+        return listaElementos;
+
+    }
+
+    public V findElement(K chave){
+
+        if(chave == null){
+            return null;
+        }
+
+        int indiceAtual = Math.abs(chave.hashCode()) % this.capacidade;
+        int indiceInicial = indiceAtual;
+
+        do{
+
+            if(tabela[indiceAtual] == null){
+                return null;
+            }
+
+            if(tabela[indiceAtual].getChave().equals(chave)){
+                return tabela[indiceAtual].getValor();
+            }
+
+            indiceAtual = (indiceAtual + 1) % this.capacidade;
+
+        } while(indiceAtual =! indiceInicial);
+        
+        return null;
+
+    }
 
     // Fazer Rehash se o limite de eficiencia tiver sido atingido(50% da capacidade)
     // Dobrar a capacidade
@@ -42,26 +86,28 @@ public class TabelaHash<K,V>{
         // A classe usa array circular então a primeira posição pode ser quaquer uma
         //Além disso o valor da posição vai mudando 
         int posicaoInicial = posicao;
+        int posicaoAtual = posicaoInicial;
 
-        while(tabela[posicao] != null){
-
-            if(tabela[posicao].getChave().equals(chave)){
-                tabela[posicao].setValor(valor);
-
+        do{
+            // Se o espaço está vazio então o item pode ser adicionado
+            if(tabela[posicaoAtual] == null ){
+                tabela[posicaoAtual] = new Item(chave,valor);
+                this.tamanho ++;
                 return;
             }
-            
-            // Linear Probing
-            // Lógica do array circular para movimentar o ponteiro do índice de forma cíclica
-            posicao = (posicao + 1) % capacidade;
-
-            if(posicao == posicaoInicial){
-                throw new HashExcecao("Hash CHEIO!")
+            // Se a chave passada já existir, apenas e atualizado o valor
+            if(tamanho[posicaoAtual].getChave().equals(chave)){
+                tabela[posicaoAtual].setValor(valor);
+                return;
             }
-        }
 
-        tabela[posicao] = new Item<K,V>(chave,valor);
-        tamanho++;
+            posicaoAtual = (posicaoAtual + 1) % this.capacidade;
+
+        }while(posicaoAtual != posicaoInicial);
+
+
+
+        
     }
 
     public removeElement(){
@@ -75,7 +121,7 @@ public class TabelaHash<K,V>{
 
     // ============== MÉTODOS AUXILIARES ==================
 
-    // Esse método retorna a chave que informa a posição do item
+    // Esse método retorna a chave que informa a posição que o item será inserido
     public int getHash(K chave){
 
         if(chave == null){
@@ -83,6 +129,27 @@ public class TabelaHash<K,V>{
         }
 
         return Math.abs(key.hashCode()) % capacidade;
+    }
+
+    private int proximoPrimo(int numero){
+
+        int primo = numero;
+        boolean achou = false;
+
+        if(numero <= 1){
+            return 2;
+        }
+
+        while(!achou){
+            primo++;
+
+            if(testePrimo(primo)){
+                return achou = true;
+            }
+        }
+
+        return primo;
+
     }
 
     private boolean testePrimo(int valor){
@@ -111,6 +178,12 @@ public class TabelaHash<K,V>{
 
             return false;
         }
+    }
+
+    // Aumenta a tabela hash e usa uma nova funcão para definir posições
+    //  A partir dessa nova função os elementos serão readiciondos ao novo array maior
+    private void rehash(){
+
     }
     
 
