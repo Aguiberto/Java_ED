@@ -7,8 +7,11 @@ public class TabelaHash<K,V>{
     private int capacidade;
     private int tamanho;
 
+    private final Item<K,V> LAPIDE = new Item<>(null,null);
+
     @SuppressWarnings("unchecked")
     public TabelaHash(int capacidade){
+
         this.capacidade = capacidade;
         this.tamanho = 0;
 
@@ -52,28 +55,13 @@ public class TabelaHash<K,V>{
 
     public V findElement(K chave){
 
-        if(chave == null){
+        int posicao = findIndex(chave);
+
+        if(posicao == -1){
             return null;
+        }else{
+            return tabela[posicao].getValor();
         }
-
-        int indiceAtual = Math.abs(chave.hashCode()) % this.capacidade;
-        int indiceInicial = indiceAtual;
-
-        do{
-
-            if(tabela[indiceAtual] == null){
-                return null;
-            }
-
-            if(tabela[indiceAtual].getChave().equals(chave)){
-                return tabela[indiceAtual].getValor();
-            }
-
-            indiceAtual = (indiceAtual + 1) % this.capacidade;
-
-        } while(indiceAtual != indiceInicial);
-        
-        return null;
 
     }
 
@@ -95,13 +83,13 @@ public class TabelaHash<K,V>{
 
         do{
             // Se o espaço está vazio então o item pode ser adicionado
-            if(tabela[posicaoAtual] == null ){
+            if(tabela[posicaoAtual] == null || tabela[posicaoAtual] == LAPIDE ){
                 tabela[posicaoAtual] = new Item(chave,valor);
                 this.tamanho ++;
                 return;
             }
             // Se a chave passada já existir, apenas e atualizado o valor
-            if(tabela[posicaoAtual].getChave().equals(chave)){
+            if(tabela[posicaoAtual] != LAPIDE && tabela[posicaoAtual].getChave().equals(chave)){
                 tabela[posicaoAtual].setValor(valor);
                 return;
             }
@@ -111,9 +99,21 @@ public class TabelaHash<K,V>{
         }while(posicaoAtual != posicaoInicial);
     }
 
-    // public removeElement(){
+    public V removeElement(K chave){
 
-    // }
+        int indice = findIndex(chave);
+
+        if(indice == -1){
+            return null;
+        }
+
+        V removido = tabela[indice].getValor();
+        tabela[indice] = LAPIDE;
+        this.tamanho --;
+
+        return removido;
+
+    }
 
     @Override
     public String toString(){
@@ -227,6 +227,28 @@ public class TabelaHash<K,V>{
             }
         }
 
+    }
+
+    private int findIndex(K chave){
+
+        int posicaoInicial = getHash(chave);
+        int posicaoAtual = posicaoInicial;
+
+        do{
+            if(tabela[posicaoAtual] == null){
+                return -1;
+            }
+
+            // se não for uma lápide e a chave for igual a passada então é a posição do elemento buscado
+            if(tabela[posicaoAtual] != LAPIDE && tabela[posicaoAtual].getChave().equals(chave)){
+                return posicaoAtual;
+            }
+
+            posicaoAtual = (posicaoAtual + 1) % this.capacidade;
+
+        }while(posicaoAtual != posicaoInicial);
+    
+        return -1;
     }
     
 
