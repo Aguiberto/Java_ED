@@ -1,12 +1,15 @@
 public class Node{
 
-    private Object valor;
-    private Node pai;
-    private Node filhoEsquerdo;
-    private Node filhoDireito;
+    protected Object valor;
+    protected Node pai;
+    protected Node filhoEsquerdo;
+    protected Node filhoDireito;
 
     public Node(Object valor){
         this.valor = valor;
+        this.pai = null;
+        this.filhoEsquerdo = null;
+        this.filhoDireito = null;
     }
 
     public Object getValor(){
