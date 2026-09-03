@@ -1,3 +1,6 @@
+import java.util.Queue;
+import java.util.LinkedList;
+
 public class ArvoreBB{
 
     private Node raiz;
@@ -50,6 +53,7 @@ public class ArvoreBB{
                 if(atual == null){
 
                     pai.setFilhoEsquerdo(novoNo);
+                    novoNo.setPai(novoNo);
                     return;
                 }
 
@@ -59,7 +63,8 @@ public class ArvoreBB{
 
                 if(atual == null){
 
-                    pai.getFilhoDireito(novoNo);
+                    pai.setFilhoDireito(novoNo);
+                    novoNo.setPai(novoNo);
                     return;
                 }
 
@@ -67,29 +72,72 @@ public class ArvoreBB{
         }
     }
 
-    public Object remove(Object valorNo){
+    public Object remover(Object valor){
 
-        Node removido = buscar(valorNo);
-        if()
+        Node noRemovido = buscar(valor);
+        if( noRemovido == null){
+            return null;
+        }
+
+        Object valorRemovido = noRemovido.getValor();
+        removerNo(noRemovido);
+
+        return valorRemovido;
 
     }
 
-    public String mostrar(){
+public void mostrar() {
+        if (this.raiz == null) {
+            System.out.println("Árvore vazia.");
+            return;
+        }
 
+        Queue<Node> fila = new LinkedList<>();
+        fila.add(this.raiz);
+
+        int altura = calcularAltura(this.raiz);
+        int espacoInicial = (int) Math.pow(2, altura) * 2;
+
+        while (!fila.isEmpty()) {
+            int noNoNivel = fila.size();
+            
+            // Imprime espaçamento antes do primeiro nó do nível
+            imprimirEspacos(espacoInicial);
+
+            for (int i = 0; i < noNoNivel; i++) {
+                Node atual = fila.poll();
+
+                if (atual != null) {
+                    System.out.print(atual.getValor());
+                    fila.add(atual.getFilhoEsquerdo());
+                    fila.add(atual.getFilhoDireito());
+                } else {
+                    System.out.print(" ");
+                    // Mantém o alinhamento para filhos ausentes
+                    fila.add(null);
+                    fila.add(null);
+                }
+
+                // Espaçamento entre os nós do mesmo nível
+                imprimirEspacos(espacoInicial * 2 - 1);
+            }
+
+            System.out.println("\n"); // Quebra para o próximo nível
+            espacoInicial /= 2; // Reduz o espaço pela metade a cada nível abaixo
+
+            // Condição de parada: se a fila só contiver 'null', encerra
+            if (todasPonteirosNulos(fila)) {
+                break;
+            }
+        }
     }
 
     // ==================== MÉTODOS AUXILIARES ==============
 
-    public boolean eFolha(Node no){
 
-        if(no.getFilhoDireito() == null && no.getFilhoEsquerdo == null){
-            return true;
-        }else{
-            return false;
-        }
-    
     public Node criarNo(Object valor){
-        return Node novoNo = new Node(valor);
+        Node novoNo = new Node(valor);
+        return novoNo;
     }
 
     public Node buscar(Object valor){
@@ -101,7 +149,6 @@ public class ArvoreBB{
 
             Comparable valorAtual = (Comparable) atual.getValor();
             int comparacao = alvo.compareTo(valorAtual);
-
             
             if(comparacao == 0){
 
@@ -118,12 +165,9 @@ public class ArvoreBB{
                 atual = atual.getFilhoDireito();
                 // o valor passado e maior
             }
-
-            // Se não encontrar nada
-            return null;
-
         }   
-
+        // Se não encontrar nada
+        return null;
     }
 
 
@@ -144,7 +188,7 @@ public class ArvoreBB{
 
     }
 
-    public Object removerNo(Node no){
+    public void removerNo(Node no){
 
             /*
                                 Condições
@@ -170,10 +214,11 @@ public class ArvoreBB{
 
             Node sucessor = obterSucessor(no);
             no.setValor(sucessor.getValor());
-            removerNo(sucessor);        
+            removerNo(sucessor);
+            return;        
         } 
 
-        Node filho = (no.getFilhoEsquerdo() != null) ? no.getFilhoEsquerdo : no.getFilhoDireito();
+        Node filho = (no.getFilhoEsquerdo() != null) ? no.getFilhoEsquerdo() : no.getFilhoDireito();
         Node pai = no.getPai();
 
 
@@ -189,7 +234,7 @@ public class ArvoreBB{
             this.raiz = filho;
             // esse nó era a raiz
             // o filho dele toma o lugar dele
-            // a ele( a raiz) é removido e o filho se torna o novo riz
+            // a ele( a raiz) é removido e o filho se torna o novo raiz
 
         //Caso 2a : no com 1 filho
         }else if(no == pai.getFilhoEsquerdo()){
@@ -207,7 +252,31 @@ public class ArvoreBB{
             // neto passa ser o filho direito
         }
 
+        no.setPai(null);
+        no.setFilhoEsquerdo(null);
+        no.setFilhoDireito(null);
+    }
 
+    private int calcularAltura(Node no) {
+        if (no == null) return 0;
+        int altEsq = calcularAltura(no.getFilhoEsquerdo());
+        int altDir = calcularAltura(no.getFilhoDireito());
+        return 1 + Math.max(altEsq, altDir);
+    }
+
+    // Método auxiliar para imprimir 'n' espaços na mesma linha
+    private void imprimirEspacos(int quantidade) {
+        for (int i = 0; i < quantidade; i++) {
+            System.out.print(" ");
+        }
+    }
+
+    // Método auxiliar para saber quando parar o loop
+    private boolean todasPonteirosNulos(Queue<Node> fila) {
+        for (Node no : fila) {
+            if (no != null) return false;
+        }
+        return true;
     }
 
 }
