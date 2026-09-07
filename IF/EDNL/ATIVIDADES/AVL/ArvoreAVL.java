@@ -2,13 +2,11 @@ public class ArvoreAVL{
 
     Node raiz;
     int tamanho;
-    boolean estaBaleceada;
 
     public ArvoreAVL{
 
         this.raiz = null
         this.tamanho = 0;
-        this.estaBaleceada = false;
 
     }
 
@@ -119,6 +117,45 @@ public class ArvoreAVL{
         return no3;
     }
 
+    private NoAVL rebalancear(NoAVL no){
+
+        if(no == null){
+            return no;
+        }
+
+        atualizarAltura(no);
+        int fb = fatorBalanceamento(no);
+
+        // desbalanceado a ESQUERDA
+        if( fb > 1){
+
+            // rotação dupla a direita : começa com uma rotação a esquerda 
+            if(fatorBalanceamento(no.getFilhoEsquerdo()) < 0){
+                no.setFilhoEsquerdo(rotacaoEsquerda(no.getFilhoEsquerdo)):
+            }
+
+            // rotação simples a direto
+            // continuação da rotação dupla
+            return rotacaoDireita(no);
+
+        }
+
+        // desbalanceado a direita
+        if(fb < -1){
+            
+            // rotação dupla a esquerda: começa com balanceamento a direita
+            if(fatorBalanceamento(no.getFilhoDireito()) > 0){
+                no.setFilhoDireito(rotacaoDireita(no.getFilhoDireito()));
+            }
+
+            // rotação simples a esquerda
+            return rotacaoEsquerda(no);
+        }
+
+        // se já estiver balanceado
+        return no;
+
+    }
 
 
 
