@@ -1,11 +1,14 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class ArvoreAVL{
 
-    Node raiz;
+    NoAVL raiz;
     int tamanho;
 
-    public ArvoreAVL{
+    public ArvoreAVL(){
 
-        this.raiz = null
+        this.raiz = null;
         this.tamanho = 0;
 
     }
@@ -18,6 +21,49 @@ public class ArvoreAVL{
     public void remover(Object valor){
         this.raiz = processoRemovedor(this.raiz, valor);
     }
+
+    public void mostrar() {
+        if (this.raiz == null) {
+            System.out.println("Árvore vazia!");
+            return;
+        }
+
+        int alturaTotal = obterAltura(this.raiz);
+        Queue<NoAVL> fila = new LinkedList<>();
+        fila.add(this.raiz);
+
+        int nivel = 0;
+        while (nivel < alturaTotal) {
+            int nosNoNivel = fila.size();
+            
+            // Espaçamento dinâmico baseado na profundidade do nível
+            int espacoEntre = (int) Math.pow(2, alturaTotal - nivel + 1) - 1;
+            int espacoInicial = (int) Math.pow(2, alturaTotal - nivel) - 1;
+
+            imprimirEspacos(espacoInicial);
+
+            for (int i = 0; i < nosNoNivel; i++) {
+                NoAVL atual = fila.poll();
+
+                if (atual != null) {
+                    int fb = rebalancear(atual);
+                    System.out.print(atual.getValor() + "[" + fb + "]");
+                    
+                    fila.add(atual.getFilhoEsquerdo());
+                    fila.add(atual.getFilhoDireito());
+                } else {
+                    System.out.print("     "); // Espaço reserva para nós nulos
+                    fila.add(null);
+                    fila.add(null);
+                }
+
+                imprimirEspacos(espacoEntre);
+            }
+            System.out.println("\n");
+            nivel++;
+        }
+    }
+
 
     // ========================================================
     // ================= MÉTOOS AUXILIARES ====================
@@ -71,7 +117,7 @@ public class ArvoreAVL{
         NoAVL no4 = no3.getFilhoEsquerdo();
 
         //modifica as referências dos pais
-        no3.setFilhoEsquerdo(n1);
+        no3.setFilhoEsquerdo(no1);
         no1.setFilhoDireito(no4);
 
         // verifica se o no3 tem filho (pode ser que não tenha)
@@ -91,7 +137,7 @@ public class ArvoreAVL{
 
     }
 
-    private AVL rotacaoDireita(NoAVL no1){
+    private NoAVL rotacaoDireita(NoAVL no1){
         
         /*
                      no1
@@ -101,10 +147,10 @@ public class ArvoreAVL{
 
         */
 
-        NoAVL no3 = n1.getFilhoEsquerdo();
-        NoAVL no4 = n3.getFilhoDireito();
+        NoAVL no3 = no1.getFilhoEsquerdo();
+        NoAVL no4 = no3.getFilhoDireito();
 
-        n3.setFilhoDireito(n1);
+        no3.setFilhoDireito(no1);
         no1.setFilhoEsquerdo(no4);
 
         if(no4 != null){
@@ -134,7 +180,7 @@ public class ArvoreAVL{
 
             // rotação dupla a direita : começa com uma rotação a esquerda 
             if(fatorBalanceamento(no.getFilhoEsquerdo()) < 0){
-                no.setFilhoEsquerdo(rotacaoEsquerda(no.getFilhoEsquerdo)):
+                no.setFilhoEsquerdo(rotacaoEsquerda(no.getFilhoEsquerdo()));
             }
 
             // rotação simples a direto
@@ -161,7 +207,7 @@ public class ArvoreAVL{
     
 
     @SupressWarnings("Unchecked")
-    private NoAVL inserirRecursivo(Node no, Object valor){
+    private NoAVL inserirRecursivo(NoAVL no, Object valor){
 
         if(no == null){
             return new NoAVL(valor);
@@ -173,7 +219,7 @@ public class ArvoreAVL{
 
         // novo nó maior que o nó de comparação
         if( comparacao > 0){
-            NoAVL filhoDir = inserirRecursivo(no.getFilhoDireito(),valor):
+            NoAVL filhoDir = inserirRecursivo(no.getFilhoDireito(),valor);
             no.setFilhoDireito(filhoDir);
             filhoDir.setPai(no);
 
@@ -222,22 +268,22 @@ public class ArvoreAVL{
         }else{
 
             // testa se pelo menos um dos filhos é null (ambos os filhos podem ser null)
-            if(no.getFilhoEsquerdo() == null || no.getFilhoDireito() == null){
+            if(noBase.getFilhoEsquerdo() == null || noBase.getFilhoDireito() == null){
 
-                NoAVL temp = (noBase.getFilhoEsquerdo() != null) ? noBase.getFilhoEsquerdo() : no.getFilhoDireito();
+                NoAVL temp = (noBase.getFilhoEsquerdo() != null) ? noBase.getFilhoEsquerdo() : noBase.getFilhoDireito();
 
                 // não tem nenhum filho
                 if(temp == null){
                     noBase = null;
                 } else {
-                    temp.setPai(no.getPai());              // filho do nó passa apontar para o seu avô (no removido)
+                    temp.setPai(noBase.getPai());              // filho do nó passa apontar para o seu avô (no removido)
                     noBase = temp;                         // filho do no assume o lugar do no
                 }
 
             // se tiver os dois filhos
             } else {
 
-                NoAVL substituto = sucessor(no);        // encontra o valor substituto
+                NoAVL substituto = buscarSucessor(noBase);        // encontra o valor substituto
                 noBase.setValor(substituto);            // muda o valor do nó a ser removido pelo valor do substituto
 
                 
@@ -257,13 +303,18 @@ public class ArvoreAVL{
 
     public NoAVL buscarSucessor(NoAVL no){
 
-        sucessor = no.getFilhoDireito();
+        NoAVL sucessor = no.getFilhoDireito();
         while(sucessor.getFilhoEsquerdo() != null){
-            sucessor = getFilhoEsquerdo()!
+            sucessor = no.getFilhoEsquerdo();
         } 
 
         return sucessor;  
     }
 
+    private void imprimirEspacos(int quantidade) {
+        for (int i = 0; i < quantidade; i++) {
+            System.out.print(" ");
+        }
+    }
     
 }

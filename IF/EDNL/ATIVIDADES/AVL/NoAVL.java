@@ -7,13 +7,13 @@ public class NoAVL{
     private int altura;
 
     public NoAVL(){
-        this.valor == null;
-        this.pai == null
-        this.filhoDireito == null;
-        this.filhoEsquerdo == null;
+        this.valor = null;
+        this.pai = null;
+        this.filhoDireito = null;
+        this.filhoEsquerdo = null;
     }
 
-    public NoAVL getValor(){
+    public Object getValor(){
         return this.valor;
     }
 
