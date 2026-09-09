@@ -1,5 +1,5 @@
 public class AVLExcecao extends RuntimeException{
-    public AVLExecao(String err){
+    public AVLExcecao(String err){
         super(err);
     }
 }

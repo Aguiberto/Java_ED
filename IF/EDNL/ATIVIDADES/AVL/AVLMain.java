@@ -9,12 +9,9 @@ public class AVLMain{
         arvoreDeNatal.insert(8);
         arvoreDeNatal.insert(15);
         arvoreDeNatal.insert(22);
+        arvoreDeNatal.insert(25);
 
-        arvoreDeNatal.mostrar();
-
-        arvoreDeNatal.remover(5);
         arvoreDeNatal.mostrar();
 
     }
-
 }

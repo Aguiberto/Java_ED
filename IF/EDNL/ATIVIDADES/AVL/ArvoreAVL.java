@@ -28,7 +28,9 @@ public class ArvoreAVL{
             return;
         }
 
-        int alturaTotal = obterAltura(this.raiz);
+        // CALCULA A ALTURA REAL RECURSIVAMENTE
+        int alturaTotal = calcularAlturaReal(this.raiz);
+
         Queue<NoAVL> fila = new LinkedList<>();
         fila.add(this.raiz);
 
@@ -36,7 +38,6 @@ public class ArvoreAVL{
         while (nivel < alturaTotal) {
             int nosNoNivel = fila.size();
             
-            // Espaçamento dinâmico baseado na profundidade do nível
             int espacoEntre = (int) Math.pow(2, alturaTotal - nivel + 1) - 1;
             int espacoInicial = (int) Math.pow(2, alturaTotal - nivel) - 1;
 
@@ -46,13 +47,13 @@ public class ArvoreAVL{
                 NoAVL atual = fila.poll();
 
                 if (atual != null) {
-                    int fb = rebalancear(atual);
+                    int fb = fatorBalanceamento(atual);
                     System.out.print(atual.getValor() + "[" + fb + "]");
                     
                     fila.add(atual.getFilhoEsquerdo());
                     fila.add(atual.getFilhoDireito());
                 } else {
-                    System.out.print("     "); // Espaço reserva para nós nulos
+                    System.out.print("     ");
                     fila.add(null);
                     fila.add(null);
                 }
@@ -87,8 +88,8 @@ public class ArvoreAVL{
             return 0;
         }
 
-        int fatorB = obterAltura(no.getFilhoEsquerdo()) - obterAltura(no.getFilhoEsquerdo());
-        return fatorB;
+        return obterAltura(no.getFilhoEsquerdo()) - obterAltura(no.getFilhoDireito());
+    
     }
 
     // atualiza a altura do no
@@ -99,7 +100,7 @@ public class ArvoreAVL{
             int altEsq = obterAltura(no.getFilhoEsquerdo());
             int altDir = obterAltura(no.getFilhoDireito());
 
-            return no.setAltura(1 + Math.max(altEsq, altDir));
+            no.setAltura(1 + Math.max(altEsq, altDir));
         }
     }
 
@@ -160,7 +161,7 @@ public class ArvoreAVL{
         no3.setPai(no1.getPai());
         no1.setPai(no3);
 
-        atualizarAltura(no4);
+        atualizarAltura(no1);
         atualizarAltura(no3);
 
         return no3;
@@ -206,7 +207,7 @@ public class ArvoreAVL{
     }
     
 
-    @SupressWarnings("Unchecked")
+    @SuppressWarnings("Unchecked")
     private NoAVL inserirRecursivo(NoAVL no, Object valor){
 
         if(no == null){
@@ -214,7 +215,7 @@ public class ArvoreAVL{
         }
 
         Comparable<Object> valorComparacao = (Comparable<Object>) valor;
-        int comparacao = valorComparacao.compareTo(no);
+        int comparacao = valorComparacao.compareTo(no.getValor());
 
 
         // novo nó maior que o nó de comparação
@@ -240,7 +241,7 @@ public class ArvoreAVL{
 
     }
 
-    @SupressWarnings("Unchecked")
+    @SuppressWarnings("Unchecked")
     public NoAVL processoRemovedor(NoAVL noBase, Object valor){
 
         if(noBase == null){
@@ -264,6 +265,10 @@ public class ArvoreAVL{
 
         }else if(comparacao > 0){
         
+            NoAVL filhoDir = processoRemovedor(noBase.getFilhoDireito(),valor);
+            noBase.setFilhoDireito(filhoDir);
+            if(filhoDir != null) filhoDir.setPai(noBase);
+
         // VALOR ENCONTRADO
         }else{
 
@@ -277,35 +282,38 @@ public class ArvoreAVL{
                     noBase = null;
                 } else {
                     temp.setPai(noBase.getPai());              // filho do nó passa apontar para o seu avô (no removido)
-                    noBase = temp;                         // filho do no assume o lugar do no
+                    noBase = temp;                             // filho do no assume o lugar do no
                 }
+                
 
             // se tiver os dois filhos
             } else {
 
                 NoAVL substituto = buscarSucessor(noBase);        // encontra o valor substituto
-                noBase.setValor(substituto);            // muda o valor do nó a ser removido pelo valor do substituto
+                noBase.setValor(substituto.getValor());                      // muda o valor do nó a ser removido pelo valor do substituto
 
                 
                 NoAVL novoFilhoD = processoRemovedor(noBase.getFilhoDireito(),substituto.getValor());   // percorre toda a arvore até achar o substituto e remove-lo fisicamene
                 noBase.setFilhoDireito(novoFilhoD);                                                     // reordena a referência do pai para o filho
-                if(novoFilhoD == null) novoFilhoD.setPai(noBase);                                       // reordena referência do filho para o pai
 
+                if(novoFilhoD != null){
+                    novoFilhoD.setPai(noBase);                                       // reordena referência do filho para o pai
+                }
             }
-
-            if( noBase == null){
-                return null;
-            }
-
-            return rebalancear(noBase);
         }
+
+        if( noBase == null){
+            return null;
+        }
+
+        return rebalancear(noBase);
     }
 
     public NoAVL buscarSucessor(NoAVL no){
 
         NoAVL sucessor = no.getFilhoDireito();
         while(sucessor.getFilhoEsquerdo() != null){
-            sucessor = no.getFilhoEsquerdo();
+            sucessor = sucessor.getFilhoEsquerdo();
         } 
 
         return sucessor;  
@@ -316,5 +324,12 @@ public class ArvoreAVL{
             System.out.print(" ");
         }
     }
-    
+
+    private int calcularAlturaReal(NoAVL no) {
+    if (no == null) {
+        return 0;
+    }
+    return 1 + Math.max(calcularAlturaReal(no.getFilhoEsquerdo()), calcularAlturaReal(no.getFilhoDireito()));
+    }
+
 }

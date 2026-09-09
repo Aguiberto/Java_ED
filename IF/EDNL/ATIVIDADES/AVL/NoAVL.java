@@ -6,8 +6,8 @@ public class NoAVL{
     private NoAVL filhoEsquerdo;
     private int altura;
 
-    public NoAVL(){
-        this.valor = null;
+    public NoAVL(Object valor){
+        this.valor = valor;
         this.pai = null;
         this.filhoDireito = null;
         this.filhoEsquerdo = null;
@@ -34,7 +34,7 @@ public class NoAVL{
     }
 
     public void setValor(Object novoValor){
-        this.valor = valor;
+        this.valor = novoValor;
     }
 
     public void setPai(NoAVL novoPai){
