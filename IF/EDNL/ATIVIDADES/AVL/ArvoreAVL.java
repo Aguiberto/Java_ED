@@ -10,10 +10,9 @@ public class ArvoreAVL{
 
     }
 
-    public void insert{
+    public void insert(Object valor){
 
-        // Para fazer o insert é necessário fazer o balancear
-
+        this.raiz = inserirRecursivo(raiz, valor);
     }
 
     // ========================================================
@@ -154,10 +153,84 @@ public class ArvoreAVL{
 
         // se já estiver balanceado
         return no;
+    }
+    
+
+    @SupressWarnings("Unchecked")
+    private NoAVL inserirRecursivo(Node no, Object valor){
+
+        if(no == null){
+            return new NoAVL(valor);
+        }
+
+        Comparable<Object> valorComparacao = (Comparable<Object>) valor;
+        int comparacao = valorComparacao.compareTo(no);
+
+
+        // novo nó maior que o nó de comparação
+        if( comparacao > 0){
+            NoAVL filhoDir = inserirRecursivo(no.getFilhoDireito(),valor):
+            no.setFilhoDireito(filhoDir);
+            filhoDir.setPai(no);
+
+        
+        // novo nó menor que o valor de comparação
+        }else if( comparacao < 0){
+        
+            NoAVL filhoEsq = inserirRecursivo(no.getFilhoEsquerdo(),valor);
+            no.setFilhoEsquerdo(filhoEsq);
+            filhoEsq.setPai(no);
+
+        //valores iguais
+        }else{
+            return no;
+        }
+
+        return rebalancear(no);
 
     }
 
+    @SupressWarnings("Unchecked")
+    public NoAVL processoRemovedor(NoAVL no, Object valor){
 
+        if(no == null){
+            return null;
+        }
+
+        Comparable<Object> valorComparacao = (Comparable<Object>) valor;
+        int comparacao = valorComparacao.compareTo(no.getValor());
+
+        // remoção sem filhos
+        if(no.getFilhoDireito() == null and no.getFilhoEsquerdo() == null){
+            no.getPai()
+        }
+
+
+        // remoção com 1 filho
+        if(no.getFilhoDireito() != null){
+
+        }
+
+
+        // remoção com 2 filhos
+        if(no.getFilhoDireito() != null and no.getFilhoEsquerdo() != null){
+
+            NoAVL sucessor = buscarSucessor(no);
+            
+
+        }
+
+    }
+
+    public NoAVL buscarSucessor(NoAVL no){
+
+        sucessor = no.getFilhoDireito();
+        while(sucessor.getFilhoEsquerdo() != null){
+            sucessor = getFilhoEsquerdo()!
+        } 
+
+        return sucessor;  
+    }
 
     
 }
