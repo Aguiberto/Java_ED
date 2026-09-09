@@ -15,6 +15,10 @@ public class ArvoreAVL{
         this.raiz = inserirRecursivo(raiz, valor);
     }
 
+    public void remover(Object valor){
+        this.raiz = processoRemovedor(this.raiz, valor);
+    }
+
     // ========================================================
     // ================= MÉTOOS AUXILIARES ====================
     // ========================================================
@@ -191,35 +195,64 @@ public class ArvoreAVL{
     }
 
     @SupressWarnings("Unchecked")
-    public NoAVL processoRemovedor(NoAVL no, Object valor){
+    public NoAVL processoRemovedor(NoAVL noBase, Object valor){
 
-        if(no == null){
+        if(noBase == null){
             return null;
         }
 
         Comparable<Object> valorComparacao = (Comparable<Object>) valor;
-        int comparacao = valorComparacao.compareTo(no.getValor());
+        int comparacao = valorComparacao.compareTo(noBase.getValor());
 
-        // remoção sem filhos
-        if(no.getFilhoDireito() == null and no.getFilhoEsquerdo() == null){
-            no.getPai()
+        /*
+        comparacao = 0: Valores iguais, objeto achado
+        comparacao = 1: valor informado maior que o valor do nó 
+        comparacao = -1: valor informado menor que o do nó
+         */
+
+        // Realizando a busca pelo valor a ser removido
+        if(comparacao < 0){
+            NoAVL filhoEsq = processoRemovedor(noBase.getFilhoEsquerdo(),valor);
+            noBase.setFilhoEsquerdo(filhoEsq);
+            if(filhoEsq != null) filhoEsq.setPai(noBase);
+
+        }else if(comparacao > 0){
+        
+        // VALOR ENCONTRADO
+        }else{
+
+            // testa se pelo menos um dos filhos é null (ambos os filhos podem ser null)
+            if(no.getFilhoEsquerdo() == null || no.getFilhoDireito() == null){
+
+                NoAVL temp = (noBase.getFilhoEsquerdo() != null) ? noBase.getFilhoEsquerdo() : no.getFilhoDireito();
+
+                // não tem nenhum filho
+                if(temp == null){
+                    noBase = null;
+                } else {
+                    temp.setPai(no.getPai());              // filho do nó passa apontar para o seu avô (no removido)
+                    noBase = temp;                         // filho do no assume o lugar do no
+                }
+
+            // se tiver os dois filhos
+            } else {
+
+                NoAVL substituto = sucessor(no);        // encontra o valor substituto
+                noBase.setValor(substituto);            // muda o valor do nó a ser removido pelo valor do substituto
+
+                
+                NoAVL novoFilhoD = processoRemovedor(noBase.getFilhoDireito(),substituto.getValor());   // percorre toda a arvore até achar o substituto e remove-lo fisicamene
+                noBase.setFilhoDireito(novoFilhoD);                                                     // reordena a referência do pai para o filho
+                if(novoFilhoD == null) novoFilhoD.setPai(noBase);                                       // reordena referência do filho para o pai
+
+            }
+
+            if( noBase == null){
+                return null;
+            }
+
+            return rebalancear(noBase);
         }
-
-
-        // remoção com 1 filho
-        if(no.getFilhoDireito() != null){
-
-        }
-
-
-        // remoção com 2 filhos
-        if(no.getFilhoDireito() != null and no.getFilhoEsquerdo() != null){
-
-            NoAVL sucessor = buscarSucessor(no);
-            
-
-        }
-
     }
 
     public NoAVL buscarSucessor(NoAVL no){
