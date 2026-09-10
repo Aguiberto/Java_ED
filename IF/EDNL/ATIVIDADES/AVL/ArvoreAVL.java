@@ -4,12 +4,10 @@ import java.util.Queue;
 public class ArvoreAVL{
 
     NoAVL raiz;
-    int tamanho;
 
     public ArvoreAVL(){
 
         this.raiz = null;
-        this.tamanho = 0;
 
     }
 
@@ -289,7 +287,7 @@ public class ArvoreAVL{
             // se tiver os dois filhos
             } else {
 
-                NoAVL substituto = buscarSucessor(noBase);        // encontra o valor substituto
+                NoAVL substituto = buscarSucessor(noBase);                   // encontra o valor substituto
                 noBase.setValor(substituto.getValor());                      // muda o valor do nó a ser removido pelo valor do substituto
 
                 

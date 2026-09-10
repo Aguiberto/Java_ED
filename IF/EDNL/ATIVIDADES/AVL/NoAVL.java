@@ -11,6 +11,7 @@ public class NoAVL{
         this.pai = null;
         this.filhoDireito = null;
         this.filhoEsquerdo = null;
+        this.altura = 1;
     }
 
     public Object getValor(){
