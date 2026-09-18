@@ -1,4 +1,4 @@
-public class NoRN<T extends Comparable<T> >{
+public class NoRN<T extends Comparable<T>>{
 
     private T valor;
     private NoRN<T> pai;
@@ -6,12 +6,22 @@ public class NoRN<T extends Comparable<T> >{
     private NoRN<T> filhoE;
     private Cor cor;
 
-    public NoRN(T valor){
+    public NoRN(T valor, NoRN<T> NIL){
         this.valor = valor;
+        this.pai = NIL;
+        this.filhoD = NIL;
+        this.filhoE = NIL;
+        this.cor = Cor.RUBRO;
+    }
+
+    public NoRN(){
+
+        this.cor = Cor.NEGRO;
+        this.valor = null;
         this.pai = null;
         this.filhoD = null;
-        this.filhoE = null;
-        this.cor = Cor.RUBRO;
+        this.getFilhoE = null;
+
     }
 
     public T getValor(){

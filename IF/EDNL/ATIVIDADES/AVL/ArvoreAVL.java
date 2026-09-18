@@ -277,7 +277,7 @@ public class ArvoreAVL{
 
                 // não tem nenhum filho
                 if(temp == null){
-                    noBase = null;
+                    noBase = null;                              // quando o nó e folha e recebe o null, o pai do nó faz setFilho(null) removendo o valor
                 } else {
                     temp.setPai(noBase.getPai());              // filho do nó passa apontar para o seu avô (no removido)
                     noBase = temp;                             // filho do no assume o lugar do no
@@ -300,11 +300,11 @@ public class ArvoreAVL{
             }
         }
 
-        if( noBase == null){
+        if( noBase == null){                // verifica se após a remoção do nó a arvore ficou vazia
             return null;
         }
 
-        return rebalancear(noBase);
+        return rebalancear(noBase);         // usa as novas referências do nó para rebalancear
     }
 
     public NoAVL buscarSucessor(NoAVL no){
