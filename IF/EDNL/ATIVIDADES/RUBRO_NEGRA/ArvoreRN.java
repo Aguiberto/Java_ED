@@ -100,11 +100,24 @@ public class ArvoreRN<T extends Comparable<T>>{
 
 
         no1.setFilhoE(no2.getFilhoD());
-        no2.setFilhoD(no1);
+        if(no2.getFilhoD =! NIL){
+            no2.getFilhoD.setPai(no1);
+        }
 
         no2.setPai(no1.getPai());
-        no1.setPai(no2);
 
+        if(no1.getPai() == NIL){
+            this.raiz = no2;
+
+        }else if(no1 == n1.getPai().getFilhoE){
+            no1.getPai.setFilhoE(no2);
+
+        }else{
+            no1.getPai().setFilhoD(no2);
+        }
+
+        no2.setFilhoD(no1);
+        no1.setPai(no2);
 
     }
 
@@ -113,7 +126,7 @@ public class ArvoreRN<T extends Comparable<T>>{
         /*
                     no1                             no2
                no5       no2      ----->      no1        no3
-                  no6        no3          no5     no6         no4
+                     no6      no3          no5     no6         no4
                                 no4
          */
 
@@ -121,11 +134,24 @@ public class ArvoreRN<T extends Comparable<T>>{
         NoRN<T> no2 = no1.getFilhoD();
         NoRN<T> no5 = no1.getFilhoE();
 
-        no1.setFilhoD(no5.getFilhoD());
-        no2.setFilhoE(no1)
+        no1.setFilhoD(no2.getFilhoE());
+        no2.getFilhoE().setPai(no1);
 
-        no2.setPai(no1.getPai())
+        no2.setPai(no1.getPai());
+        if(no1.getPai() == NIL){
+            this.raiz = no2;
+
+        }else if(no1 == no1.getPai().getFilhoE()){
+            no1.getPai().setFilhoE(no2);
+
+        }else{
+            no1.getPai().setFilhoD(no2);
+        }
+
+        no2.setFilhoE(no1);
         no1.setPai(no2);
+
+        
         
     }
 
