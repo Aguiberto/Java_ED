@@ -15,7 +15,7 @@ public class ArvoreRN<T extends Comparable<T>>{
         processoDeInsercao(T valor);
     }
 
-    public void remover(T valor){
+    public void remover(T valor)
         processoRemovedor(T valor);
     }
 
@@ -142,6 +142,71 @@ public class ArvoreRN<T extends Comparable<T>>{
                 3.d - Rotação dupla a esquerda  
          */
 
+        while(noAjuste.getPai().getCor() == Cor.RUBRO){
+
+            NoRN<T> pai = noAjuste.getPai();
+            NoRN<T> avo = getAvo(noAjuste);
+
+            // pai é RUBRO e é filho esquerdo
+            if(pai == avo.getFilhoE()){
+
+                if(tio.getCor == Cor.RUBRO){
+                    pai.setCor(Cor.NEGRO);
+                    tio.setCor(Cor.NEGRO);
+                    avo.setCor(Cor.RUBRO);
+                    noAjuste = avo;
+                
+                // tio é negro; CASO 3.
+                }else{
+                    
+                    // caso em zigue-zague
+                    if(noAjuste == pai.getFilhoD()){
+                        noAjuste = pai;
+                        rotacaoEsquerda(noAjuste);
+                        pai = noAjuste.getPai();
+
+                    }
+
+                    // caso 3 com filhos alinhados
+                    // inverter as cores do pai e do avô e realizar a rotação
+                    pai.setCor(Cor.NEGRO);
+                    avo.setCor(Cor.RUBRO);
+                    rotacaoDireita(avo);
+                        
+                }
+
+            // o pai é filho direito
+            }else{
+
+                NoRN<T> tio = avo.getFilhoE();
+
+                if(tio.getCor() == Cor.RUBRO){
+
+                    pai.setCor(Cor.NEGRO);
+                    tio.setCor(Cor.NEGRO);
+                    avo.setCor(Cor.RUBRO);
+                    noAjuste = avo
+
+                // tio é NEGRO; Caso 3
+                }else{
+                    
+                    // caso 3 filho em zigue-zague
+                    if(noAjuste == pai.getFilhoE()){
+                        noAjuste = pai;
+                        rotacaoEsquerda(noAjuste);
+                        pai = noAjuste.getPai();
+                    }
+
+                    // caso 3 filhos alinhados
+                    pai.setCor(Cor.NEGRO);
+                    avo.setCor(Cor.RUBRO);
+                    rotacaoEsquerda(avo);
+
+                }
+            }
+        }
+
+        this.raiz.setCor(Cor.NEGRO);
     }
 
     public void rotacaoDireita(NoRN<T> no1){
@@ -211,7 +276,5 @@ public class ArvoreRN<T extends Comparable<T>>{
         no1.setPai(no2);       
         
     }
-
-
-
+    
 }
