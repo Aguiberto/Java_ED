@@ -19,7 +19,27 @@ public class ArvoreRN<T extends Comparable<T>>{
         processoRemovedor(T valor);
     }
 
-    public T buscar(T valor ){
+    public NoRN<T> buscar(T valor ){
+
+        NoRN<t> atual = this.raiz;
+        while(atual.getValor() != null){
+
+            Comparable valor = (Comparable) valor;
+            int comparacao = atual.getValor().compareTo(valor);
+
+            if(atual < 0){
+                atual = atual.getFilhoE();
+
+            }else if(atual > 0){
+                atual = atual.getFilhoD();
+
+            }else{
+                return atual;
+            }
+
+        }
+
+        return null;
 
     }
 
@@ -34,7 +54,7 @@ public class ArvoreRN<T extends Comparable<T>>{
         return this.raiz;
     }
 
-    public NoRN<T> getNIL(){
+    public NoRN<T> getNil(){
         return this.NIL;
     }
 
@@ -65,10 +85,15 @@ public class ArvoreRN<T extends Comparable<T>>{
 
     public void processoDeInsercao(T valor){
 
-        NoRN<T> novoNo = new NoRN<>(valor);
+        NoRN<T> novoNo = new NoRN<>(valor,NIL);
         NoRN<T> atual = this.raiz;
+        NoRN<T> pai = NIL;
 
+        // percorre a arvore até chegar em uma folha; atual -> folha
         while(atual != NIL){
+
+            // essa variável serve de âncora para não perder a referência para o nó anterior
+            pai = atual
 
             int comparacao = novoValor.compareTo(atual.getValor());
             if(comparacao > 0){
@@ -78,11 +103,45 @@ public class ArvoreRN<T extends Comparable<T>>{
                 atual = atual.getFilhoE();
 
             }else{
-                atual = novoNo;
+                return;
             }
         }
 
-        // correção do posicionamento
+        // insere o nono nó na raiz
+        novoNo.setPai(pai);
+
+        // faz o pai apontar para o nó que foi inserido na árvore
+        if(pai == NIL){
+            this.raiz = novoNo;
+
+        }else if(valor.compareTo(pai.getValor() < 0)){
+            pai.setFilhoE(novoNo);
+
+        }else{
+            pai.setFilhoD(novoNo);
+        }
+
+        rebalanceamento(novoNo);
+    }
+
+    public void rebalanceamento(NoRN<T> noAjuste){
+
+        /*
+        Verificar os casos
+
+           1. Pai negro
+                Apenas faz a adição
+
+           2. Pai e tio rubros e avô negro
+                repintamento recursivo
+
+           3. Pai rubro, tio e avô negros
+                3.a - Rotação a  direita 
+                3.b - Rotação a  esquerda
+                3.c - Rotação dupla a direita
+                3.d - Rotação dupla a esquerda  
+         */
+
     }
 
     public void rotacaoDireita(NoRN<T> no1){
@@ -149,9 +208,7 @@ public class ArvoreRN<T extends Comparable<T>>{
         }
 
         no2.setFilhoE(no1);
-        no1.setPai(no2);
-
-        
+        no1.setPai(no2);       
         
     }
 
