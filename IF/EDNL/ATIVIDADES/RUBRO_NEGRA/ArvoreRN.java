@@ -276,5 +276,78 @@ public class ArvoreRN<T extends Comparable<T>>{
         no1.setPai(no2);       
         
     }
+
+    public NoRN processoRemovedor(NoRN noBase ,T valorRemovido){
+
+        if(noBase == null){
+            return null;
+        }
+
+        int comparacao = valorRemovido.compareTo(noBase.getValor());
+
+        if(comparacao < 0){
+
+            // desce recurssivamente pelo lado esquerdo até encontrar o nó
+            NoRN<T> filhoEsq = processoRemovedor(noBase.getFilhoE(), valorRemovido);
+            noBase.setFilhoE(filhoEsq);    
+            if(filhoEsq != null) filhoEsq.setPai(noBase);   // Refaz a referência com o pai                                                 // quando filhoEsq = null então o setFilhoE(null) remove o valor
+
+
+        }else if(comparacao > 0){
+            // desce recurssivamente pelo lado direito até encontrar o nó
+            NoRN<T> filhoDir = processoRemovedor(nobase.getFilhoD(), valorRemovido);
+            nobase.setFilhoD(filhoDir);  
+            if(filhoDir != null) filhoDir.setPai(noBase);
+
+        // valor encontrado
+        }else{
+
+            // verifica se tem algum filho
+            if(noBase.getFilhoD() == null || noBase.getFilhoE() == null){
+
+                NoRN<T> filhoSupeito = (noBase.getFilhoE() != null) ? nobase.getFilhoE() : nobase.getFilhoD();
+
+                // não tem nenhum filho
+                if(filhoSupeito == null){
+                    noBase = null;
+                
+                // tem um filho
+                }else{
+                    filhoSupeito.setPai(noBase.getPai());   // filho faz referência para o avô cortando a ligação com o pai
+                    noBase = filhoSupeito;                  // filho assume o lugar do pai
+                }
+
+            // tem dois filhos
+            }else{
+
+                NoRN<T> substituto = buscarSucessor(nobase);
+                noBase.setValor(substituto.getValor());
+
+                NoRN<T> novoFilhoD = processoRemovedor(nobase.getFilhoD(), substituto.getValor());
+                nobase.setFilhoD(novoFilhoD);
+
+                if(novoFilhoD == null){
+                    novoFilhoD.setPai(noBase);
+                }
+
+            }
+
+        }
+
+        if(nobase == null){
+            return null;
+        }
+
+    }
+
+    public NoRN<T> buscarSucessor(NoRN<T> noSucedido){
+
+        NoRN<T> sucessor = noSucedido.getFilhoD();
+        while(sucessor.getFilhoE() != NIL){
+            sucessor = sucessor.getFilhoE();
+        }
+        return sucessor;
+
+    }
     
 }
