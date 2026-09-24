@@ -349,5 +349,129 @@ public class ArvoreRN<T extends Comparable<T>>{
         return sucessor;
 
     }
+
+    private void corrigirRemocao(NoRN<T> xSubstituto){
+        
+        /*
+            v = removido
+            x = substituto
+            w = irmão do removido
+         */
+
+        // SITUAÇÃO 3
+        while(xSubstituto != raiz && xSubstituto.getCor() == Cor.NEGRO){
+            
+            // Casos em que o substituto é filho esquerdo
+            if(xSubstituto == xSubstituto.getPai().getFilhoE()){
+
+                NoRN<T> wIrmao = xSubstituto.getPai().getFilhoD();
+
+                // Caso 3.1 - irmão rubro
+                if(wIrmao.getCor() == Cor.RUBRO){
+
+                    wIrmao.setCor(Cor.negro);
+                    xSubstituto.getPai().setCor(Cor.NEGRO);
+                    rotacaoEsquerda(xSubstituto.getPai());
+                    wIrmao = xSubstituto.getPai().getFilhoD();          // Muda a referência para W assumir o lugar do pai
+                }
+
+                // Caso 3.2 - irmão negro com filhos negros
+                if(wIrmao.getFilhoE().getCor() == Cor.NEGRO && wIrmao.getFilhoD().getCor() == Cor.NEGRO){
+
+                    // Caso 3.2a - todos negros
+                    if(xSubstituto.getPai().getCor() == Cor.NEGRO){
+
+                        wIrmao.setCor(Cor.RUBRO);
+                        xSubstituto = xSubstituto.getPai(); //duplo negro passa para o pai
+
+                    // Caso 3.2b - pai rubro    
+                    }else{
+
+                        wIrmao.setCor(Cor.RUBRO) // apenas pinta o irmão e o duplo negro some
+                    }
+
+                    wIrmao.setCor(Cor.RUBRO);
+                    xSubstituto = xSubstituto.getPai();     //move a referência de um nó negro para cima
+
+                // o irmão tem algum filho RUBRO
+                }else{
+                    
+                    //Caso 3.3
+                    if(wIrmao.getFilhoD().getCor() == Cor.NEGRO){
+
+                        wIrmao.setCor(Cor.RUBRO);
+                        wIrmao.getFilhoE().setCor(Cor.NEGRO);
+                        rotacaoDireita(wIrmao);
+                        wIrmao = xSubstituto.getPai().getFilhoD();  // corrige a referência após a rotação
+
+                    }
+
+                    wIrmao.setCor(xSubstituto.getPai().getCor());
+                    wIrmao.getFilhoD().setCor(Cor.NEGRO);
+                    xSubstituto.getPai().setCor(Cor.NEGRO);
+                    rotacaoEsquerda(xSubstituto.getPai());
+                    x = this.raiz;
+
+                }
+
+
+            // xSubstituto é filho DIREITO (casos espelhados)
+            }else{
+
+                NoRN<T> wIrmao = xSubstituto.getPai().getFilhoE();
+
+                // 3.1 - irmão rubro
+                if(wIrmao.getCor() == Cor.RUBRO){
+
+                    wIrmao.setCor(Cor.NEGRO)
+                    xSubstituto.getPai().setCor(Cor.RUBRO);
+                    rotacaoDireita(xSubstituto.getPai())
+                    wIrmao = xSubstituto.getPai().getFilhoE();
+
+                // 3.2 - irmão negro
+                }else{
+
+                    // dois filhos negros
+                    if(wIrmao.getFilhoD().getCor() == Cor.NEGRO && wIrmao.getFilhoE().getCor()== Cor.NEGRO){
+                        
+                        //3.2a todos negros
+                        if(xSubstituto.getPai().getCor() == Cor.NEGRO()){
+                            wIrmao.setCor(Cor.RUBRO);
+                            wIrmao = xSubstituto.getPai();
+
+                        //3.2b negros com pai rubro
+                        }else{
+                            wIrmao.setCor(Cor.RUBRO);
+                        }
+
+                    // algum filho rubro
+                    }else{
+
+                        // 3.3 - filho direito RUBRO  e filho esquerdo NEGRO
+                        if(wIrmao.getFilhoE().getCor() == Cor.NEGRO){
+                            wIrmao.getFilhoD().setCor(Cor.NEGRO);
+                            wIrmao.setCor(Cor.RUBRO);
+                            rotacaoEsquerda(wIrmao);
+                            wIrmao = xSubstituto.getPai().getFilhoE();
+                        }
+                        
+                        // 3.4 - filho esquerdo RUBRO
+                        wIrmao.setCor(xSubstituto.getPai().getCor());
+                        xSubstituto.getPai().setCor(Cor.NEGRO);
+                        wIrmao.getFilhoE().setCor(Cor.NEGRO);
+                        rotacaoDireita(xSubstituto.getPai());
+                        xSubstituto = this.raiz;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        // CASO 2: o substituto é RUBRO
+        xSubstituto.setCor(Cor.NEGRO);
+    }
     
 }
