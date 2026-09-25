@@ -20,7 +20,7 @@ public class NoRN<T extends Comparable<T>>{
         this.valor = null;
         this.pai = null;
         this.filhoD = null;
-        this.getFilhoE = null;
+        this.filhoE = null;
 
     }
 

@@ -12,35 +12,32 @@ public class ArvoreRN<T extends Comparable<T>>{
     }
 
     public void inserir(T valor){
-        processoDeInsercao(T valor);
+        processoDeInsercao(valor);
     }
 
-    public void remover(T valor)
-        processoRemovedor(T valor);
+    public void remover(T valor){
+        processoRemovedor(this.raiz, valor);
     }
 
-    public NoRN<T> buscar(T valor ){
+    public NoRN<T> buscar(T valor){
 
-        NoRN<t> atual = this.raiz;
-        while(atual.getValor() != null){
+        NoRN<T> atual = this.raiz;
+        while(atual != NIL && atual.getValor() != null){
 
-            Comparable valor = (Comparable) valor;
             int comparacao = atual.getValor().compareTo(valor);
 
-            if(atual < 0){
+            if(comparacao < 0){
                 atual = atual.getFilhoE();
 
-            }else if(atual > 0){
+            }else if(comparacao > 0){
                 atual = atual.getFilhoD();
 
             }else{
                 return atual;
             }
-
         }
 
-        return null;
-
+        return NIL;
     }
 
     public void mostrar(){
@@ -60,6 +57,7 @@ public class ArvoreRN<T extends Comparable<T>>{
 
     public NoRN<T> getAvo(NoRN<T> no){
 
+
         NoRN<T> pai = no.getPai();
         NoRN<T> avo = pai.getPai();
 
@@ -68,11 +66,10 @@ public class ArvoreRN<T extends Comparable<T>>{
 
     public NoRN<T> getTio(NoRN<T> no){
 
-        
         NoRN<T> pai = no.getPai();
-        NoRN<T> avo = no.getAvo(no);
+        NoRN<T> avo = getAvo(no);
 
-        if(avo == NIL){
+        if(avo == NIL || avo == null){
             return NIL;
         }
 
@@ -93,9 +90,9 @@ public class ArvoreRN<T extends Comparable<T>>{
         while(atual != NIL){
 
             // essa variável serve de âncora para não perder a referência para o nó anterior
-            pai = atual
+            pai = atual;
 
-            int comparacao = novoValor.compareTo(atual.getValor());
+            int comparacao = valor.compareTo(atual.getValor());
             if(comparacao > 0){
                 atual = atual.getFilhoD();
 
@@ -114,7 +111,7 @@ public class ArvoreRN<T extends Comparable<T>>{
         if(pai == NIL){
             this.raiz = novoNo;
 
-        }else if(valor.compareTo(pai.getValor() < 0)){
+        }else if(valor.compareTo(pai.getValor()) < 0){
             pai.setFilhoE(novoNo);
 
         }else{
@@ -146,11 +143,12 @@ public class ArvoreRN<T extends Comparable<T>>{
 
             NoRN<T> pai = noAjuste.getPai();
             NoRN<T> avo = getAvo(noAjuste);
+            NoRN<T> tio = avo.getFilhoE();
 
             // pai é RUBRO e é filho esquerdo
             if(pai == avo.getFilhoE()){
 
-                if(tio.getCor == Cor.RUBRO){
+                if(tio.getCor() == Cor.RUBRO){
                     pai.setCor(Cor.NEGRO);
                     tio.setCor(Cor.NEGRO);
                     avo.setCor(Cor.RUBRO);
@@ -178,14 +176,13 @@ public class ArvoreRN<T extends Comparable<T>>{
             // o pai é filho direito
             }else{
 
-                NoRN<T> tio = avo.getFilhoE();
 
                 if(tio.getCor() == Cor.RUBRO){
 
                     pai.setCor(Cor.NEGRO);
                     tio.setCor(Cor.NEGRO);
                     avo.setCor(Cor.RUBRO);
-                    noAjuste = avo
+                    noAjuste = avo;
 
                 // tio é NEGRO; Caso 3
                 }else{
@@ -224,8 +221,8 @@ public class ArvoreRN<T extends Comparable<T>>{
 
 
         no1.setFilhoE(no2.getFilhoD());
-        if(no2.getFilhoD =! NIL){
-            no2.getFilhoD.setPai(no1);
+        if(no2.getFilhoD() != NIL){
+            no2.getFilhoD().setPai(no1);
         }
 
         no2.setPai(no1.getPai());
@@ -233,8 +230,8 @@ public class ArvoreRN<T extends Comparable<T>>{
         if(no1.getPai() == NIL){
             this.raiz = no2;
 
-        }else if(no1 == n1.getPai().getFilhoE){
-            no1.getPai.setFilhoE(no2);
+        }else if(no1 == no1.getPai().getFilhoE()){
+            no1.getPai().setFilhoE(no2);
 
         }else{
             no1.getPai().setFilhoD(no2);
@@ -259,7 +256,11 @@ public class ArvoreRN<T extends Comparable<T>>{
         NoRN<T> no5 = no1.getFilhoE();
 
         no1.setFilhoD(no2.getFilhoE());
-        no2.getFilhoE().setPai(no1);
+
+        if(no2.getFilhoE() != NIL){
+            no2.getFilhoE().setPai(no1);
+
+        }
 
         no2.setPai(no1.getPai());
         if(no1.getPai() == NIL){
@@ -277,10 +278,10 @@ public class ArvoreRN<T extends Comparable<T>>{
         
     }
 
-    public NoRN processoRemovedor(NoRN noBase ,T valorRemovido){
+    public NoRN<T> processoRemovedor(NoRN<T> noBase ,T valorRemovido){
 
-        if(noBase == null){
-            return null;
+        if(noBase == NIL || noBase == null){
+            return NIL;
         }
 
         int comparacao = valorRemovido.compareTo(noBase.getValor());
@@ -290,26 +291,26 @@ public class ArvoreRN<T extends Comparable<T>>{
             // desce recurssivamente pelo lado esquerdo até encontrar o nó
             NoRN<T> filhoEsq = processoRemovedor(noBase.getFilhoE(), valorRemovido);
             noBase.setFilhoE(filhoEsq);    
-            if(filhoEsq != null) filhoEsq.setPai(noBase);   // Refaz a referência com o pai                                                 // quando filhoEsq = null então o setFilhoE(null) remove o valor
+            if(filhoEsq != NIL) filhoEsq.setPai(noBase);   // Refaz a referência com o pai                                                 // quando filhoEsq = null então o setFilhoE(null) remove o valor
 
 
         }else if(comparacao > 0){
             // desce recurssivamente pelo lado direito até encontrar o nó
-            NoRN<T> filhoDir = processoRemovedor(nobase.getFilhoD(), valorRemovido);
-            nobase.setFilhoD(filhoDir);  
-            if(filhoDir != null) filhoDir.setPai(noBase);
+            NoRN<T> filhoDir = processoRemovedor(noBase.getFilhoD(), valorRemovido);
+            noBase.setFilhoD(filhoDir);  
+            if(filhoDir != NIL) filhoDir.setPai(noBase);
 
         // valor encontrado
         }else{
 
             // verifica se tem algum filho
-            if(noBase.getFilhoD() == null || noBase.getFilhoE() == null){
+            if(noBase.getFilhoD() == NIL || noBase.getFilhoE() == NIL){
 
-                NoRN<T> filhoSupeito = (noBase.getFilhoE() != null) ? nobase.getFilhoE() : nobase.getFilhoD();
+                NoRN<T> filhoSupeito = (noBase.getFilhoE() != NIL) ? noBase.getFilhoE() : noBase.getFilhoD();
 
                 // não tem nenhum filho
-                if(filhoSupeito == null){
-                    noBase = null;
+                if(filhoSupeito == NIL){
+                    noBase = NIL;
                 
                 // tem um filho
                 }else{
@@ -320,24 +321,22 @@ public class ArvoreRN<T extends Comparable<T>>{
             // tem dois filhos
             }else{
 
-                NoRN<T> substituto = buscarSucessor(nobase);
+                NoRN<T> substituto = buscarSucessor(noBase);
                 noBase.setValor(substituto.getValor());
 
-                NoRN<T> novoFilhoD = processoRemovedor(nobase.getFilhoD(), substituto.getValor());
-                nobase.setFilhoD(novoFilhoD);
+                NoRN<T> novoFilhoD = processoRemovedor(noBase.getFilhoD(), substituto.getValor());
+                noBase.setFilhoD(novoFilhoD);
 
-                if(novoFilhoD == null){
+                if(novoFilhoD != NIL){
                     novoFilhoD.setPai(noBase);
+
                 }
 
             }
 
         }
 
-        if(nobase == null){
-            return null;
-        }
-
+        return noBase;
     }
 
     public NoRN<T> buscarSucessor(NoRN<T> noSucedido){
@@ -369,7 +368,7 @@ public class ArvoreRN<T extends Comparable<T>>{
                 // Caso 3.1 - irmão rubro
                 if(wIrmao.getCor() == Cor.RUBRO){
 
-                    wIrmao.setCor(Cor.negro);
+                    wIrmao.setCor(Cor.NEGRO);
                     xSubstituto.getPai().setCor(Cor.NEGRO);
                     rotacaoEsquerda(xSubstituto.getPai());
                     wIrmao = xSubstituto.getPai().getFilhoD();          // Muda a referência para W assumir o lugar do pai
@@ -387,7 +386,7 @@ public class ArvoreRN<T extends Comparable<T>>{
                     // Caso 3.2b - pai rubro    
                     }else{
 
-                        wIrmao.setCor(Cor.RUBRO) // apenas pinta o irmão e o duplo negro some
+                        wIrmao.setCor(Cor.RUBRO);             // apenas pinta o irmão e o duplo negro some
                     }
 
                     wIrmao.setCor(Cor.RUBRO);
@@ -410,7 +409,7 @@ public class ArvoreRN<T extends Comparable<T>>{
                     wIrmao.getFilhoD().setCor(Cor.NEGRO);
                     xSubstituto.getPai().setCor(Cor.NEGRO);
                     rotacaoEsquerda(xSubstituto.getPai());
-                    x = this.raiz;
+                    xSubstituto = this.raiz;
 
                 }
 
@@ -423,9 +422,9 @@ public class ArvoreRN<T extends Comparable<T>>{
                 // 3.1 - irmão rubro
                 if(wIrmao.getCor() == Cor.RUBRO){
 
-                    wIrmao.setCor(Cor.NEGRO)
+                    wIrmao.setCor(Cor.NEGRO);
                     xSubstituto.getPai().setCor(Cor.RUBRO);
-                    rotacaoDireita(xSubstituto.getPai())
+                    rotacaoDireita(xSubstituto.getPai());
                     wIrmao = xSubstituto.getPai().getFilhoE();
 
                 // 3.2 - irmão negro
@@ -435,7 +434,7 @@ public class ArvoreRN<T extends Comparable<T>>{
                     if(wIrmao.getFilhoD().getCor() == Cor.NEGRO && wIrmao.getFilhoE().getCor()== Cor.NEGRO){
                         
                         //3.2a todos negros
-                        if(xSubstituto.getPai().getCor() == Cor.NEGRO()){
+                        if(xSubstituto.getPai().getCor() == Cor.NEGRO){
                             wIrmao.setCor(Cor.RUBRO);
                             wIrmao = xSubstituto.getPai();
 
