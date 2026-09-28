@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class ArvoreRN<T extends Comparable<T>>{
 
     public NoRN<T> raiz;
@@ -16,7 +19,24 @@ public class ArvoreRN<T extends Comparable<T>>{
     }
 
     public void remover(T valor){
-        processoRemovedor(this.raiz, valor);
+
+        NoRN<T> alvo = buscar(valor);
+        if( alvo == NIL){
+            return ;
+        }
+
+        // pode ser o filho do nó removido (tinha 1 filho), o sucessor tradicional(tinha dois filho), ou null (não tinha filhos)
+        NoRN<T> noRemovido = (alvo.getFilhoE() == NIL || alvo.getFilhoD() == NIL) ? alvo: buscarSucessor(alvo);
+        Cor corRemovido = noRemovido.getCor();
+
+        // nó retornado é o substituto do nó que foi removido
+        NoRN<T> xSubstituto = processoRemovedor(this.raiz,valor);
+
+        // Ajustes precisam ser feitos caso um nó negro seja removido
+        if(corRemovido == Cor.NEGRO){
+            corrigirRemocao(xSubstituto);
+        }
+
     }
 
     public NoRN<T> buscar(T valor){
@@ -27,11 +47,11 @@ public class ArvoreRN<T extends Comparable<T>>{
             int comparacao = atual.getValor().compareTo(valor);
 
             if(comparacao < 0){
-                atual = atual.getFilhoE();
-
-            }else if(comparacao > 0){
                 atual = atual.getFilhoD();
 
+            }else if(comparacao > 0){
+                atual = atual.getFilhoE();
+ 
             }else{
                 return atual;
             }
@@ -40,10 +60,55 @@ public class ArvoreRN<T extends Comparable<T>>{
         return NIL;
     }
 
-    public void mostrar(){
+    public void mostrar() {
 
+        if (this.raiz == NIL || this.raiz.getValor() == null) {
+            System.out.println("Árvore Vazia!");
+            return;
+        }
+
+        int altura = getAltura(this.raiz);
+        Queue<NoRN<T>> fila = new LinkedList<>();
+        fila.add(this.raiz);
+
+        System.out.println("\n================================== ÁRVORE RUBRO-NEGRA  ===============================\n");
+
+        int nivelAtual = 0;
+
+        while (nivelAtual < altura) {
+            int nosNoNivel = fila.size();
+            
+            // Espaçamento antes do primeiro elemento do nível
+            int espacoInicial = (int) Math.pow(2, altura - nivelAtual - 1) - 1;
+            // Espaçamento entre os elementos do mesmo nível
+            int espacoEntre = (int) Math.pow(2, altura - nivelAtual) - 1;
+
+            imprimirEspacos(espacoInicial * 6); // Multiplica pela largura da representação de cada nó
+
+            for (int i = 0; i < nosNoNivel; i++) {
+                NoRN<T> no = fila.poll();
+
+                if (no != NIL) {
+                    String cor = (no.getCor() == Cor.RUBRO) ? "[R]" : "[N]";
+                    System.out.printf("%2d%s", no.getValor(), cor);
+
+                    fila.add(no.getFilhoE());
+                    fila.add(no.getFilhoD());
+                } else {
+                    System.out.print("     "); // Espaço vazio para manter a simetria de nós nulos
+                    fila.add(NIL);
+                    fila.add(NIL);
+                }
+
+                imprimirEspacos(espacoEntre * 6);
+            }
+
+            System.out.println("\n"); // Nova linha ao mudar de nível
+            nivelAtual++;
+        }
+
+        System.out.println("===========================================================================================\n");
     }
-
 
     // ================= MÉTODOS AUXILIARES ==================
 
@@ -143,10 +208,13 @@ public class ArvoreRN<T extends Comparable<T>>{
 
             NoRN<T> pai = noAjuste.getPai();
             NoRN<T> avo = getAvo(noAjuste);
-            NoRN<T> tio = avo.getFilhoE();
+            
 
             // pai é RUBRO e é filho esquerdo
             if(pai == avo.getFilhoE()){
+
+                // se pai é filho esquerdo então o tio é filho direito;
+                NoRN<T> tio = avo.getFilhoD();
 
                 if(tio.getCor() == Cor.RUBRO){
                     pai.setCor(Cor.NEGRO);
@@ -173,9 +241,11 @@ public class ArvoreRN<T extends Comparable<T>>{
                         
                 }
 
-            // o pai é filho direito
+            // o pai é filho DIREITO
             }else{
 
+                // nesse caso o tio é filho ESQUERDO
+                NoRN<T> tio = avo.getFilhoE();
 
                 if(tio.getCor() == Cor.RUBRO){
 
@@ -190,7 +260,7 @@ public class ArvoreRN<T extends Comparable<T>>{
                     // caso 3 filho em zigue-zague
                     if(noAjuste == pai.getFilhoE()){
                         noAjuste = pai;
-                        rotacaoEsquerda(noAjuste);
+                        rotacaoDireita(noAjuste);
                         pai = noAjuste.getPai();
                     }
 
@@ -336,16 +406,17 @@ public class ArvoreRN<T extends Comparable<T>>{
 
         }
 
+        // no que será o substituto do nó removido na arvore
         return noBase;
     }
 
     public NoRN<T> buscarSucessor(NoRN<T> noSucedido){
 
-        NoRN<T> sucessor = noSucedido.getFilhoD();
-        while(sucessor.getFilhoE() != NIL){
-            sucessor = sucessor.getFilhoE();
+        NoRN<T> noRemovido = noSucedido.getFilhoD();
+        while(noRemovido.getFilhoE() != NIL){
+            noRemovido = noRemovido.getFilhoE();
         }
-        return sucessor;
+        return noRemovido;
 
     }
 
@@ -357,6 +428,7 @@ public class ArvoreRN<T extends Comparable<T>>{
             w = irmão do removido
          */
 
+        // Não é necessário fazer ajustes caso o substituto seja vermelho.
         // SITUAÇÃO 3
         while(xSubstituto != raiz && xSubstituto.getCor() == Cor.NEGRO){
             
@@ -472,5 +544,22 @@ public class ArvoreRN<T extends Comparable<T>>{
         // CASO 2: o substituto é RUBRO
         xSubstituto.setCor(Cor.NEGRO);
     }
+
+    private int getAltura(NoRN<T> no) {
+
+        if (no == NIL || no == null) {
+            return 0;
+        }
+
+        return 1 + Math.max(getAltura(no.getFilhoE()), getAltura(no.getFilhoD()));
+    }
+
     
+    private void imprimirEspacos(int quantidade) {
+
+        for (int i = 0; i < quantidade; i++) {
+            System.out.print(" ");
+        }
+    }
+
 }
