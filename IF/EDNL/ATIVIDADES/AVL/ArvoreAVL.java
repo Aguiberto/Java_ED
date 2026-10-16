@@ -212,8 +212,8 @@ public class ArvoreAVL{
             return new NoAVL(valor);
         }
 
-        Comparable<Object> valorComparacao = (Comparable<Object>) valor;
-        int comparacao = valorComparacao.compareTo(no.getValor());
+        Comparable<Object> novoNo = (Comparable<Object>) valor;
+        int comparacao = novoNo.compareTo(no.getValor());
 
 
         // novo nó maior que o nó de comparação
@@ -230,7 +230,7 @@ public class ArvoreAVL{
             no.setFilhoEsquerdo(filhoEsq);
             filhoEsq.setPai(no);
 
-        //valores iguais
+        //valores iguais , não precisa adicionar o valor informado
         }else{
             return no;
         }
@@ -246,26 +246,26 @@ public class ArvoreAVL{
             return null;
         }
 
-        Comparable<Object> valorComparacao = (Comparable<Object>) valor;
-        int comparacao = valorComparacao.compareTo(noBase.getValor());
+        Comparable<Object> novoNo = (Comparable<Object>) valor;
+        int comparacao = novoNo.compareTo(noBase.getValor());
 
         /*
         comparacao = 0: Valores iguais, objeto achado
-        comparacao = 1: valor informado maior que o valor do nó 
-        comparacao = -1: valor informado menor que o do nó
+        comparacao = 1: valor informado maior que o valor do nó da arvore 
+        comparacao = -1: valor informado menor que o do nó da arvore
          */
 
         // Realizando a busca pelo valor a ser removido
         if(comparacao < 0){
             NoAVL filhoEsq = processoRemovedor(noBase.getFilhoEsquerdo(),valor);
-            noBase.setFilhoEsquerdo(filhoEsq);
-            if(filhoEsq != null) filhoEsq.setPai(noBase);
+            noBase.setFilhoEsquerdo(filhoEsq);                  // nesse ponto ocorre a remoção de nó folha (sem filho)
+            if(filhoEsq != null) filhoEsq.setPai(noBase);       // ajuste de referência na remoção de nó com 1 filho
 
         }else if(comparacao > 0){
         
             NoAVL filhoDir = processoRemovedor(noBase.getFilhoDireito(),valor);
-            noBase.setFilhoDireito(filhoDir);
-            if(filhoDir != null) filhoDir.setPai(noBase);
+            noBase.setFilhoDireito(filhoDir);                   // nesse ponto ocorre a remoção de nó folha (sem filho)
+            if(filhoDir != null) filhoDir.setPai(noBase);       // ajuste de referência na remoção de nó com 1 filho
 
         // VALOR ENCONTRADO
         }else{
@@ -277,10 +277,12 @@ public class ArvoreAVL{
 
                 // não tem nenhum filho
                 if(temp == null){
-                    noBase = null;                              // quando o nó e folha e recebe o null, o pai do nó faz setFilho(null) removendo o valor
-                } else {
+                    noBase = null;                              // quando o nó e folha e recebe o null, o pai do nó faz setFilho(null) removendo o valor linhas 261 e 267
+                
+                // nó tem um filho
+                } else {               
                     temp.setPai(noBase.getPai());              // filho do nó passa apontar para o seu avô (no removido)
-                    noBase = temp;                             // filho do no assume o lugar do no
+                    noBase = temp;                             // filho do no assume o lugar do no pai
                 }
                 
 
@@ -290,13 +292,11 @@ public class ArvoreAVL{
                 NoAVL substituto = buscarSucessor(noBase);                   // encontra o valor substituto
                 noBase.setValor(substituto.getValor());                      // muda o valor do nó a ser removido pelo valor do substituto
 
-                
-                NoAVL novoFilhoD = processoRemovedor(noBase.getFilhoDireito(),substituto.getValor());   // percorre toda a arvore até achar o substituto e remove-lo fisicamene
-                noBase.setFilhoDireito(novoFilhoD);                                                     // reordena a referência do pai para o filho
+                // remoção de nó com 2 filho começa andando para a direita
+                NoAVL novoFilhoD = processoRemovedor(noBase.getFilhoDireito(),substituto.getValor());   // percorre toda a arvore até achar o substituto e remove-lo fisicamente
+                noBase.setFilhoDireito(novoFilhoD);                                                     // remove o substituto fisicamente
 
-                if(novoFilhoD != null){
-                    novoFilhoD.setPai(noBase);                                       // reordena referência do filho para o pai
-                }
+                if(novoFilhoD != null) novoFilhoD.setPai(noBase);            // ajuste de referência na remoção de nó com 1 filho
             }
         }
 
