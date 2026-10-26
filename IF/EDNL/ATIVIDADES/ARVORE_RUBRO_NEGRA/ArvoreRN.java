@@ -220,7 +220,7 @@ public class ArvoreRN<T extends Comparable<T>>{
                     pai.setCor(Cor.NEGRO);
                     tio.setCor(Cor.NEGRO);
                     avo.setCor(Cor.RUBRO);
-                    noAjuste = avo;
+                    noAjuste = avo;             // isso ocorre para que o laço while teste se o avô é rubro e recursivamente faça o repintamento
                 
                 // tio é negro; CASO 3.
                 }else{
