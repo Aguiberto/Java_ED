@@ -3,6 +3,7 @@ package IF.EDNL.ATIVIDADES.GRAFO_MATRIZ;
 public class Aresta {
     
     private String id;
+    private String nome;
     private Vertice vOrigem;
     private Vertice vDestino;
     private boolean direcionada;
@@ -37,5 +38,13 @@ public class Aresta {
 
     public void setId(String novoId){
         this.id = novoId;
+    }
+
+    public String getNome(){
+        return this.nome;
+    }
+
+    public void setNome(String novoNome){
+        this.nome = novoNome;
     }
 }

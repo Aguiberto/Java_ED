@@ -85,13 +85,13 @@ public class Grafo {
     }
 
     // método usado para alterar o valor de uma aresta(no caso o nome)
-    public void substituirNaAresta(Aresta aresta, String novoId){
+    public void substituirNaAresta(Aresta aresta, String novoNome){
 
         if(aresta == null){
             throw new IllegalArgumentException("Aresta não pode ser nula");
         }    
 
-        aresta.setId(novoId);
+        aresta.setNome(novoNome);
     }
 
     public void inserirVertice(String nome){
@@ -126,12 +126,45 @@ public class Grafo {
 
     // ao remover um vertice a coluna e a linha 
     public boolean removerVertice(Vertice vertice){
-
+        
+        // verifica se o vertice é nulo ou se não existe
         if(vertice == null || !vertices.contains(vertice)){
             return false;
         }
 
-        int idxRemover = vertice.getIndice();
+        int idxVerticeRemovido = vertice.getIndice();
+        int totalAnterior = vertices.size();
+
+        //remove o vertice buscando pelo seu índice na lista
+        this.vertices.remove(idxVerticeRemovido);
+
+        //ajusta os índices dos vertices que estavam a frente do vertice removido
+        for(int i = idxVerticeRemovido; i < vertices.size(); i++){
+            vertices.get(i).setIndice(i);
+        }
+
+        // Ajusta as linhas para cima
+        for(int i= idxVerticeRemovido; i < totalAnterior -1; i++){
+            for(int j = 0; j < totalAnterior; j++){
+                matrizAdjacencia[i][j] = matrizAdjacencia[i+1][j];          // a linha removida recebe a linha de baixo
+            }
+        }
+
+        // Ajusta as colunas para a esquerda
+        for(int j = idxVerticeRemovido; j < totalAnterior -1; j++){
+            for(int i = 0; i < totalAnterior; i++){
+                matrizAdjacencia[i][j] = matrizAdjacencia[i][j+1];            // a coluna removida recebe a coluna da direita
+            }
+        }
+
+        // limpa a antiga ultima posição
+        int ultimoIdx = totalAnterior -1;
+        for(int k = 0; k < totalAnterior; k++){
+            matrizAdjacencia[ultimoIdx][k] = new ArrayList<>();             // limpa a linha guardando um array vazio
+            matrizAdjacencia[k][ultimoIdx] = new ArrayList<>();             // limpa a coluna guardando um array vazio
+        }
+
+        return true;
 
     }
 

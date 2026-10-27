@@ -14,6 +14,10 @@ public class Vertice {
         return  this.indice;
     }
 
+    public void setIndice(int novoIndice){
+        this.indice = novoIndice;
+    }
+
     public String getNome(){
         return  this.nome;
     }
