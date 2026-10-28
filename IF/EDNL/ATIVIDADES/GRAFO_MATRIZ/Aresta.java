@@ -2,14 +2,15 @@ package IF.EDNL.ATIVIDADES.GRAFO_MATRIZ;
 
 public class Aresta {
     
-    private String id;
+    private int id;
     private String nome;
     private Vertice vOrigem;
     private Vertice vDestino;
     private boolean direcionada;
 
-    public Aresta( String id, Vertice origem, Vertice destino, boolean direcionada){
+    public Aresta( int id, String nome, Vertice origem, Vertice destino, boolean direcionada){
         this.id = id;
+        this.nome = nome;
         this.vOrigem = origem;
         this.vDestino = destino;
         this.direcionada = direcionada;
@@ -24,7 +25,7 @@ public class Aresta {
         return this.direcionada;
     }
 
-    public String getId(){
+    public int getId(){
         return this.id;
     }
 
@@ -36,7 +37,7 @@ public class Aresta {
         return this.vDestino;
     }
 
-    public void setId(String novoId){
+    public void setId(int novoId){
         this.id = novoId;
     }
 

@@ -94,7 +94,7 @@ public class Grafo {
         aresta.setNome(novoNome);
     }
 
-    public void inserirVertice(String nome){
+    public Vertice inserirVertice(String nome){
 
         if(vertices.size() >= numVertices){
             redimencionarMatriz(numVertices+1);
@@ -103,25 +103,29 @@ public class Grafo {
         int novoIndice = vertices.size();
         Vertice novoVertice = new Vertice(novoIndice, nome);
         vertices.add(novoVertice);
+
+        return novoVertice;
     }
 
     // leva em consideração um grafo direcionado (apenas uma insereção na matriz)
-    public void inserirAresta(String id, Vertice vOrigem, Vertice vDestino, boolean direcionada){
+    public Aresta inserirAresta(int id,String nome, Vertice vOrigem, Vertice vDestino, boolean direcionada){
 
         if(vOrigem == null || vDestino == null){
             throw new IllegalArgumentException("Vertices não podem ser nulos");
-        }
+        } 
 
-        int origem = vOrigem.getIndice();
+        int origem = vOrigem.getIndice(); 
         int destino = vDestino.getIndice();
 
-        Aresta novAresta = new Aresta(id, vOrigem, vDestino, direcionada);
+        Aresta novaAresta = new Aresta(id,nome, vOrigem , vDestino, direcionada);
 
-        matrizAdjacencia[origem][destino].add(novAresta);
-
+        matrizAdjacencia[origem][destino].add(novaAresta);
+ 
         if(!direcionada && origem != destino){
-            matrizAdjacencia[destino][origem].add(novAresta);
+            matrizAdjacencia[destino][origem].add(novaAresta);
         }
+
+        return novaAresta;
     }
 
     // ao remover um vertice a coluna e a linha 
@@ -186,6 +190,37 @@ public class Grafo {
         }
 
         return removida;
+    }
+
+    public void imprimirMatriz(){
+        
+        int qtdVertices = this.vertices.size();
+
+        if(qtdVertices == 0){
+            System.out.println("O grafo está vazio");
+            return;
+        }
+
+        System.out.println(" ----------------- GRAFO: MATRIZ DE ADJACÊNCIA -------------------");
+
+        System.out.printf("            ");
+        for(Vertice v : this.vertices){
+            System.out.printf("%-12s", v.getNome());
+        }
+        System.out.println();
+
+        for(int i= 0; i < qtdVertices; i++){
+            System.out.printf("%-12s",vertices.get(i).getNome());
+
+            for(int j = 0; j < qtdVertices; j++){
+               
+                int qtdArestas = this.matrizAdjacencia[i][j].size();
+
+                System.out.printf("%-12d",qtdArestas);
+            }
+            System.out.println();
+        }
+        System.out.println("---------------------------------------------------\n");
     }
 
     // ========= MÉTODOS AUXILIARES ========
