@@ -76,5 +76,20 @@ public class TesteGrafo{
         matriz.imprimirMatriz();
         System.out.println();
 
+
+        // TESTE DO MÉTODO: removerAresta()
+        System.out.println("TESTE DE MÉTODO: removerAresta()");
+        matriz.removerAresta(e2);
+        matriz.imprimirMatriz();
+
+        // TESTE DO MÉTODO: removerVertice()
+        System.out.println("TESTE DE MÉTODO: removerVertice()");
+        System.out.println("Removendo o vertice B...");
+        System.out.println();
+        matriz.removerVertice(vB);
+        matriz.imprimirMatriz();
+        System.out.println();
+
+
     }
 }

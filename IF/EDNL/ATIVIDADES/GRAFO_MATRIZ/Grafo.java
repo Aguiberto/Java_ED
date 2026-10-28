@@ -220,7 +220,7 @@ public class Grafo {
             }
             System.out.println();
         }
-        System.out.println("---------------------------------------------------\n");
+        System.out.println("---------------------------------------------------------------\n");
     }
 
     // ========= MÉTODOS AUXILIARES ========
