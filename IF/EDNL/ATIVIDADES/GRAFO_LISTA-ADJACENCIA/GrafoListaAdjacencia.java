@@ -8,34 +8,6 @@ public class GrafoListaAdjacencia<T> {
         this.listaAdjacencias = new HashMap<>() ;
     }
 
-    public void inserirVertice(Vertice<T> vertice){
-
-        if(vertice == null){
-            throw new IllegalArgumentException("Vértice não pode ser nulo!");
-        }
-
-        if(!listaAdjacencias.containsKey(vertice)){
-            listaAdjacencias.put(vertice, new ArrayList<>());
-        }
-    }
-
-    public void inserirAresta(Aresta<T> aresta){
-
-        if(aresta == null){
-            throw new IllegalArgumentException("Aresta nula, insira uma aresta válida");
-        }
-
-        Vertice<T> origem = aresta.getVerticeOrigem();
-        Vertice<T> destino = aresta.getVerticeDestino();
-
-        // Adiciona a aresta ao vértice de origem (chave)
-        listaAdjacencias.get(origem).add(aresta);
-
-        if(!aresta.getDirecao()){
-            listaAdjacencias.get(destino).add(aresta);
-        }
-
-    }
 
     public List<Vertice<T>> finalVertice(Aresta<T> aresta){
 
@@ -106,7 +78,150 @@ public class GrafoListaAdjacencia<T> {
         return false;
     }
 
+    public void substituirNoVertice(Vertice<T> vertice, T novoDado){
+        vertice.setDado(novoDado);
+    }
 
+    public void substituirNaAresta(Aresta<T> aresta, T novoDado){
+        aresta.setDado(novoDado);
+    }
+
+    public void inserirVertice(Vertice<T> vertice){
+
+        if(vertice == null){
+            throw new IllegalArgumentException("Vértice não pode ser nulo!");
+        }
+
+        if(!listaAdjacencias.containsKey(vertice)){
+            listaAdjacencias.put(vertice, new ArrayList<>());
+        }
+    }
+
+    public void inserirAresta(Aresta<T> aresta){
+
+        if(aresta == null){
+            throw new IllegalArgumentException("Aresta nula, insira uma aresta válida");
+        }
+
+        Vertice<T> origem = aresta.getVerticeOrigem();
+        Vertice<T> destino = aresta.getVerticeDestino();
+
+        // Adiciona a aresta ao vértice de origem (chave)
+        listaAdjacencias.get(origem).add(aresta);
+
+        if(!aresta.getDirecao()){
+            listaAdjacencias.get(destino).add(aresta);
+        }
+
+    }
+
+    public void removerVertice(Vertice<T> vertice){
+
+        //remover o vertice da lista de adjacência
+        this.listaAdjacencias.remove(vertice);
+
+        // remover a aresta que também está associada a outros vertices
+        for(List<Aresta<T>> listaArestas : this.listaAdjacencias.values()){
+
+            Iterator<Aresta<T>> iterator  = listaArestas.iterator();
+            while (iterator.hasNext()) {
+
+                Aresta<T> aresta = iterator.next();
+
+                boolean vOrigem = aresta.getVerticeOrigem().equals(vertice);
+                boolean vDestino = aresta.getVerticeDestino().equals(vertice);
+
+                if(vOrigem || vDestino){
+
+                    // aqui é removido o ultimo elemento passado pelo hasNext()
+                    // então remove a aresta que tem o vertice removido como origem ou destino
+                    iterator.remove();
+                }
+            }
+        }
+
+    }
+
+    public void removerAresta(Aresta<T> aresta){
+
+        if(aresta == null){
+            return ;
+        }
+
+        Vertice<T> origem = aresta.getVerticeOrigem();
+        Vertice<T> destino = aresta.getVerticeDestino();
+
+        // Remoção para aresta direcionada
+        if(listaAdjacencias.containsKey(origem)){
+            List<Aresta<T>> arestaOrigem = listaAdjacencias.get(origem);
+            Iterator<Aresta<T>> iterator = arestaOrigem.iterator();
+
+            while(iterator.hasNext()){
+                Aresta<T> arestaProcurada = iterator.next();
+                if(arestaProcurada.equals(aresta)){
+                    iterator.remove();
+                    break;
+                }
+            }
+        }
+
+        if(!aresta.getDirecao() && this.listaAdjacencias.containsKey(destino)){
+            List<Aresta<T>> arestaDestino = this.listaAdjacencias.get(destino);
+            Iterator<Aresta<T>> iterator = arestaDestino.iterator();
+
+            while (iterator.hasNext()) {
+                Aresta<T> arestaProcurada = iterator.next();
+                if(arestaProcurada.equals(aresta)){
+                    iterator.remove();
+                    break;
+                }
+            }
+        }
+
+    }
+
+    // =============================
+    //        ITERADORES
+    // =============================
     
+    public Iterator<Aresta<T>> arestaIndicestes(Vertice<T> vertice){
+
+        if(vertice == null || !this.listaAdjacencias.containsKey(vertice)){
+            return Collections.emptyIterator();
+        }
+
+        Set<Aresta<T>> arestasIncidentes = new HashSet<>();
+
+        for(List<Aresta<T>> listaArestas : this.listaAdjacencias.values()){
+
+            for(Aresta<T> aresta: listaArestas){
+                if(aresta.getVerticeOrigem().equals(vertice) || aresta.getVerticeDestino().equals(vertice)){
+                    arestasIncidentes.add(aresta);
+                }
+                
+            }
+        }
+
+        return arestasIncidentes.iterator();
+    }
+
+    public Iterator<Vertice<T>> vertices(){
+
+        return this.listaAdjacencias.keySet().iterator();
+
+    }
+
+    public Iterator<Aresta<T>> arestas(){
+
+       Set<Aresta<T>> todasArestas = new HashSet<>();
+
+       for(List<Aresta<T>> listaArestas : this.listaAdjacencias.values()){
+            for(Aresta<T> aresta : listaArestas){
+                todasArestas.add(aresta);
+            }
+       }
+       
+       return todasArestas.iterator();
+    }
 
 }
