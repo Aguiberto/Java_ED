@@ -177,7 +177,17 @@ public class GrafoListaAdjacencia<T> {
                 }
             }
         }
+    }
 
+    public void mostrarGrafo(){
+        for(Vertice<T> vertice: this.listaAdjacencias.keySet()){
+            System.out.print(vertice.getId() + "-> ");
+
+            for(Aresta<T> aresta: this.listaAdjacencias.get(vertice)){
+                System.out.print("[" + aresta.getId() + "] ");
+            }
+            System.out.println();
+        }
     }
 
     // =============================

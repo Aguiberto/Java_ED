@@ -11,16 +11,15 @@ public class Aresta<T>{
 
     public Aresta(String id, Vertice<T> v1, Vertice<T> v2, boolean direcionada){
 
-        this(id, v1, v2,false, null);
+        this(id, v1, v2,null, false);
     }
 
-    public Aresta(String id, Vertice<T> v1, Vertice<T> v2, boolean direcionada, T dado){
+    public Aresta(String id, Vertice<T> v1, Vertice<T> v2, T dado, boolean direcionada){
         this.id = id;
         this.vOrigem = v1;
         this.vDestino = v2;
-        this.ehDirecionada = direcionada;
         this.dado = dado;
-
+        this.ehDirecionada = direcionada;
     }
 
     public String getId(){
